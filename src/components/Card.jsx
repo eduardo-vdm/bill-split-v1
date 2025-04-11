@@ -22,7 +22,7 @@ export default function Card({
   return (
     <Component
       className={classNames(
-        'card',
+        'bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6',
         onClick && 'cursor-pointer hover:shadow-xl transition-shadow duration-200',
         className
       )}
