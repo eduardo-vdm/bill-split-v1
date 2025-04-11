@@ -22,17 +22,51 @@ export default function BillSummaryScreen() {
   const [showShareToast, setShowShareToast] = useState(false);
 
   useEffect(() => {
-    const bill = billId ? bills.find(b => b.id === billId) : currentBill;
-    if (!bill) {
-      navigate('/');
-      return;
+    if (currentBill) {
+      const summary = generateBillSummary(currentBill);
+      setSummary(summary);
     }
-    setSummary(generateBillSummary(bill));
-  }, [billId, bills, currentBill, navigate]);
+  }, [currentBill]);
 
-  const handleShare = async () => {
-    const shareText = generateShareText(summary);
-    await navigator.clipboard.writeText(shareText);
+  const handleShare = () => {
+    if (!currentBill || !summary) return;
+
+    const date = new Date(currentBill.date).toLocaleDateString();
+    const currency = currency;
+    const total = summary.total;
+
+    let shareText = `Bill Summary - ${currentBill.name || 'Unnamed Bill'}\n`;
+    if (currentBill.place) {
+      shareText += `Place: ${currentBill.place}\n`;
+    }
+    shareText += `Date: ${date}\n\n`;
+
+    const lines = [
+      `${summary.name} - Bill Summary`,
+      summary.place ? `${summary.place} • ${summary.date}` : summary.date,
+      `\nSubtotal: ${formatCurrency(summary.subtotal, currency)}`,
+      ...summary.specialItems.map(item => 
+        `${item.type === 'tax' ? 'Tax' : 'Tip'} (${item.method === 'percentage'
+          ? `${item.value}%`
+          : formatCurrency(item.value, currency)}): ${formatCurrency(item.calculatedValue, currency)}`
+      ),
+      `Total: ${formatCurrency(summary.total, currency)}`,
+      '\nBreakdown per person:',
+      ...summary.personDetails.map(person => {
+        const lines = [
+          `${person.name}: ${formatCurrency(person.total, currency)}`,
+          ...person.items.map(item => `  ${item.name}: ${formatCurrency(item.amount, currency)}`),
+          ...summary.specialItems.map(specialItem => {
+            const share = specialItem.calculatedValue / summary.personDetails.length;
+            return `  ${specialItem.type === 'tax' ? 'Tax' : 'Tip'}: ${formatCurrency(share, currency)}`;
+          })
+        ];
+        return lines.join('\n');
+      }),
+    ];
+    shareText += lines.join('\n');
+
+    navigator.clipboard.writeText(shareText);
     setShowShareToast(true);
     setTimeout(() => setShowShareToast(false), 2000);
   };
@@ -176,31 +210,4 @@ export default function BillSummaryScreen() {
       )}
     </Layout>
   );
-}
-
-function generateShareText(summary) {
-  const lines = [
-    `${summary.name} - Bill Summary`,
-    summary.place ? `${summary.place} • ${summary.date}` : summary.date,
-    `\nSubtotal: ${formatCurrency(summary.subtotal)}`,
-    ...summary.specialItems.map(item => 
-      `${item.type === 'tax' ? 'Tax' : 'Tip'} (${item.method === 'percentage'
-        ? `${item.value}%`
-        : formatCurrency(item.value)}): ${formatCurrency(item.calculatedValue)}`
-    ),
-    `Total: ${formatCurrency(summary.total)}`,
-    '\nBreakdown per person:',
-    ...summary.personDetails.map(person => {
-      const lines = [
-        `${person.name}: ${formatCurrency(person.total)}`,
-        ...person.items.map(item => `  ${item.name}: ${formatCurrency(item.amount)}`),
-        ...summary.specialItems.map(specialItem => {
-          const share = specialItem.calculatedValue / summary.personDetails.length;
-          return `  ${specialItem.type === 'tax' ? 'Tax' : 'Tip'}: ${formatCurrency(share)}`;
-        })
-      ];
-      return lines.join('\n');
-    }),
-  ];
-  return lines.join('\n');
 } 

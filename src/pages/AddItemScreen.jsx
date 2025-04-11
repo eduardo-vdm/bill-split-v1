@@ -34,8 +34,8 @@ export default function AddItemScreen() {
     price: '',
     splitMethod: splitMethods[0],
     splitBetween: [],
-    valueSplits: {},
     percentages: {},
+    valueSplits: {},
   });
   const [errors, setErrors] = useState({});
 
@@ -51,11 +51,50 @@ export default function AddItemScreen() {
         price: editItem.price.toString(),
         splitMethod: splitMethods.find(m => m.id === editItem.splitMethod) || splitMethods[0],
         splitBetween: editItem.splitBetween || [],
-        valueSplits: editItem.valueSplits || {},
         percentages: editItem.percentages || {},
+        valueSplits: editItem.valueSplits || {},
       });
     }
   }, [currentBill, editItem, navigate]);
+
+  // Update value splits when price changes
+  useEffect(() => {
+    if (formData.splitMethod.id === 'value' && formData.splitBetween.length > 0) {
+      setFormData((prev) => {
+        const price = parseFloat(prev.price) || 0;
+        const currentTotal = Object.values(prev.valueSplits).reduce((sum, val) => sum + parseFloat(val || 0), 0);
+        
+        // If we're editing an existing item with custom splits, scale the existing splits proportionally
+        if (editItem && editItem.valueSplits && Object.keys(editItem.valueSplits).length > 0) {
+          const scaleFactor = price / currentTotal;
+          const newValueSplits = {};
+          
+          Object.entries(prev.valueSplits).forEach(([id, value]) => {
+            newValueSplits[id] = (parseFloat(value) * scaleFactor).toFixed(2);
+          });
+          
+          return {
+            ...prev,
+            valueSplits: newValueSplits,
+          };
+        } else {
+          // For new items or items without custom splits, distribute equally
+          const baseValue = Math.floor((price * 100) / prev.splitBetween.length) / 100;
+          const remainder = price - (baseValue * prev.splitBetween.length);
+          
+          const newValueSplits = {};
+          prev.splitBetween.forEach((id, index) => {
+            newValueSplits[id] = (baseValue + (index === 0 ? remainder : 0)).toFixed(2);
+          });
+
+          return {
+            ...prev,
+            valueSplits: newValueSplits,
+          };
+        }
+      });
+    }
+  }, [formData.price, formData.splitMethod.id, formData.splitBetween.length, editItem]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -275,6 +314,10 @@ export default function AddItemScreen() {
     });
   };
 
+  const handlePriceChange = (e) => {
+    setFormData((prev) => ({ ...prev, price: e.target.value }));
+  };
+
   return (
     <Layout title={isEditing ? 'Edit Item' : 'Add Item'} showBack>
       <div className="max-w-lg mx-auto">
@@ -302,20 +345,67 @@ export default function AddItemScreen() {
               type="number"
               step="0.01"
               value={formData.price}
-              onChange={(e) =>
-                setFormData((prev) => ({ ...prev, price: e.target.value }))
-              }
+              onChange={handlePriceChange}
               error={errors.price}
               placeholder={`e.g., ${formatCurrency(10, user.currency)}`}
             />
 
-            <Select
-              label="Split Method"
-              options={splitMethods}
-              value={formData.splitMethod}
-              onChange={handleSplitMethodChange}
-              displayValue={(selected) => selected.name}
-            />
+            <div className="space-y-2">
+              <label
+                htmlFor="splitMethod"
+                className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+              >
+                Split Method
+              </label>
+              <div className="flex items-center gap-2">
+                <Select
+                  id="splitMethod"
+                  value={formData.splitMethod}
+                  onChange={handleSplitMethodChange}
+                  options={splitMethods}
+                  className="flex-1"
+                />
+                <div className="tooltip">
+                  <button
+                    type="button"
+                    className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+                    aria-label="Split method information"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-5 w-5"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </button>
+                  <div className="tooltip-text">
+                    <div className="space-y-1">
+                      <p className="font-medium">Split Method Options:</p>
+                      <ul className="list-disc list-inside space-y-1">
+                        <li>
+                          <span className="font-medium">Equal:</span> Split the item cost equally among selected people
+                        </li>
+                        <li>
+                          <span className="font-medium">Full Amount:</span> Each selected person pays the full item cost
+                        </li>
+                        <li>
+                          <span className="font-medium">Split by Percentage:</span> Distribute the cost using percentage sliders (total must equal 100%)
+                        </li>
+                        <li>
+                          <span className="font-medium">Split by Value:</span> Set custom amounts for each person (total must equal item price)
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
 
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
