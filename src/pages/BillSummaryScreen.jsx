@@ -14,30 +14,62 @@ import PersonAvatar from '../components/PersonAvatar';
 
 export default function BillSummaryScreen() {
   const navigate = useNavigate();
-  const { billId } = useParams();
+  const { id:billId } = useParams();
   const { bills } = useBillsContext();
-  const { currentBill } = useCurrentBillContext();
-  const { currency } = useUserContext();
+  const { currentBill, updateCurrentBill } = useCurrentBillContext();
+  const { currency, user } = useUserContext();
   const [summary, setSummary] = useState(null);
   const [showShareToast, setShowShareToast] = useState(false);
 
   useEffect(() => {
+    // If we have a currentBill, use it to generate the summary
     if (currentBill) {
-      const summary = generateBillSummary(currentBill);
-      setSummary(summary);
+      setSummary(generateBillSummary(currentBill));
+      return;
     }
-  }, [currentBill]);
+
+    // If we have a billId but no currentBill, try to find and set the bill
+    if (billId) {
+      // If bills are not loaded yet, try to load them
+      if (bills.length === 0) {
+        const storedBills = JSON.parse(localStorage.getItem('bills') || '[]');
+        if (storedBills.length > 0) {
+          const bill = storedBills.find(b => b.id === billId);
+          if (bill) {
+            updateCurrentBill(bill);
+            setSummary(generateBillSummary(bill));
+            return;
+          }
+        }
+        // If we couldn't find the bill in localStorage, redirect
+        navigate('/');
+        return;
+      }
+
+      // If bills are loaded, try to find the bill
+      const bill = bills.find(b => b.id === billId);
+      if (bill) {
+        updateCurrentBill(bill);
+        setSummary(generateBillSummary(bill));
+      } else {
+        navigate('/');
+      }
+    }
+  }, [billId, bills, navigate, updateCurrentBill, currentBill]);
 
   const handleShare = () => {
-    if (!currentBill || !summary) return;
+    if (!summary) return;
 
-    const date = new Date(currentBill.date).toLocaleDateString();
-    const currency = currency;
+    const bill = currentBill;
+    if (!bill) return;
+
+    const date = new Date(bill.date).toLocaleDateString();
+    const currency = user.currency;
     const total = summary.total;
 
-    let shareText = `Bill Summary - ${currentBill.name || 'Unnamed Bill'}\n`;
-    if (currentBill.place) {
-      shareText += `Place: ${currentBill.place}\n`;
+    let shareText = `Bill Summary - ${bill.name || 'Unnamed Bill'}\n`;
+    if (bill.place) {
+      shareText += `Place: ${bill.place}\n`;
     }
     shareText += `Date: ${date}\n\n`;
 
@@ -71,7 +103,15 @@ export default function BillSummaryScreen() {
     setTimeout(() => setShowShareToast(false), 2000);
   };
 
-  if (!summary) return null;
+  if (!summary) {
+    return (
+      <Layout title="Bill Summary" showBack>
+        <div className="flex items-center justify-center h-64">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
+        </div>
+      </Layout>
+    );
+  }
 
   return (
     <Layout title="Bill Summary" showBack>
