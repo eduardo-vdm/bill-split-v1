@@ -94,10 +94,25 @@ export function generateBillSummary(bill) {
     const items = bill.items
       .filter((item) => item.splitBetween.includes(person.id))
       .map((item) => {
-        const splitCount = item.splitBetween.length;
+        let amount;
+        if (item.splitMethod === 'percentage') {
+          // For percentage splits, use the stored percentages
+          const percentage = parseFloat(item.percentages[person.id] || 0);
+          amount = (item.price * percentage) / 100;
+        } else if (item.splitMethod === 'full') {
+          // For full amount, only count if this person is selected
+          amount = item.splitBetween.includes(person.id) ? item.price : 0;
+        } else if (item.splitMethod === 'custom') {
+          // For custom splits, use the stored custom amounts
+          amount = item.customSplits[person.id] || 0;
+        } else {
+          // Default to equal split
+          const splitCount = item.splitBetween.length;
+          amount = item.splitBetween.includes(person.id) ? item.price / splitCount : 0;
+        }
         return {
           name: item.name,
-          amount: item.price / splitCount,
+          amount,
         };
       });
 

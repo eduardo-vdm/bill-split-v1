@@ -5,6 +5,7 @@ import { useBillsContext } from '../contexts/BillsContext';
 import { useCurrentBillContext } from '../contexts/CurrentBillContext';
 import { useUserContext } from '../contexts/UserContext';
 import { formatCurrency } from '../utils/formatters';
+import { calculateItemSplit } from '../utils/billCalculations';
 import Layout from '../components/Layout';
 
 export default function BillDetailsScreen() {
@@ -40,11 +41,21 @@ export default function BillDetailsScreen() {
   const calculatePersonTotal = (personId) => {
     // Calculate regular items share
     const itemsTotal = currentBill.items.reduce((total, item) => {
-      if (item.splitBetween.includes(personId)) {
+      if (item.splitMethod === 'percentage') {
+        // For percentage splits, use the stored percentages
+        const percentage = parseFloat(item.percentages[personId] || 0);
+        return total + (item.price * percentage) / 100;
+      } else if (item.splitMethod === 'full') {
+        // For full amount, only count if this person is selected
+        return total + (item.splitBetween.includes(personId) ? item.price : 0);
+      } else if (item.splitMethod === 'custom') {
+        // For custom splits, use the stored custom amounts
+        return total + (item.customSplits[personId] || 0);
+      } else {
+        // Default to equal split
         const splitCount = item.splitBetween.length;
-        return total + (item.price / splitCount);
+        return total + (item.splitBetween.includes(personId) ? item.price / splitCount : 0);
       }
-      return total;
     }, 0);
 
     // Calculate special items share

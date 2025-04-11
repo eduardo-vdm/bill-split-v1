@@ -1,37 +1,35 @@
-export function calculateItemSplit(item, persons) {
-  const { price, splitBetween, splitMethod } = item;
-  const splits = {};
+export const calculateItemSplit = (item, people) => {
+  const price = parseFloat(item.price);
+  const splitBetween = item.splitBetween || [];
+  const customSplits = item.customSplits || {};
+  const percentages = item.percentages || {};
 
-  switch (splitMethod) {
-    case 'equal':
-      const perPerson = price / splitBetween.length;
-      splitBetween.forEach((personId) => {
-        splits[personId] = perPerson;
-      });
-      break;
-
-    case 'percentage':
-      splitBetween.forEach((split) => {
-        splits[split.personId] = (price * split.percentage) / 100;
-      });
-      break;
-
-    case 'custom':
-      splitBetween.forEach((split) => {
-        splits[split.personId] = split.amount;
-      });
-      break;
-
-    case 'full':
-      splits[splitBetween[0]] = price;
-      break;
-
-    default:
-      throw new Error(`Unknown split method: ${splitMethod}`);
+  if (item.splitMethod.id === 'full') {
+    return splitBetween.reduce((acc, personId) => {
+      acc[personId] = price;
+      return acc;
+    }, {});
   }
 
-  return splits;
-}
+  if (item.splitMethod.id === 'percentage') {
+    return splitBetween.reduce((acc, personId) => {
+      const percentage = parseFloat(percentages[personId] || 0);
+      acc[personId] = (price * percentage) / 100;
+      return acc;
+    }, {});
+  }
+
+  if (item.splitMethod.id === 'custom') {
+    return customSplits;
+  }
+
+  // Default to equal split
+  const splitCount = splitBetween.length;
+  return splitBetween.reduce((acc, personId) => {
+    acc[personId] = price / splitCount;
+    return acc;
+  }, {});
+};
 
 export function calculateSpecialItemValue(specialItem, subtotal) {
   const { type, value, method } = specialItem;
