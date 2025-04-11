@@ -14,7 +14,7 @@ import { formatCurrency } from '../utils/formatters';
 const splitMethods = [
   { id: 'equal', name: 'Split Equally' },
   { id: 'percentage', name: 'Split by Percentage' },
-  { id: 'custom', name: 'Custom Amount' },
+  { id: 'value', name: 'Split by Value' },
   { id: 'full', name: 'Full Amount' },
 ];
 
@@ -34,7 +34,7 @@ export default function AddItemScreen() {
     price: '',
     splitMethod: splitMethods[0],
     splitBetween: [],
-    customSplits: {},
+    valueSplits: {},
     percentages: {},
   });
   const [errors, setErrors] = useState({});
@@ -51,7 +51,7 @@ export default function AddItemScreen() {
         price: editItem.price.toString(),
         splitMethod: splitMethods.find(m => m.id === editItem.splitMethod) || splitMethods[0],
         splitBetween: editItem.splitBetween || [],
-        customSplits: editItem.customSplits || {},
+        valueSplits: editItem.valueSplits || {},
         percentages: editItem.percentages || {},
       });
     }
@@ -85,7 +85,7 @@ export default function AddItemScreen() {
         formData.splitMethod.id === 'full'
           ? [formData.splitBetween[0]]
           : formData.splitBetween,
-      customSplits: formData.customSplits,
+      valueSplits: formData.valueSplits,
       percentages: formData.percentages,
     };
 
@@ -107,30 +107,74 @@ export default function AddItemScreen() {
     setFormData((prev) => {
       const isSelected = prev.splitBetween.includes(personId);
       let newSplitBetween;
+      let newPercentages = { ...prev.percentages };
+      let newValueSplits = { ...prev.valueSplits };
 
-      if (formData.splitMethod.id === 'full') {
-        newSplitBetween = isSelected ? [] : [personId];
+      if (isSelected) {
+        // Remove person
+        newSplitBetween = prev.splitBetween.filter((id) => id !== personId);
+        
+        if (prev.splitMethod.id === 'percentage') {
+          // Remove the person's percentage
+          delete newPercentages[personId];
+          
+          // Redistribute the removed percentage equally among remaining people
+          const remainingPeople = newSplitBetween;
+          if (remainingPeople.length > 0) {
+            const basePercentage = Math.floor(100 / remainingPeople.length);
+            const remainder = 100 - (basePercentage * remainingPeople.length);
+            
+            remainingPeople.forEach((id, index) => {
+              newPercentages[id] = (basePercentage + (index === 0 ? remainder : 0)).toFixed(2);
+            });
+          }
+        } else if (prev.splitMethod.id === 'value') {
+          // Remove the person's value
+          delete newValueSplits[personId];
+          
+          // Redistribute the removed value among remaining people
+          const remainingPeople = newSplitBetween;
+          if (remainingPeople.length > 0) {
+            const price = parseFloat(prev.price);
+            const baseValue = Math.floor((price * 100) / remainingPeople.length) / 100;
+            const remainder = price - (baseValue * remainingPeople.length);
+            
+            remainingPeople.forEach((id, index) => {
+              newValueSplits[id] = (baseValue + (index === 0 ? remainder : 0)).toFixed(2);
+            });
+          }
+        }
       } else {
-        newSplitBetween = isSelected
-          ? prev.splitBetween.filter((id) => id !== personId)
-          : [...prev.splitBetween, personId];
-      }
-
-      const newPercentages = { ...prev.percentages };
-      if (!isSelected && formData.splitMethod.id === 'percentage') {
-        const totalPeople = newSplitBetween.length;
-        newPercentages[personId] = (100 / totalPeople).toFixed(2);
-      } else if (isSelected) {
-        delete newPercentages[personId];
+        // Add person
+        newSplitBetween = [...prev.splitBetween, personId];
+        
+        if (prev.splitMethod.id === 'percentage') {
+          // Initialize all percentages to be equal
+          const basePercentage = Math.floor(100 / newSplitBetween.length);
+          const remainder = 100 - (basePercentage * newSplitBetween.length);
+          
+          newSplitBetween.forEach((id, index) => {
+            newPercentages[id] = (basePercentage + (index === 0 ? remainder : 0)).toFixed(2);
+          });
+        } else if (prev.splitMethod.id === 'value') {
+          // Initialize all values to be equal
+          const price = parseFloat(prev.price);
+          const baseValue = Math.floor((price * 100) / newSplitBetween.length) / 100;
+          const remainder = price - (baseValue * newSplitBetween.length);
+          
+          newSplitBetween.forEach((id, index) => {
+            newValueSplits[id] = (baseValue + (index === 0 ? remainder : 0)).toFixed(2);
+          });
+        }
       }
 
       return {
         ...prev,
         splitBetween: newSplitBetween,
         percentages: newPercentages,
+        valueSplits: newValueSplits,
       };
     });
-    setErrors((prev) => ({ ...prev, splitBetween: '' }));
   };
 
   const handlePercentageChange = (personId, value) => {
@@ -165,15 +209,59 @@ export default function AddItemScreen() {
     });
   };
 
+  const handleValueChange = (personId, value) => {
+    setFormData((prev) => {
+      const newValueSplits = { ...prev.valueSplits };
+      const oldValue = parseFloat(newValueSplits[personId] || 0);
+      const newValue = parseFloat(value);
+      const diff = newValue - oldValue;
+      
+      // Get other person IDs
+      const otherPersonIds = prev.splitBetween.filter(id => id !== personId);
+      const otherPersonCount = otherPersonIds.length;
+      
+      if (otherPersonCount > 0) {
+        // Calculate how much to adjust each other person's amount
+        const adjustmentPerPerson = -diff / otherPersonCount;
+        
+        // Update other people's amounts
+        otherPersonIds.forEach(id => {
+          const currentValue = parseFloat(newValueSplits[id] || 0);
+          newValueSplits[id] = Math.max(0, Math.min(parseFloat(prev.price), currentValue + adjustmentPerPerson));
+        });
+      }
+      
+      // Update the changed person's amount
+      newValueSplits[personId] = newValue;
+      
+      return {
+        ...prev,
+        valueSplits: newValueSplits,
+      };
+    });
+  };
+
   const handleSplitMethodChange = (method) => {
     setFormData((prev) => {
       const newSplitBetween = method.id === 'full' ? prev.splitBetween.slice(0, 1) : prev.splitBetween;
       let newPercentages = {};
+      let newValueSplits = {};
 
       if (method.id === 'percentage') {
-        const totalPeople = newSplitBetween.length;
-        newSplitBetween.forEach((personId) => {
-          newPercentages[personId] = (100 / totalPeople).toFixed(2);
+        // Initialize all percentages to be equal
+        const basePercentage = Math.floor(100 / newSplitBetween.length);
+        const remainder = 100 - (basePercentage * newSplitBetween.length);
+        
+        newSplitBetween.forEach((personId, index) => {
+          newPercentages[personId] = (basePercentage + (index === 0 ? remainder : 0)).toFixed(2);
+        });
+      } else if (method.id === 'value') {
+        const price = parseFloat(prev.price);
+        const baseValue = Math.floor((price * 100) / newSplitBetween.length) / 100;
+        const remainder = price - (baseValue * newSplitBetween.length);
+        
+        newSplitBetween.forEach((personId, index) => {
+          newValueSplits[personId] = (baseValue + (index === 0 ? remainder : 0)).toFixed(2);
         });
       }
 
@@ -182,6 +270,7 @@ export default function AddItemScreen() {
         splitMethod: method,
         splitBetween: newSplitBetween,
         percentages: newPercentages,
+        valueSplits: newValueSplits,
       };
     });
   };
@@ -292,6 +381,55 @@ export default function AddItemScreen() {
                   <span className="text-sm text-gray-500 dark:text-gray-400">Total:</span>
                   <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
                     {Object.values(formData.percentages).reduce((sum, val) => sum + parseFloat(val || 0), 0).toFixed(1)}%
+                  </span>
+                </div>
+              </div>
+            )}
+
+            {formData.splitMethod.id === 'value' && formData.splitBetween.length > 0 && (
+              <div className="space-y-4">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                  Split Values
+                </label>
+                {formData.splitBetween.map((personId) => {
+                  const person = currentBill.people.find(p => p.id === personId);
+                  const amount = parseFloat(formData.valueSplits[personId] || 0);
+                  
+                  return (
+                    <div key={personId} className="space-y-1">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center space-x-2">
+                          <PersonAvatar
+                            name={person.name}
+                            icon={person.icon}
+                            size="sm"
+                            showName={false}
+                          />
+                          <span className="text-sm text-gray-700 dark:text-gray-300">{person.name}</span>
+                        </div>
+                        <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                          {formatCurrency(amount, user.currency)}
+                        </span>
+                      </div>
+                      <input
+                        type="range"
+                        min="0"
+                        max={formData.price}
+                        step="0.01"
+                        value={amount}
+                        onChange={(e) => handleValueChange(personId, e.target.value)}
+                        className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer"
+                      />
+                    </div>
+                  );
+                })}
+                <div className="flex justify-between items-center mt-2">
+                  <span className="text-sm text-gray-500 dark:text-gray-400">Total:</span>
+                  <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                    {formatCurrency(
+                      Object.values(formData.valueSplits).reduce((sum, val) => sum + parseFloat(val || 0), 0),
+                      user.currency
+                    )}
                   </span>
                 </div>
               </div>

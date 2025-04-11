@@ -96,17 +96,13 @@ export function generateBillSummary(bill) {
       .map((item) => {
         let amount;
         if (item.splitMethod === 'percentage') {
-          // For percentage splits, use the stored percentages
-          const percentage = parseFloat(item.percentages[person.id] || 0);
+          const percentage = parseFloat(item.percentages?.[person.id] || 0);
           amount = (item.price * percentage) / 100;
         } else if (item.splitMethod === 'full') {
-          // For full amount, only count if this person is selected
           amount = item.splitBetween.includes(person.id) ? item.price : 0;
-        } else if (item.splitMethod === 'custom') {
-          // For custom splits, use the stored custom amounts
-          amount = item.customSplits[person.id] || 0;
+        } else if (item.splitMethod === 'value') {
+          amount = parseFloat(item.valueSplits?.[person.id] || 0);
         } else {
-          // Default to equal split
           const splitCount = item.splitBetween.length;
           amount = item.splitBetween.includes(person.id) ? item.price / splitCount : 0;
         }
@@ -143,4 +139,30 @@ export function generateBillSummary(bill) {
     total,
     personDetails,
   };
-} 
+}
+
+const calculatePersonTotal = (personId) => {
+  if (!bill.items) return 0;
+
+  return bill.items.reduce((total, item) => {
+    if (!item.splitBetween?.includes(personId)) return total;
+
+    const price = parseFloat(item.price);
+    if (item.splitMethod === 'full') {
+      return total + price;
+    }
+
+    if (item.splitMethod === 'percentage') {
+      const percentage = parseFloat(item.percentages?.[personId] || 0);
+      return total + (price * percentage) / 100;
+    }
+
+    if (item.splitMethod === 'value') {
+      return total + (parseFloat(item.valueSplits?.[personId] || 0));
+    }
+
+    // Default to equal split
+    const splitCount = item.splitBetween.length;
+    return total + price / splitCount;
+  }, 0);
+}; 

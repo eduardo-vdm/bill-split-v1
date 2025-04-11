@@ -39,35 +39,29 @@ export default function BillDetailsScreen() {
   };
 
   const calculatePersonTotal = (personId) => {
-    // Calculate regular items share
-    const itemsTotal = currentBill.items.reduce((total, item) => {
-      if (item.splitMethod === 'percentage') {
-        // For percentage splits, use the stored percentages
-        const percentage = parseFloat(item.percentages[personId] || 0);
-        return total + (item.price * percentage) / 100;
-      } else if (item.splitMethod === 'full') {
-        // For full amount, only count if this person is selected
-        return total + (item.splitBetween.includes(personId) ? item.price : 0);
-      } else if (item.splitMethod === 'custom') {
-        // For custom splits, use the stored custom amounts
-        return total + (item.customSplits[personId] || 0);
-      } else {
-        // Default to equal split
-        const splitCount = item.splitBetween.length;
-        return total + (item.splitBetween.includes(personId) ? item.price / splitCount : 0);
+    if (!currentBill?.items) return 0;
+
+    return currentBill.items.reduce((total, item) => {
+      if (!item.splitBetween?.includes(personId)) return total;
+
+      const price = parseFloat(item.price);
+      if (item.splitMethod === 'full') {
+        return total + price;
       }
-    }, 0);
 
-    // Calculate special items share
-    const subtotal = currentBill.items.reduce((sum, item) => sum + item.price, 0);
-    const specialItemsShare = currentBill.specialItems.reduce((total, item) => {
-      const value = item.method === 'percentage' 
-        ? (subtotal * item.value) / 100 
-        : item.value;
-      return total + (value / currentBill.people.length);
-    }, 0);
+      if (item.splitMethod === 'percentage') {
+        const percentage = parseFloat(item.percentages?.[personId] || 0);
+        return total + (price * percentage) / 100;
+      }
 
-    return itemsTotal + specialItemsShare;
+      if (item.splitMethod === 'value') {
+        return total + (parseFloat(item.valueSplits?.[personId] || 0));
+      }
+
+      // Default to equal split
+      const splitCount = item.splitBetween.length;
+      return total + price / splitCount;
+    }, 0);
   };
 
   const handleDeletePerson = (personId) => {

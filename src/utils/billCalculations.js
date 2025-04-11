@@ -1,17 +1,17 @@
 export const calculateItemSplit = (item, people) => {
   const price = parseFloat(item.price);
   const splitBetween = item.splitBetween || [];
-  const customSplits = item.customSplits || {};
+  const valueSplits = item.valueSplits || {};
   const percentages = item.percentages || {};
 
-  if (item.splitMethod.id === 'full') {
+  if (item.splitMethod === 'full') {
     return splitBetween.reduce((acc, personId) => {
       acc[personId] = price;
       return acc;
     }, {});
   }
 
-  if (item.splitMethod.id === 'percentage') {
+  if (item.splitMethod === 'percentage') {
     return splitBetween.reduce((acc, personId) => {
       const percentage = parseFloat(percentages[personId] || 0);
       acc[personId] = (price * percentage) / 100;
@@ -19,8 +19,8 @@ export const calculateItemSplit = (item, people) => {
     }, {});
   }
 
-  if (item.splitMethod.id === 'custom') {
-    return customSplits;
+  if (item.splitMethod === 'value') {
+    return valueSplits;
   }
 
   // Default to equal split
