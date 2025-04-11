@@ -1,17 +1,17 @@
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { PlusIcon, TrashIcon, PencilIcon } from '@heroicons/react/24/outline';
+import { PlusIcon, TrashIcon, PencilIcon, DocumentDuplicateIcon } from '@heroicons/react/24/outline';
 import { useBillsContext } from '../contexts/BillsContext';
 import { useUserContext } from '../contexts/UserContext';
 import { formatCurrency } from '../utils/formatters';
-import { billTypes } from '../utils/helpers';
+import { billTypes, generateId } from '../utils/helpers';
 import Layout from '../components/Layout';
 import ConfirmDialog from '../components/ConfirmDialog';
 import { useState } from 'react';
 
 export default function MainScreen() {
   const navigate = useNavigate();
-  const { bills, deleteBill } = useBillsContext();
+  const { bills, deleteBill, addBill } = useBillsContext();
   const { user } = useUserContext();
   const [billToDelete, setBillToDelete] = useState(null);
 
@@ -41,6 +41,18 @@ export default function MainScreen() {
   const handleEditBill = (e, bill) => {
     e.stopPropagation();
     navigate('/bills/new', { state: { editBill: bill } });
+  };
+
+  const handleDuplicateBill = (e, bill) => {
+    e.stopPropagation();
+    const newBill = {
+      ...bill,
+      id: generateId('bill-'),
+      name: `Copy of ${bill.name}`,
+      date: new Date().toISOString().split('T')[0],
+    };
+    const createdBill = addBill(newBill);
+    navigate('/bills/new', { state: { editBill: createdBill } });
   };
 
   return (
@@ -111,6 +123,13 @@ export default function MainScreen() {
                         aria-label={`Edit ${bill.name}`}
                       >
                         <PencilIcon className="w-5 h-5" />
+                      </button>
+                      <button
+                        className="p-1.5 text-gray-400 hover:text-green-500 dark:text-gray-500 dark:hover:text-green-400 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                        onClick={(e) => handleDuplicateBill(e, bill)}
+                        aria-label={`Duplicate ${bill.name}`}
+                      >
+                        <DocumentDuplicateIcon className="w-5 h-5" />
                       </button>
                       <button
                         className="p-1.5 text-gray-400 hover:text-red-500 dark:text-gray-500 dark:hover:text-red-400 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
