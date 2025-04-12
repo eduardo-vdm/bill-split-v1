@@ -116,7 +116,7 @@ export function generateBillSummary(bill) {
 
     // Calculate special items share
     const specialItemsShare = specialItems.reduce((sum, item) => {
-      const splitCount = item.splitBetween?.length || bill.people.length;
+      const splitCount = bill.people.length;
       return sum + item.calculatedValue / splitCount;
     }, 0);
 

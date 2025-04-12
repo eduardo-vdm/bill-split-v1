@@ -8,14 +8,15 @@ import Input from '../components/Input';
 import Select from '../components/Select';
 import Button from '../components/Button';
 import PersonAvatar from '../components/PersonAvatar';
+import Dialog from '../components/Dialog';
 import { generateId } from '../utils/helpers';
 import { formatCurrency } from '../utils/formatters';
+import { UserGroupIcon, ArrowLeftIcon } from '@heroicons/react/24/outline';
 
 const splitMethods = [
   { id: 'equal', name: 'Split Equally' },
   { id: 'percentage', name: 'Split by Percentage' },
-  { id: 'value', name: 'Split by Value' },
-  { id: 'full', name: 'Full Amount' },
+  { id: 'value', name: 'Split by Value' }
 ];
 
 export default function AddItemScreen() {
@@ -25,7 +26,8 @@ export default function AddItemScreen() {
   const { updateBill } = useBillsContext();
   const { currentBill, updateCurrentBill } = useCurrentBillContext();
   const { user } = useUserContext();
-  
+  const [showNoPeopleDialog, setShowNoPeopleDialog] = useState(false);
+
   const editItem = location.state?.editItem;
   const isEditing = !!editItem;
 
@@ -54,47 +56,57 @@ export default function AddItemScreen() {
         percentages: editItem.percentages || {},
         valueSplits: editItem.valueSplits || {},
       });
+    } else {
+      // For new items, if split method is equal, select all people by default
+      setFormData(prev => ({
+        ...prev,
+        splitBetween: currentBill.people.map(person => person.id)
+      }));
     }
   }, [currentBill, editItem, navigate]);
 
+  useEffect(() => {
+    if (currentBill && currentBill.people.length === 0 && !isEditing) {
+      setShowNoPeopleDialog(true);
+    }
+  }, [currentBill, isEditing]);
+
   // Update value splits when price changes
   useEffect(() => {
-    if (formData.splitMethod.id === 'value' && formData.splitBetween.length > 0) {
-      setFormData((prev) => {
-        const price = parseFloat(prev.price) || 0;
-        const currentTotal = Object.values(prev.valueSplits).reduce((sum, val) => sum + parseFloat(val || 0), 0);
-        
-        // If we're editing an existing item with custom splits, scale the existing splits proportionally
-        if (editItem && editItem.valueSplits && Object.keys(editItem.valueSplits).length > 0) {
-          const scaleFactor = price / currentTotal;
-          const newValueSplits = {};
-          
-          Object.entries(prev.valueSplits).forEach(([id, value]) => {
-            newValueSplits[id] = (parseFloat(value) * scaleFactor).toFixed(2);
-          });
-          
-          return {
-            ...prev,
-            valueSplits: newValueSplits,
-          };
-        } else {
-          // For new items or items without custom splits, distribute equally
-          const baseValue = Math.floor((price * 100) / prev.splitBetween.length) / 100;
-          const remainder = price - (baseValue * prev.splitBetween.length);
-          
-          const newValueSplits = {};
-          prev.splitBetween.forEach((id, index) => {
-            newValueSplits[id] = (baseValue + (index === 0 ? remainder : 0)).toFixed(2);
-          });
+    if (formData.splitMethod.id === 'value' && formData.price && formData.splitBetween.length > 0) {
+      const price = parseFloat(formData.price);
+      const baseValue = price / formData.splitBetween.length;
+      const remainder = price - (baseValue * formData.splitBetween.length);
 
-          return {
-            ...prev,
-            valueSplits: newValueSplits,
-          };
-        }
+      const newValueSplits = {};
+      formData.splitBetween.forEach((personId, index) => {
+        // Add the remainder to the first person
+        newValueSplits[personId] = (baseValue + (index === 0 ? remainder : 0)).toFixed(2);
       });
+
+      setFormData(prev => ({
+        ...prev,
+        valueSplits: newValueSplits,
+      }));
     }
-  }, [formData.price, formData.splitMethod.id, formData.splitBetween.length, editItem]);
+  }, [formData.price, formData.splitMethod.id, formData.splitBetween]);
+
+  // Update split between when split method changes
+  useEffect(() => {
+    if (formData.splitMethod.id === 'equal') {
+      // For equal split, select all people
+      setFormData(prev => ({
+        ...prev,
+        splitBetween: currentBill.people.map(person => person.id)
+      }));
+    } else if (formData.splitMethod.id === 'full') {
+      // For full amount, clear selection
+      setFormData(prev => ({
+        ...prev,
+        splitBetween: []
+      }));
+    }
+  }, [formData.splitMethod.id, currentBill.people]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -148,6 +160,11 @@ export default function AddItemScreen() {
       let newSplitBetween;
       let newPercentages = { ...prev.percentages };
       let newValueSplits = { ...prev.valueSplits };
+
+      // Prevent deselecting the last person
+      if (isSelected && prev.splitBetween.length === 1) {
+        return prev;
+      }
 
       if (isSelected) {
         // Remove person
@@ -315,8 +332,32 @@ export default function AddItemScreen() {
   };
 
   const handlePriceChange = (e) => {
-    setFormData((prev) => ({ ...prev, price: e.target.value }));
+    const newPrice = e.target.value;
+    setFormData((prev) => {
+      const newState = { ...prev, price: newPrice };
+      
+      // Check if we're transitioning from valid to invalid price
+      const wasPriceValid = prev.price && parseFloat(prev.price) > 0;
+      const isPriceValid = newPrice && parseFloat(newPrice) > 0;
+      
+      if (wasPriceValid && !isPriceValid) {
+        // Reset split method and people selection
+        newState.splitMethod = splitMethods[0];
+        newState.splitBetween = [];
+        newState.percentages = {};
+        newState.valueSplits = {};
+      }
+      
+      return newState;
+    });
   };
+
+  const isPriceValid = formData.price !== '' && !isNaN(parseFloat(formData.price)) && parseFloat(formData.price) > 0;
+  const hasMultiplePeople = formData.splitBetween.length > 1;
+
+  // Debug logging
+  console.log('Price:', formData.price);
+  console.log('isPriceValid:', isPriceValid);
 
   return (
     <Layout title={isEditing ? 'Edit Item' : 'Add Item'} showBack>
@@ -343,6 +384,7 @@ export default function AddItemScreen() {
               label="Price"
               id="price"
               type="number"
+              min="0"
               step="0.01"
               value={formData.price}
               onChange={handlePriceChange}
@@ -364,6 +406,7 @@ export default function AddItemScreen() {
                   onChange={handleSplitMethodChange}
                   options={splitMethods}
                   className="flex-1"
+                  disabled={!isPriceValid}
                 />
                 <div className="tooltip">
                   <button
@@ -390,9 +433,6 @@ export default function AddItemScreen() {
                       <ul className="list-disc list-inside space-y-1">
                         <li>
                           <span className="font-medium">Equal:</span> Split the item cost equally among selected people
-                        </li>
-                        <li>
-                          <span className="font-medium">Full Amount:</span> Each selected person pays the full item cost
                         </li>
                         <li>
                           <span className="font-medium">Split by Percentage:</span> Distribute the cost using percentage sliders (total must equal 100%)
@@ -424,7 +464,8 @@ export default function AddItemScreen() {
                     icon={person.icon}
                     showName
                     selected={formData.splitBetween.includes(person.id)}
-                    onClick={() => handlePersonClick(person.id)}
+                    onClick={() => isPriceValid && handlePersonClick(person.id)}
+                    className={!isPriceValid ? 'opacity-50 cursor-not-allowed' : ''}
                   />
                 ))}
               </div>
@@ -463,6 +504,7 @@ export default function AddItemScreen() {
                         value={percentage}
                         onChange={(e) => handlePercentageChange(personId, e.target.value)}
                         className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer"
+                        disabled={!hasMultiplePeople}
                       />
                     </div>
                   );
@@ -509,6 +551,7 @@ export default function AddItemScreen() {
                         value={amount}
                         onChange={(e) => handleValueChange(personId, e.target.value)}
                         className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer"
+                        disabled={!hasMultiplePeople}
                       />
                     </div>
                   );
@@ -541,6 +584,36 @@ export default function AddItemScreen() {
           </form>
         )}
       </div>
+
+      <Dialog
+        isOpen={showNoPeopleDialog}
+        onClose={() => {
+          setShowNoPeopleDialog(false);
+          navigate(`/bills/${id}`);
+        }}
+        title="No People Added"
+        description="You need to add at least one person to the bill before adding items."
+        icon={<UserGroupIcon className="h-12 w-12 text-blue-500" />}
+        actions={[
+          {
+            label: 'Back to Bill',
+            onClick: () => {
+              setShowNoPeopleDialog(false);
+              navigate(`/bills/${id}`);
+            },
+            variant: 'outline',
+            icon: ArrowLeftIcon
+          },
+          {
+            label: 'Add Person',
+            onClick: () => {
+              setShowNoPeopleDialog(false);
+              navigate(`/bills/${id}/add-person`);
+            },
+            icon: UserGroupIcon
+          }
+        ]}
+      />
     </Layout>
   );
 } 

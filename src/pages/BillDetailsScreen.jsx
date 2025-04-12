@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { TrashIcon, PencilIcon } from '@heroicons/react/24/outline';
 import { useBillsContext } from '../contexts/BillsContext';
@@ -7,6 +7,7 @@ import { useUserContext } from '../contexts/UserContext';
 import { formatCurrency } from '../utils/formatters';
 import { calculateItemSplit } from '../utils/billCalculations';
 import Layout from '../components/Layout';
+import Dialog from '../components/Dialog';
 
 export default function BillDetailsScreen() {
   const navigate = useNavigate();
@@ -14,6 +15,8 @@ export default function BillDetailsScreen() {
   const { bills, updateBill } = useBillsContext();
   const { currentBill, updateCurrentBill } = useCurrentBillContext();
   const { user } = useUserContext();
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [personToDelete, setPersonToDelete] = useState(null);
 
   useEffect(() => {
     const bill = bills.find(b => b.id === id);
@@ -64,16 +67,87 @@ export default function BillDetailsScreen() {
     }, 0);
   };
 
+  const calculateSpecialItemsShare = () => {
+    if (!currentBill?.specialItems?.length) return 0;
+    
+    const subtotal = currentBill.items.reduce((sum, item) => sum + item.price, 0);
+    const specialItemsTotal = currentBill.specialItems.reduce((sum, item) => {
+      if (item.method === 'percentage') {
+        return sum + (subtotal * item.value) / 100;
+      }
+      return sum + item.value;
+    }, 0);
+
+    return specialItemsTotal / (currentBill.people?.length || 1);
+  };
+
   const handleDeletePerson = (personId) => {
+    if (!currentBill) return;
+
+    // Check if this is the last person and there are items
+    if (currentBill.people.length === 1 && currentBill.items.length > 0) {
+      setPersonToDelete(personId);
+      setShowDeleteDialog(true);
+      return;
+    }
+
     const updatedBill = {
       ...currentBill,
       people: currentBill.people.filter(p => p.id !== personId),
-      // Also remove the person from item splits
-      items: currentBill.items.map(item => ({
-        ...item,
-        splitBetween: item.splitBetween.filter(id => id !== personId)
-      }))
+      items: currentBill.items.map(item => {
+        if (!item.splitBetween.includes(personId)) return item;
+
+        const updatedSplitBetween = item.splitBetween.filter(id => id !== personId);
+        if (updatedSplitBetween.length === 0) return item;
+
+        // Recalculate splits based on method
+        if (item.splitMethod === 'percentage') {
+          const remainingPeople = updatedSplitBetween.length;
+          const removedPercentage = parseFloat(item.percentages?.[personId] || 0);
+          const adjustmentPerPerson = removedPercentage / remainingPeople;
+
+          const updatedPercentages = { ...item.percentages };
+          delete updatedPercentages[personId];
+
+          // Redistribute the removed person's percentage
+          updatedSplitBetween.forEach(id => {
+            updatedPercentages[id] = (parseFloat(updatedPercentages[id] || 0) + adjustmentPerPerson).toFixed(2);
+          });
+
+          return {
+            ...item,
+            splitBetween: updatedSplitBetween,
+            percentages: updatedPercentages
+          };
+        }
+
+        if (item.splitMethod === 'value') {
+          const remainingPeople = updatedSplitBetween.length;
+          const removedValue = parseFloat(item.valueSplits?.[personId] || 0);
+          const adjustmentPerPerson = removedValue / remainingPeople;
+
+          const updatedValueSplits = { ...item.valueSplits };
+          delete updatedValueSplits[personId];
+
+          // Redistribute the removed person's value
+          updatedSplitBetween.forEach(id => {
+            updatedValueSplits[id] = (parseFloat(updatedValueSplits[id] || 0) + adjustmentPerPerson).toFixed(2);
+          });
+
+          return {
+            ...item,
+            splitBetween: updatedSplitBetween,
+            valueSplits: updatedValueSplits
+          };
+        }
+
+        return {
+          ...item,
+          splitBetween: updatedSplitBetween
+        };
+      })
     };
+
     updateBill(id, updatedBill);
     updateCurrentBill(updatedBill);
   };
@@ -94,6 +168,14 @@ export default function BillDetailsScreen() {
     };
     updateBill(id, updatedBill);
     updateCurrentBill(updatedBill);
+  };
+
+  const handleConfirmDeletePerson = () => {
+    if (personToDelete) {
+      handleDeletePerson(personToDelete);
+    }
+    setShowDeleteDialog(false);
+    setPersonToDelete(null);
   };
 
   if (!currentBill) return null;
@@ -252,6 +334,41 @@ export default function BillDetailsScreen() {
           </button>
         </div>
       </div>
+
+      <Dialog
+        isOpen={showDeleteDialog}
+        onClose={() => {
+          setShowDeleteDialog(false);
+          setPersonToDelete(null);
+        }}
+        title="Cannot Remove Last Person"
+        description="You cannot remove the last person from a bill that contains items. Please remove all items first, or add another person before removing this one."
+        actions={[
+          {
+            label: 'Cancel',
+            onClick: () => {
+              setShowDeleteDialog(false);
+              setPersonToDelete(null);
+            },
+            variant: 'outline'
+          },
+          {
+            label: 'Remove All Items',
+            onClick: () => {
+              const updatedBill = {
+                ...currentBill,
+                items: [],
+                specialItems: []
+              };
+              updateBill(id, updatedBill);
+              updateCurrentBill(updatedBill);
+              setShowDeleteDialog(false);
+              setPersonToDelete(null);
+            },
+            variant: 'danger'
+          }
+        ]}
+      />
     </Layout>
   );
 } 

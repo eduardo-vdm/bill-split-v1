@@ -13,10 +13,11 @@ export default function Select({
   containerClassName = '',
   labelClassName = '',
   helpText,
+  disabled = false,
 }) {
   return (
     <div className={containerClassName}>
-      <Listbox value={value} onChange={onChange}>
+      <Listbox value={value} onChange={onChange} disabled={disabled}>
         {({ open }) => (
           <>
             {label && (
@@ -35,7 +36,8 @@ export default function Select({
                   'relative w-full cursor-default rounded-lg bg-white dark:bg-gray-800 py-2 pl-3 pr-10 text-left border focus:outline-none focus:ring-2 sm:text-sm',
                   error
                     ? 'border-red-300 focus:border-red-500 focus:ring-red-200 dark:border-red-600 dark:focus:border-red-500 dark:focus:ring-red-800'
-                    : 'border-gray-300 focus:border-primary-500 focus:ring-primary-200 dark:border-gray-600 dark:focus:border-primary-400 dark:focus:ring-primary-800'
+                    : 'border-gray-300 focus:border-primary-500 focus:ring-primary-200 dark:border-gray-600 dark:focus:border-primary-400 dark:focus:ring-primary-800',
+                  disabled && 'opacity-50 cursor-not-allowed'
                 )}
               >
                 <span className="block truncate">

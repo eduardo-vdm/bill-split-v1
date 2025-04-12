@@ -27,17 +27,6 @@ export default function BillOverviewScreen() {
     updateCurrentBill(bill);
   }, [id, bills, navigate, updateCurrentBill]);
 
-  useEffect(() => {
-    if (currentBill) {
-      const total = calculateTotal();
-      if (total !== currentBill.total) {
-        const updatedBill = { ...currentBill, total };
-        updateCurrentBill(updatedBill);
-        updateBill(id, updatedBill);
-      }
-    }
-  }, [currentBill?.items, currentBill?.specialItems]);
-
   if (!currentBill) return null;
 
   const { name, type, place, date, persons = [], items = [], specialItems = [] } = currentBill;

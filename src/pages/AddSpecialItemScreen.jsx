@@ -7,8 +7,10 @@ import Layout from '../components/Layout';
 import Input from '../components/Input';
 import Select from '../components/Select';
 import Button from '../components/Button';
+import Dialog from '../components/Dialog';
 import { generateId } from '../utils/helpers';
 import { formatCurrency } from '../utils/formatters';
+import { ShoppingBagIcon, ArrowLeftIcon } from '@heroicons/react/24/outline';
 
 const specialItemTypes = [
   { id: 'tax', name: 'Tax' },
@@ -27,6 +29,7 @@ export default function AddSpecialItemScreen() {
   const { updateBill } = useBillsContext();
   const { currentBill, updateCurrentBill } = useCurrentBillContext();
   const { user } = useUserContext();
+  const [showNoItemsDialog, setShowNoItemsDialog] = useState(false);
 
   const editSpecialItem = location.state?.editSpecialItem;
   const isEditing = !!editSpecialItem;
@@ -47,6 +50,12 @@ export default function AddSpecialItemScreen() {
       });
     }
   }, [editSpecialItem]);
+
+  useEffect(() => {
+    if (currentBill && currentBill.items.length === 0 && !isEditing) {
+      setShowNoItemsDialog(true);
+    }
+  }, [currentBill, isEditing]);
 
   const calculateSubtotal = () => {
     return currentBill.items.reduce((sum, item) => sum + item.price, 0);
@@ -142,21 +151,50 @@ export default function AddSpecialItemScreen() {
             </div>
           )}
 
-          <div className="flex space-x-4">
+          <div className="flex justify-end space-x-4">
             <Button
               type="button"
               variant="outline"
-              className="flex-1"
-              onClick={() => navigate(-1)}
+              onClick={() => navigate(`/bills/${id}`)}
             >
               Cancel
             </Button>
-            <Button type="submit" className="flex-1">
-              {isEditing ? 'Save Changes' : 'Add'}
+            <Button type="submit">
+              {isEditing ? 'Update' : 'Add'} {formData.type.name}
             </Button>
           </div>
         </form>
       </div>
+
+      <Dialog
+        isOpen={showNoItemsDialog}
+        onClose={() => {
+          setShowNoItemsDialog(false);
+          navigate(`/bills/${id}`);
+        }}
+        title="No Items Added"
+        description="You need to add at least one item to the bill before adding special items."
+        icon={<ShoppingBagIcon className="h-12 w-12 text-blue-500" />}
+        actions={[
+          {
+            label: 'Back to Bill',
+            onClick: () => {
+              setShowNoItemsDialog(false);
+              navigate(`/bills/${id}`);
+            },
+            variant: 'outline',
+            icon: ArrowLeftIcon
+          },
+          {
+            label: 'Add Item',
+            onClick: () => {
+              setShowNoItemsDialog(false);
+              navigate(`/bills/${id}/add-item`);
+            },
+            icon: ShoppingBagIcon
+          }
+        ]}
+      />
     </Layout>
   );
 } 
