@@ -287,39 +287,38 @@ export default function BillDetailsScreen() {
 
           <div className="space-y-4">
             <div className="flex justify-between items-center">
-              <h2 className="text-lg font-semibold">Special Items ({currentBill.specialItems?.length || 0})</h2>
+              <h2 className="text-lg font-semibold">Tax/Tip ({currentBill.specialItems?.length || 0})</h2>
               <button
                 onClick={() => navigate(`/bills/${id}/add-special`)}
                 className="text-blue-600 hover:text-blue-700"
               >
-                Add Special Item
+                Add Tax/Tip
               </button>
             </div>
             <div className="space-y-2">
               {currentBill.specialItems?.map((item) => (
                 <div
                   key={item.id}
-                  onClick={() => navigate(`/bills/${id}/add-special`, { state: { editSpecialItem: item } })}
-                  className="flex items-center justify-between bg-white dark:bg-gray-800 p-3 rounded-lg shadow group hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer transition-colors"
+                  className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-lg"
                 >
-                  <span>{item.type === 'tax' ? 'Tax' : 'Tip'}</span>
-                  <div className="flex items-center gap-4">
-                    <span>
-                      {item.method === 'percentage' ? `${item.value}%` : formatCurrency(item.value, user.currency)}
+                  <div className="flex items-center space-x-2">
+                    <span className="text-gray-500 dark:text-gray-400">
+                      {item.type === 'tax' ? '💸' : '💰'}
                     </span>
-                    <div className="flex items-center gap-2">
-                      <PencilIcon className="h-5 w-5 text-gray-400 transition-opacity" />
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleDeleteSpecialItem(item.id);
-                        }}
-                        className="text-gray-400 hover:text-red-500 p-1 rounded transition-opacity"
-                        aria-label={`Delete ${item.type}`}
-                      >
-                        <TrashIcon className="h-5 w-5" />
-                      </button>
-                    </div>
+                    <span className="font-medium">{item.type}</span>
+                  </div>
+                  <div className="flex items-center space-x-4">
+                    <span className="text-gray-600 dark:text-gray-300">
+                      {item.method === 'percentage'
+                        ? `${item.value}%`
+                        : formatCurrency(item.value, user.currency)}
+                    </span>
+                    <button
+                      onClick={() => handleDeleteSpecialItem(item.id)}
+                      className="text-gray-400 hover:text-red-500 dark:text-gray-500 dark:hover:text-red-400"
+                    >
+                      <TrashIcon className="h-5 w-5" />
+                    </button>
                   </div>
                 </div>
               ))}

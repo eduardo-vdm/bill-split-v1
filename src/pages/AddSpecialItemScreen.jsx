@@ -173,7 +173,7 @@ export default function AddSpecialItemScreen() {
           navigate(`/bills/${id}`);
         }}
         title="No Items Added"
-        description="You need to add at least one item to the bill before adding special items."
+        description="You need to add at least one item to the bill before adding Tax/Tip."
         icon={<ShoppingBagIcon className="h-12 w-12 text-blue-500" />}
         actions={[
           {
