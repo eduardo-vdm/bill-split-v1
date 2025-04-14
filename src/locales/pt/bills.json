@@ -1,0 +1,106 @@
+{
+  "title": "Faturas",
+  "new": "Nova fatura",
+  "edit": "Editar fatura",
+  "delete": {
+    "title": "Eliminar fatura",
+    "confirm": "Tem certeza que deseja eliminar esta fatura?"
+  },
+  "name": "Nome da fatura",
+  "type": "Tipo de fatura",
+  "place": "Local",
+  "date": "Data",
+  "namePlaceholder": "ex. Jantar no restaurante italiano",
+  "placePlaceholder": "ex. La Cucina",
+  "selectType": "Selecionar tipo",
+  "details": "Detalhes da fatura",
+  "createNew": "Criar nova fatura",
+  "noBills": "Ainda não há faturas",
+  "createFirstBill": "Crie sua primeira fatura",
+  "editBill": "Editar fatura",
+  "deleteBill": "Eliminar fatura",
+  "deleteBillConfirm": "Tem certeza que deseja eliminar esta fatura?",
+  "notFound": "Não encontrado",
+  "items": {
+    "title": "Itens",
+    "add": "Adicionar item",
+    "edit": "Editar item",
+    "delete": "Eliminar item",
+    "name": "Nome do item",
+    "price": "Preço",
+    "itemNamePlaceholder": "ex. Pizza Margherita",
+    "itemPricePlaceholder": "ex. {{currency}}10,00",
+    "split": {
+      "title": "Método de divisão",
+      "equal": "Dividir igualmente",
+      "percentage": "Dividir por porcentagem",
+      "value": "Dividir por valor",
+      "between": "Dividir entre",
+      "selectSplitMethod": "Selecionar método de divisão",
+      "splitMethodInfo": "Informação do método de divisão",
+      "splitMethodOptions": "Opções de método de divisão",
+      "splitEqually": "Dividir o valor igualmente entre as pessoas selecionadas",
+      "splitByPercentage": "Dividir o valor por porcentagem entre as pessoas selecionadas",
+      "splitByValue": "Dividir o valor por valores específicos entre as pessoas selecionadas"
+    }
+  },
+  "taxTip": {
+    "title": "Imposto/Gorjeta",
+    "add": "Adicionar imposto/gorjeta",
+    "edit": "Editar imposto/gorjeta",
+    "delete": "Eliminar imposto/gorjeta",
+    "type": {
+      "tax": "Imposto",
+      "tip": "Gorjeta"
+    },
+    "method": {
+      "percentage": "Porcentagem",
+      "fixed": "Valor fixo"
+    },
+    "percentage": "Porcentagem",
+    "amount": "Valor",
+    "percentagePlaceholder": "ex. 10",
+    "amountPlaceholder": "ex. {{currency}}5,00",
+    "calculatedAmount": "Valor calculado"
+  },
+  "people": {
+    "title": "Pessoas",
+    "add": "Adicionar pessoa",
+    "edit": "Editar pessoa",
+    "delete": "Eliminar pessoa",
+    "name": "Nome da pessoa",
+    "icon": "Ícone"
+  },
+  "summary": {
+    "title": "Resumo",
+    "subtotal": "Subtotal",
+    "total": "Total",
+    "perPerson": "Por pessoa"
+  },
+  "errors": {
+    "nameRequired": "O nome da fatura é obrigatório",
+    "typeRequired": "O tipo de fatura é obrigatório",
+    "placeRequired": "O local é obrigatório",
+    "itemNameRequired": "O nome do item é obrigatório",
+    "itemPriceRequired": "O preço do item é obrigatório",
+    "itemPriceInvalid": "O preço do item deve ser maior que 0",
+    "splitMethodRequired": "O método de divisão é obrigatório",
+    "splitBetweenRequired": "Selecione pelo menos uma pessoa para dividir",
+    "percentageInvalid": "A porcentagem deve estar entre 0 e 100",
+    "valueInvalid": "O valor deve ser maior que 0",
+    "valueTotalInvalid": "O total dos valores divididos deve ser igual ao preço do item"
+  },
+  "splitMethod": "Método de divisão",
+  "splitBetween": "Dividir entre",
+  "splitPercentages": "Porcentagens de divisão",
+  "splitValues": "Valores de divisão",
+  "noPeopleAddedTitle": "Não há pessoas adicionadas",
+  "noPeopleAddedDescription": "Por favor adicione pessoas à fatura antes de adicionar itens",
+  "addPerson": "Adicionar pessoa",
+  "editSpecialItem": "Editar imposto/gorjeta",
+  "addSpecialItem": "Adicionar imposto/gorjeta",
+  "specialItemType": "Tipo",
+  "selectSpecialItemType": "Selecionar tipo",
+  "noItemsTitle": "Não há itens adicionados",
+  "noItemsDescription": "Por favor adicione itens à fatura antes de adicionar imposto ou gorjeta"
+} 

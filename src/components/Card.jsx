@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { classNames } from '../utils/helpers';
+import { useTranslation } from 'react-i18next';
 
 export default function Card({
   children,
@@ -47,6 +48,7 @@ export function CardHeader({ children, className = '', ...props }) {
 }
 
 export function CardTitle({ children, className = '', ...props }) {
+  const { t } = useTranslation();
   return (
     <h3
       className={classNames(
@@ -55,12 +57,13 @@ export function CardTitle({ children, className = '', ...props }) {
       )}
       {...props}
     >
-      {children}
+      {typeof children === 'string' ? t(children) : children}
     </h3>
   );
 }
 
 export function CardDescription({ children, className = '', ...props }) {
+  const { t } = useTranslation();
   return (
     <p
       className={classNames(
@@ -69,7 +72,7 @@ export function CardDescription({ children, className = '', ...props }) {
       )}
       {...props}
     >
-      {children}
+      {typeof children === 'string' ? t(children) : children}
     </p>
   );
 }

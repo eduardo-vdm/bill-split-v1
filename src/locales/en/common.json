@@ -1,0 +1,44 @@
+{
+  "buttons": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "add": "Add",
+    "edit": "Edit",
+    "back": "Back",
+    "next": "Next",
+    "confirm": "Confirm",
+    "create": "Create",
+    "update": "Update",
+    "backToBill": "Back to Bill"
+  },
+  "errors": {
+    "required": "This field is required",
+    "invalid": "Invalid value",
+    "min": "Value must be greater than {{min}}",
+    "max": "Value must be less than {{max}}",
+    "generic": "An error occurred",
+    "network": "Network error occurred",
+    "notFound": "Resource not found"
+  },
+  "loading": "Loading...",
+  "notFound": "Not found",
+  "currency": {
+    "symbol": "$",
+    "code": "USD"
+  },
+  "date": {
+    "format": "MM/dd/yyyy"
+  },
+  "confirm": {
+    "title": "Confirm Action",
+    "description": "Are you sure you want to proceed?",
+    "yes": "Yes",
+    "no": "No"
+  },
+  "success": {
+    "saved": "Changes saved successfully",
+    "created": "Created successfully",
+    "deleted": "Deleted successfully"
+  }
+} 

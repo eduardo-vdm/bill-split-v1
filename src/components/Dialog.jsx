@@ -1,8 +1,11 @@
 import { Fragment } from 'react';
 import { Dialog as HeadlessDialog, Transition } from '@headlessui/react';
 import Button from './Button';
+import { useTranslation } from 'react-i18next';
 
 export default function Dialog({ isOpen, onClose, title, description, icon, actions }) {
+  const { t } = useTranslation();
+
   return (
     <Transition appear show={isOpen} as={Fragment}>
       <HeadlessDialog as="div" className="relative z-50" onClose={onClose}>
@@ -19,7 +22,7 @@ export default function Dialog({ isOpen, onClose, title, description, icon, acti
         </Transition.Child>
 
         <div className="fixed inset-0 overflow-y-auto">
-          <div className="flex min-h-full items-center justify-center p-4 text-center">
+          <div className="flex min-h-full items-center justify-center p-4">
             <Transition.Child
               as={Fragment}
               enter="ease-out duration-300"
@@ -39,11 +42,11 @@ export default function Dialog({ isOpen, onClose, title, description, icon, acti
                   as="h3"
                   className="text-lg font-medium leading-6 text-gray-900 dark:text-white"
                 >
-                  {title}
+                  {typeof title === 'string' ? t(title) : title}
                 </HeadlessDialog.Title>
                 <div className="mt-2">
                   <p className="text-sm text-gray-500 dark:text-gray-400">
-                    {description}
+                    {typeof description === 'string' ? t(description) : description}
                   </p>
                 </div>
 
@@ -55,7 +58,7 @@ export default function Dialog({ isOpen, onClose, title, description, icon, acti
                       variant={action.variant}
                       icon={action.icon}
                     >
-                      {action.label}
+                      {typeof action.label === 'string' ? t(action.label) : action.label}
                     </Button>
                   ))}
                 </div>

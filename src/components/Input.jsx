@@ -1,52 +1,62 @@
-import { forwardRef } from 'react';
+import React, { forwardRef } from 'react';
 import { classNames } from '../utils/helpers';
+import { useTranslation } from 'react-i18next';
 
 const Input = forwardRef(
   (
     {
       label,
-      error,
+      name,
       type = 'text',
+      placeholder,
+      error,
       className = '',
-      containerClassName = '',
       labelClassName = '',
-      helpText,
+      inputClassName = '',
+      errorClassName = '',
+      required = false,
       ...props
     },
     ref
   ) => {
+    const { t } = useTranslation();
+
     return (
-      <div className={classNames('space-y-1', containerClassName)}>
+      <div className={className}>
         {label && (
           <label
-            htmlFor={props.id}
+            htmlFor={name}
             className={classNames(
-              'block text-sm font-medium text-gray-700 dark:text-gray-300',
+              'block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1',
               labelClassName
             )}
           >
-            {label}
+            {typeof label === 'string' ? t(label) : label}
+            {required && <span className="text-red-500 ml-1">*</span>}
           </label>
         )}
         <input
           ref={ref}
           type={type}
+          name={name}
+          id={name}
+          placeholder={typeof placeholder === 'string' ? t(placeholder) : placeholder}
           className={classNames(
-            'input',
-            error
-              ? 'border-red-300 focus:border-red-500 focus:ring-red-200 dark:border-red-600 dark:focus:border-red-500 dark:focus:ring-red-800'
-              : '',
-            className
+            'block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white sm:text-sm',
+            error && 'border-red-300 focus:border-red-500 focus:ring-red-500',
+            inputClassName
           )}
           {...props}
         />
-        {helpText && (
-          <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-            {helpText}
-          </p>
-        )}
         {error && (
-          <p className="mt-1 text-sm text-red-600 dark:text-red-400">{error}</p>
+          <p
+            className={classNames(
+              'mt-1 text-sm text-red-600 dark:text-red-400',
+              errorClassName
+            )}
+          >
+            {typeof error === 'string' ? t(error) : error}
+          </p>
         )}
       </div>
     );

@@ -1,0 +1,38 @@
+{
+  "title": "Settings",
+  "language": {
+    "title": "Language",
+    "select": "Select Language"
+  },
+  "theme": {
+    "title": "Theme",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
+  },
+  "currency": {
+    "title": "Currency",
+    "select": "Select Currency"
+  },
+  "appearance": {
+    "title": "Appearance",
+    "fontSize": "Font Size",
+    "fontFamily": "Font Family"
+  },
+  "notifications": {
+    "title": "Notifications",
+    "enable": "Enable Notifications",
+    "sound": "Sound",
+    "vibration": "Vibration"
+  },
+  "about": {
+    "title": "About",
+    "version": "Version",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service"
+  },
+  "name": "Your Name",
+  "dangerZone": "Danger Zone",
+  "resetData": "Reset Data",
+  "resetDataConfirm": "Are you sure you want to reset all data? This action cannot be undone."
+} 

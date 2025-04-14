@@ -7,12 +7,14 @@ import Input from '../components/Input';
 import Select from '../components/Select';
 import Button from '../components/Button';
 import { billTypes, generateId } from '../utils/helpers';
+import { useTranslation } from 'react-i18next';
 
 export default function NewBillScreen() {
   const navigate = useNavigate();
   const location = useLocation();
   const { addBill, updateBill } = useBillsContext();
   const { updateCurrentBill, clearCurrentBill } = useCurrentBillContext();
+  const { t } = useTranslation(['bills', 'common', 'billTypes']);
   const editBill = location.state?.editBill;
 
   const [formData, setFormData] = useState({
@@ -40,13 +42,13 @@ export default function NewBillScreen() {
     const newErrors = {};
 
     if (!formData.name.trim()) {
-      newErrors.name = 'Bill name is required';
+      newErrors.name = t('bills:errors.nameRequired');
     }
     if (!formData.type) {
-      newErrors.type = 'Bill type is required';
+      newErrors.type = t('bills:errors.typeRequired');
     }
     if (!formData.place.trim()) {
-      newErrors.place = 'Place is required';
+      newErrors.place = t('bills:errors.placeRequired');
     }
 
     if (Object.keys(newErrors).length > 0) {
@@ -93,50 +95,49 @@ export default function NewBillScreen() {
   };
 
   return (
-    <Layout title={editBill ? 'Edit Bill' : 'New Bill'} showBack>
+    <Layout title={editBill ? t('bills:edit') : t('bills:new')} showBack>
       <div className="max-w-lg mx-auto">
         <form onSubmit={handleSubmit} className="space-y-6">
           <Input
-            label="Bill Name"
+            label={t('bills:name')}
             id="name"
-            name="name"
+            type="text"
             value={formData.name}
-            onChange={handleChange}
+            onChange={(e) =>
+              setFormData((prev) => ({ ...prev, name: e.target.value }))
+            }
             error={errors.name}
-            placeholder="e.g., Dinner at Italian Restaurant"
-            autoFocus
+            placeholder={t('bills:namePlaceholder')}
           />
 
           <Select
-            label="Bill Type"
+            label={t('bills:type')}
             options={billTypes}
-            value={billTypes.find((type) => type.id === formData.type)}
-            onChange={(value) =>
-              setFormData((prev) => ({ ...prev, type: value.id }))
-            }
-            error={errors.type}
-            displayValue={(selected) =>
-              selected ? `${selected.icon} ${selected.name}` : 'Select type'
-            }
+            value={formData.type}
+            onChange={(value) => setFormData((prev) => ({ ...prev, type: value }))}
+            displayValue={(selected) => selected ? `${selected.icon} ${t(selected.translationKey)}` : t('bills:selectType')}
           />
 
           <Input
-            label="Place"
+            label={t('bills:place')}
             id="place"
-            name="place"
+            type="text"
             value={formData.place}
-            onChange={handleChange}
+            onChange={(e) =>
+              setFormData((prev) => ({ ...prev, place: e.target.value }))
+            }
             error={errors.place}
-            placeholder="e.g., La Cucina"
+            placeholder={t('bills:placePlaceholder')}
           />
 
           <Input
-            label="Date"
+            label={t('bills:date')}
             id="date"
-            name="date"
             type="date"
             value={formData.date}
-            onChange={handleChange}
+            onChange={(e) =>
+              setFormData((prev) => ({ ...prev, date: e.target.value }))
+            }
           />
 
           <div className="flex space-x-4">
@@ -146,10 +147,10 @@ export default function NewBillScreen() {
               className="flex-1"
               onClick={() => navigate(-1)}
             >
-              Cancel
+              {t('common:cancel')}
             </Button>
             <Button type="submit" className="flex-1">
-              {editBill ? 'Save Changes' : 'Create Bill'}
+              {editBill ? t('common:save') : t('common:create')}
             </Button>
           </div>
         </form>

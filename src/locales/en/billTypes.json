@@ -1,0 +1,9 @@
+{
+  "dining": "Dining",
+  "shopping": "Shopping",
+  "entertainment": "Entertainment",
+  "transportation": "Transportation",
+  "utilities": "Utilities",
+  "rent": "Rent",
+  "other": "Other"
+} 

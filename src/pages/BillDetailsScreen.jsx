@@ -8,6 +8,7 @@ import { formatCurrency } from '../utils/formatters';
 import { calculateItemSplit } from '../utils/billCalculations';
 import Layout from '../components/Layout';
 import Dialog from '../components/Dialog';
+import { useTranslation } from 'react-i18next';
 
 export default function BillDetailsScreen() {
   const navigate = useNavigate();
@@ -17,6 +18,7 @@ export default function BillDetailsScreen() {
   const { user } = useUserContext();
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [personToDelete, setPersonToDelete] = useState(null);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const bill = bills.find(b => b.id === id);
@@ -181,22 +183,22 @@ export default function BillDetailsScreen() {
   if (!currentBill) return null;
 
   return (
-    <Layout title={currentBill.name || 'Bill Details'} showBack>
+    <Layout title={t('bills:details')} showBack>
       <div className="max-w-2xl mx-auto">
         <div className="space-y-6">
           <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow">
-            <h2 className="text-lg font-semibold mb-4">Bill Details</h2>
+            <h2 className="text-lg font-semibold mb-4">{t('bills:details')}</h2>
             <div className="space-y-2">
               <div className="flex justify-between">
-                <span>Date</span>
+                <span>{t('bills:date')}</span>
                 <span>{new Date(currentBill.date).toLocaleDateString()}</span>
               </div>
               <div className="flex justify-between">
-                <span>Place</span>
+                <span>{t('bills:place')}</span>
                 <span>{currentBill.place}</span>
               </div>
               <div className="flex justify-between font-bold">
-                <span>Total</span>
+                <span>{t('bills:total')}</span>
                 <span>{formatCurrency(calculateTotal(), user.currency)}</span>
               </div>
             </div>
@@ -204,12 +206,12 @@ export default function BillDetailsScreen() {
 
           <div className="space-y-4">
             <div className="flex justify-between items-center">
-              <h2 className="text-lg font-semibold">People ({currentBill.people?.length || 0})</h2>
+              <h2 className="text-lg font-semibold">{t('bills:people.title')} ({currentBill.people?.length || 0})</h2>
               <button
                 onClick={() => navigate(`/bills/${id}/add-person`)}
                 className="text-blue-600 hover:text-blue-700"
               >
-                Add Person
+                {t('bills:people.add')}
               </button>
             </div>
             <div className="space-y-2">
@@ -248,12 +250,12 @@ export default function BillDetailsScreen() {
 
           <div className="space-y-4">
             <div className="flex justify-between items-center">
-              <h2 className="text-lg font-semibold">Items ({currentBill.items?.length || 0})</h2>
+              <h2 className="text-lg font-semibold">{t('bills:items.title')} ({currentBill.items?.length || 0})</h2>
               <button
                 onClick={() => navigate(`/bills/${id}/add-item`)}
                 className="text-blue-600 hover:text-blue-700"
               >
-                Add Item
+                {t('bills:items.add')}
               </button>
             </div>
             <div className="space-y-2">
@@ -287,12 +289,12 @@ export default function BillDetailsScreen() {
 
           <div className="space-y-4">
             <div className="flex justify-between items-center">
-              <h2 className="text-lg font-semibold">Tax/Tip ({currentBill.specialItems?.length || 0})</h2>
+              <h2 className="text-lg font-semibold">{t('bills:taxTip.title')} ({currentBill.specialItems?.length || 0})</h2>
               <button
                 onClick={() => navigate(`/bills/${id}/add-special`)}
                 className="text-blue-600 hover:text-blue-700"
               >
-                Add Tax/Tip
+                {t('bills:taxTip.add')}
               </button>
             </div>
             <div className="space-y-2">
@@ -329,7 +331,7 @@ export default function BillDetailsScreen() {
             onClick={() => navigate(`/bills/${id}/summary`)}
             className="w-full bg-blue-600 dark:bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600"
           >
-            View Summary
+            {t('bills:summary.title')}
           </button>
         </div>
       </div>

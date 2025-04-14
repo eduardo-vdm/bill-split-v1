@@ -1,0 +1,44 @@
+{
+  "buttons": {
+    "save": "Salvar",
+    "cancel": "Cancelar",
+    "delete": "Eliminar",
+    "add": "Adicionar",
+    "edit": "Editar",
+    "back": "Voltar",
+    "next": "Próximo",
+    "confirm": "Confirmar",
+    "create": "Criar",
+    "update": "Atualizar",
+    "backToBill": "Voltar para a fatura"
+  },
+  "errors": {
+    "required": "Este campo é obrigatório",
+    "invalid": "Valor inválido",
+    "min": "O valor deve ser maior que {{min}}",
+    "max": "O valor deve ser menor que {{max}}",
+    "generic": "Ocorreu um erro",
+    "network": "Erro de rede",
+    "notFound": "Recurso não encontrado"
+  },
+  "loading": "Carregando...",
+  "notFound": "Não encontrado",
+  "currency": {
+    "symbol": "R$",
+    "code": "BRL"
+  },
+  "date": {
+    "format": "dd/MM/yyyy"
+  },
+  "confirm": {
+    "title": "Confirmar ação",
+    "description": "Tem certeza que deseja continuar?",
+    "yes": "Sim",
+    "no": "Não"
+  },
+  "success": {
+    "saved": "Alterações salvas com sucesso",
+    "created": "Criado com sucesso",
+    "deleted": "Eliminado com sucesso"
+  }
+} 

@@ -1,0 +1,38 @@
+{
+  "title": "Configuración",
+  "language": {
+    "title": "Idioma",
+    "select": "Seleccionar idioma"
+  },
+  "theme": {
+    "title": "Tema",
+    "light": "Claro",
+    "dark": "Oscuro",
+    "system": "Sistema"
+  },
+  "currency": {
+    "title": "Moneda",
+    "select": "Seleccionar moneda"
+  },
+  "appearance": {
+    "title": "Apariencia",
+    "fontSize": "Tamaño de fuente",
+    "fontFamily": "Familia de fuente"
+  },
+  "notifications": {
+    "title": "Notificaciones",
+    "enable": "Activar notificaciones",
+    "sound": "Sonido",
+    "vibration": "Vibración"
+  },
+  "about": {
+    "title": "Acerca de",
+    "version": "Versión",
+    "privacy": "Política de privacidad",
+    "terms": "Términos de servicio"
+  },
+  "name": "Tu nombre",
+  "dangerZone": "Zona de peligro",
+  "resetData": "Restablecer datos",
+  "resetDataConfirm": "¿Estás seguro de que deseas restablecer todos los datos? Esta acción no se puede deshacer."
+} 

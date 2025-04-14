@@ -5,12 +5,14 @@ import { useBillsContext } from '../contexts/BillsContext';
 import { useCurrentBillContext } from '../contexts/CurrentBillContext';
 import Layout from '../components/Layout';
 import ConfirmDialog from '../components/ConfirmDialog';
+import { useTranslation } from 'react-i18next';
 
 export default function SettingsScreen() {
   const navigate = useNavigate();
   const { user, updateUser } = useUserContext();
   const { bills, deleteBill } = useBillsContext();
   const { clearCurrentBill } = useCurrentBillContext();
+  const { t } = useTranslation();
   const [name, setName] = useState(user.name);
   const [currency, setCurrency] = useState(user.currency);
   const [theme, setTheme] = useState(user.theme);
@@ -48,12 +50,12 @@ export default function SettingsScreen() {
   };
 
   return (
-    <Layout title="Settings" showBack>
+    <Layout title={t('settings:title')} showBack>
       <div className="max-w-md mx-auto">
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
             <label htmlFor="name" className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">
-              Name
+              {t('settings:name')}
             </label>
             <input
               type="text"
@@ -66,7 +68,7 @@ export default function SettingsScreen() {
 
           <div>
             <label htmlFor="currency" className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">
-              Currency
+              {t('settings:currency.title')}
             </label>
             <select
               id="currency"
@@ -82,7 +84,7 @@ export default function SettingsScreen() {
 
           <div>
             <label htmlFor="theme" className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">
-              Theme
+              {t('settings:theme.title')}
             </label>
             <select
               id="theme"
@@ -90,8 +92,8 @@ export default function SettingsScreen() {
               onChange={(e) => setTheme(e.target.value)}
               className="w-full p-2 border rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400"
             >
-              <option value="light">Light</option>
-              <option value="dark">Dark</option>
+              <option value="light">{t('settings:theme.light')}</option>
+              <option value="dark">{t('settings:theme.dark')}</option>
             </select>
           </div>
 
@@ -99,20 +101,20 @@ export default function SettingsScreen() {
             type="submit"
             className="w-full bg-blue-600 dark:bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600"
           >
-            Save Changes
+            {t('common:buttons.save')}
           </button>
         </form>
 
         <div className="mt-12 pt-6 border-t border-gray-200 dark:border-gray-700">
-          <h2 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">Danger Zone</h2>
+          <h2 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">{t('settings:dangerZone')}</h2>
           <button
             onClick={handleResetData}
             className="w-full bg-red-600 text-white py-2 px-4 rounded-lg hover:bg-red-700"
           >
-            Reset All Data
+            {t('settings:resetData')}
           </button>
           <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
-            This will delete all your bills and settings. This action cannot be undone.
+            {t('settings:resetDataConfirm')}
           </p>
         </div>
 
@@ -120,8 +122,8 @@ export default function SettingsScreen() {
           isOpen={showResetConfirm}
           onClose={() => setShowResetConfirm(false)}
           onConfirm={handleConfirmReset}
-          title="Reset All Data"
-          message="Are you sure you want to reset all data? This will delete all your bills and settings. This action cannot be undone."
+          title={t('settings:resetData')}
+          description={t('settings:resetDataConfirm')}
         />
       </div>
     </Layout>

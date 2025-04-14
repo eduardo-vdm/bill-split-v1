@@ -1,6 +1,6 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { PlusIcon, UserPlusIcon } from '@heroicons/react/24/outline';
+import { PlusIcon, UserPlusIcon, TrashIcon, PencilIcon, DocumentDuplicateIcon } from '@heroicons/react/24/outline';
 import { useBillsContext } from '../contexts/BillsContext';
 import { useCurrentBillContext } from '../contexts/CurrentBillContext';
 import { useUserContext } from '../contexts/UserContext';
@@ -10,13 +10,18 @@ import Button from '../components/Button';
 import PersonAvatar from '../components/PersonAvatar';
 import { billTypes } from '../utils/helpers';
 import { formatCurrency } from '../utils/formatters';
+import { generateId } from '../utils/helpers';
+import ConfirmDialog from '../components/ConfirmDialog';
+import { useTranslation } from 'react-i18next';
 
 export default function BillOverviewScreen() {
   const navigate = useNavigate();
   const { id } = useParams();
-  const { bills, updateBill } = useBillsContext();
+  const { bills, updateBill, deleteBill, addBill } = useBillsContext();
   const { currentBill, updateCurrentBill } = useCurrentBillContext();
   const { user } = useUserContext();
+  const [billToDelete, setBillToDelete] = useState(null);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const bill = bills.find(b => b.id === id);
@@ -47,9 +52,35 @@ export default function BillOverviewScreen() {
     return subtotal + specialItemsTotal;
   };
 
+  const handleConfirmDelete = () => {
+    deleteBill(currentBill.id);
+    setBillToDelete(null);
+    navigate('/bills');
+  };
+
   return (
     <Layout title={name} showBack>
       <div className="space-y-6">
+        <div className="flex justify-between items-center mb-6">
+          <h1 className="text-2xl font-bold">{name}</h1>
+          <div className="flex space-x-2">
+            <button
+              onClick={() => navigate(`/bills/${id}/edit`)}
+              className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700"
+              aria-label={t('bills:editBill')}
+            >
+              <PencilIcon className="w-6 h-6" />
+            </button>
+            <button
+              onClick={() => setBillToDelete(currentBill)}
+              className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700"
+              aria-label={t('bills:deleteBill')}
+            >
+              <TrashIcon className="w-6 h-6" />
+            </button>
+          </div>
+        </div>
+
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center space-x-2">
@@ -179,6 +210,14 @@ export default function BillOverviewScreen() {
             View Summary
           </Button>
         </div>
+
+        <ConfirmDialog
+          isOpen={!!billToDelete}
+          onClose={() => setBillToDelete(null)}
+          onConfirm={handleConfirmDelete}
+          title={t('bills:deleteBill')}
+          description={t('bills:deleteBillConfirm')}
+        />
       </div>
     </Layout>
   );

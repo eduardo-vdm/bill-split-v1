@@ -12,11 +12,13 @@ import Dialog from '../components/Dialog';
 import { generateId } from '../utils/helpers';
 import { formatCurrency } from '../utils/formatters';
 import { UserGroupIcon, ArrowLeftIcon } from '@heroicons/react/24/outline';
+import { useTranslation } from 'react-i18next';
 
 const splitMethods = [
-  { id: 'equal', name: 'Split Equally' },
-  { id: 'percentage', name: 'Split by Percentage' },
-  { id: 'value', name: 'Split by Value' }
+  { id: 'equal', translationKey: 'splitMethods:equal' },
+  { id: 'percentage', translationKey: 'splitMethods:percentage' },
+  { id: 'value', translationKey: 'splitMethods:value' },
+  { id: 'full', translationKey: 'splitMethods:full' }
 ];
 
 export default function AddItemScreen() {
@@ -26,6 +28,7 @@ export default function AddItemScreen() {
   const { updateBill } = useBillsContext();
   const { currentBill, updateCurrentBill } = useCurrentBillContext();
   const { user } = useUserContext();
+  const { t } = useTranslation(['bills', 'common', 'splitMethods']);
   const [showNoPeopleDialog, setShowNoPeopleDialog] = useState(false);
 
   const editItem = location.state?.editItem;
@@ -360,28 +363,28 @@ export default function AddItemScreen() {
   console.log('isPriceValid:', isPriceValid);
 
   return (
-    <Layout title={isEditing ? 'Edit Item' : 'Add Item'} showBack>
+    <Layout title={t('bills:items.add')} showBack>
       <div className="max-w-lg mx-auto">
         {!currentBill ? (
           <div className="text-center py-8">
-            <p className="text-gray-600 dark:text-gray-400">Bill not found</p>
+            <p className="text-gray-600 dark:text-gray-400">{t('bills:notFound')}</p>
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-6">
             <Input
-              label="Item Name"
+              label={t('bills:items.name')}
               id="name"
               value={formData.name}
               onChange={(e) =>
                 setFormData((prev) => ({ ...prev, name: e.target.value }))
               }
               error={errors.name}
-              placeholder="e.g., Pizza Margherita"
+              placeholder={t('bills:items.itemNamePlaceholder')}
               autoFocus
             />
 
             <Input
-              label="Price"
+              label={t('bills:items.price')}
               id="price"
               type="number"
               min="0"
@@ -389,7 +392,7 @@ export default function AddItemScreen() {
               value={formData.price}
               onChange={handlePriceChange}
               error={errors.price}
-              placeholder={`e.g., ${formatCurrency(10, user.currency)}`}
+              placeholder={t('bills:items.itemPricePlaceholder', { currency: user.currency })}
             />
 
             <div className="space-y-2">
@@ -397,7 +400,7 @@ export default function AddItemScreen() {
                 htmlFor="splitMethod"
                 className="block text-sm font-medium text-gray-700 dark:text-gray-300"
               >
-                Split Method
+                {t('bills:items.split.title')}
               </label>
               <div className="flex items-center gap-2">
                 <Select
@@ -407,12 +410,13 @@ export default function AddItemScreen() {
                   options={splitMethods}
                   className="flex-1"
                   disabled={!isPriceValid}
+                  displayValue={(selected) => selected ? t(selected.translationKey) : t('bills:items.split.selectSplitMethod')}
                 />
                 <div className="tooltip">
                   <button
                     type="button"
                     className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
-                    aria-label="Split method information"
+                    aria-label={t('bills:items.split.splitMethodInfo')}
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -429,16 +433,16 @@ export default function AddItemScreen() {
                   </button>
                   <div className="tooltip-text">
                     <div className="space-y-1">
-                      <p className="font-medium">Split Method Options:</p>
+                      <p className="font-medium">{t('bills:items.split.splitMethodOptions')}:</p>
                       <ul className="list-disc list-inside space-y-1">
                         <li>
-                          <span className="font-medium">Equal:</span> Split the item cost equally among selected people
+                          <span className="font-medium">{t('bills:items.split.equal')}:</span> {t('bills:items.split.splitEqually')}
                         </li>
                         <li>
-                          <span className="font-medium">Split by Percentage:</span> Distribute the cost using percentage sliders (total must equal 100%)
+                          <span className="font-medium">{t('bills:items.split.percentage')}:</span> {t('bills:items.split.splitByPercentage')}
                         </li>
                         <li>
-                          <span className="font-medium">Split by Value:</span> Set custom amounts for each person (total must equal item price)
+                          <span className="font-medium">{t('bills:items.split.value')}:</span> {t('bills:items.split.splitByValue')}
                         </li>
                       </ul>
                     </div>
@@ -448,9 +452,7 @@ export default function AddItemScreen() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Split Between
-              </label>
+              {t('bills:items.split.between')}
               {errors.splitBetween && (
                 <p className="text-sm text-red-600 dark:text-red-400 mb-2">
                   {errors.splitBetween}
@@ -473,9 +475,7 @@ export default function AddItemScreen() {
 
             {formData.splitMethod.id === 'percentage' && formData.splitBetween.length > 0 && (
               <div className="space-y-4">
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                  Split Percentages
-                </label>
+                {t('bills:items.split.percentages')}
                 {formData.splitBetween.map((personId) => {
                   const person = currentBill.people.find(p => p.id === personId);
                   const percentage = parseFloat(formData.percentages[personId] || 0);
@@ -520,9 +520,7 @@ export default function AddItemScreen() {
 
             {formData.splitMethod.id === 'value' && formData.splitBetween.length > 0 && (
               <div className="space-y-4">
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                  Split Values
-                </label>
+                {t('bills:items.split.values')}
                 {formData.splitBetween.map((personId) => {
                   const person = currentBill.people.find(p => p.id === personId);
                   const amount = parseFloat(formData.valueSplits[personId] || 0);
@@ -575,10 +573,10 @@ export default function AddItemScreen() {
                 className="flex-1"
                 onClick={() => navigate(-1)}
               >
-                Cancel
+                {t('common:cancel')}
               </Button>
               <Button type="submit" className="flex-1">
-                {isEditing ? 'Save Changes' : 'Add Item'}
+                {t('common:add')}
               </Button>
             </div>
           </form>
@@ -591,12 +589,12 @@ export default function AddItemScreen() {
           setShowNoPeopleDialog(false);
           navigate(`/bills/${id}`);
         }}
-        title="No People Added"
-        description="You need to add at least one person to the bill before adding items."
+        title={t('bills:noPeopleAddedTitle')}
+        description={t('bills:noPeopleAddedDescription')}
         icon={<UserGroupIcon className="h-12 w-12 text-blue-500" />}
         actions={[
           {
-            label: 'Back to Bill',
+            label: t('common:backToBill'),
             onClick: () => {
               setShowNoPeopleDialog(false);
               navigate(`/bills/${id}`);
@@ -605,7 +603,7 @@ export default function AddItemScreen() {
             icon: ArrowLeftIcon
           },
           {
-            label: 'Add Person',
+            label: t('bills:addPerson'),
             onClick: () => {
               setShowNoPeopleDialog(false);
               navigate(`/bills/${id}/add-person`);

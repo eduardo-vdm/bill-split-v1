@@ -1,0 +1,106 @@
+{
+  "title": "Facturas",
+  "new": "Nueva factura",
+  "edit": "Editar factura",
+  "delete": {
+    "title": "Eliminar factura",
+    "confirm": "¿Estás seguro de que deseas eliminar esta factura?"
+  },
+  "name": "Nombre de la factura",
+  "type": "Tipo de factura",
+  "place": "Lugar",
+  "date": "Fecha",
+  "namePlaceholder": "ej. Cena en restaurante italiano",
+  "placePlaceholder": "ej. La Cucina",
+  "selectType": "Seleccionar tipo",
+  "details": "Detalles de la factura",
+  "createNew": "Crear nueva factura",
+  "noBills": "Aún no hay facturas",
+  "createFirstBill": "Crea tu primera factura",
+  "editBill": "Editar factura",
+  "deleteBill": "Eliminar factura",
+  "deleteBillConfirm": "¿Estás seguro de que deseas eliminar esta factura?",
+  "notFound": "No encontrado",
+  "items": {
+    "title": "Artículos",
+    "add": "Agregar artículo",
+    "edit": "Editar artículo",
+    "delete": "Eliminar artículo",
+    "name": "Nombre del artículo",
+    "price": "Precio",
+    "itemNamePlaceholder": "ej. Pizza Margherita",
+    "itemPricePlaceholder": "ej. {{currency}}10,00",
+    "split": {
+      "title": "Método de división",
+      "equal": "Dividir equitativamente",
+      "percentage": "Dividir por porcentaje",
+      "value": "Dividir por valor",
+      "between": "Dividir entre",
+      "selectSplitMethod": "Seleccionar método de división",
+      "splitMethodInfo": "Información del método de división",
+      "splitMethodOptions": "Opciones de método de división",
+      "splitEqually": "Dividir el monto equitativamente entre las personas seleccionadas",
+      "splitByPercentage": "Dividir el monto por porcentaje entre las personas seleccionadas",
+      "splitByValue": "Dividir el monto por valores específicos entre las personas seleccionadas"
+    }
+  },
+  "taxTip": {
+    "title": "Impuesto/Propina",
+    "add": "Agregar impuesto/propina",
+    "edit": "Editar impuesto/propina",
+    "delete": "Eliminar impuesto/propina",
+    "type": {
+      "tax": "Impuesto",
+      "tip": "Propina"
+    },
+    "method": {
+      "percentage": "Porcentaje",
+      "fixed": "Monto fijo"
+    },
+    "percentage": "Porcentaje",
+    "amount": "Monto",
+    "percentagePlaceholder": "ej. 10",
+    "amountPlaceholder": "ej. {{currency}}5,00",
+    "calculatedAmount": "Monto calculado"
+  },
+  "people": {
+    "title": "Personas",
+    "add": "Agregar persona",
+    "edit": "Editar persona",
+    "delete": "Eliminar persona",
+    "name": "Nombre de la persona",
+    "icon": "Ícono"
+  },
+  "summary": {
+    "title": "Resumen",
+    "subtotal": "Subtotal",
+    "total": "Total",
+    "perPerson": "Por persona"
+  },
+  "errors": {
+    "nameRequired": "El nombre de la factura es requerido",
+    "typeRequired": "El tipo de factura es requerido",
+    "placeRequired": "El lugar es requerido",
+    "itemNameRequired": "El nombre del artículo es requerido",
+    "itemPriceRequired": "El precio del artículo es requerido",
+    "itemPriceInvalid": "El precio del artículo debe ser mayor que 0",
+    "splitMethodRequired": "El método de división es requerido",
+    "splitBetweenRequired": "Selecciona al menos una persona para dividir",
+    "percentageInvalid": "El porcentaje debe estar entre 0 y 100",
+    "valueInvalid": "El valor debe ser mayor que 0",
+    "valueTotalInvalid": "El total de los valores divididos debe ser igual al precio del artículo"
+  },
+  "splitMethod": "Método de división",
+  "splitBetween": "Dividir entre",
+  "splitPercentages": "Porcentajes de división",
+  "splitValues": "Valores de división",
+  "noPeopleAddedTitle": "No hay personas agregadas",
+  "noPeopleAddedDescription": "Por favor agrega personas a la factura antes de agregar artículos",
+  "addPerson": "Agregar persona",
+  "editSpecialItem": "Editar impuesto/propina",
+  "addSpecialItem": "Agregar impuesto/propina",
+  "specialItemType": "Tipo",
+  "selectSpecialItemType": "Seleccionar tipo",
+  "noItemsTitle": "No hay artículos agregados",
+  "noItemsDescription": "Por favor agrega artículos a la factura antes de agregar impuesto o propina"
+} 

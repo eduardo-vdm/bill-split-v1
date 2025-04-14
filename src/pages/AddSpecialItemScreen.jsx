@@ -11,15 +11,16 @@ import Dialog from '../components/Dialog';
 import { generateId } from '../utils/helpers';
 import { formatCurrency } from '../utils/formatters';
 import { ShoppingBagIcon, ArrowLeftIcon } from '@heroicons/react/24/outline';
+import { useTranslation } from 'react-i18next';
 
 const specialItemTypes = [
-  { id: 'tax', name: 'Tax' },
-  { id: 'tip', name: 'Tip' },
+  { id: 'tax', translationKey: 'bills:taxTip.type.tax' },
+  { id: 'tip', translationKey: 'bills:taxTip.type.tip' },
 ];
 
 const methods = [
-  { id: 'percentage', name: 'Percentage' },
-  { id: 'fixed', name: 'Fixed Amount' },
+  { id: 'percentage', translationKey: 'bills:taxTip.method.percentage' },
+  { id: 'fixed', translationKey: 'bills:taxTip.method.fixed' },
 ];
 
 export default function AddSpecialItemScreen() {
@@ -29,6 +30,7 @@ export default function AddSpecialItemScreen() {
   const { updateBill } = useBillsContext();
   const { currentBill, updateCurrentBill } = useCurrentBillContext();
   const { user } = useUserContext();
+  const { t } = useTranslation();
   const [showNoItemsDialog, setShowNoItemsDialog] = useState(false);
 
   const editSpecialItem = location.state?.editSpecialItem;
@@ -106,27 +108,27 @@ export default function AddSpecialItemScreen() {
       : parseFloat(formData.value) || 0;
 
   return (
-    <Layout title={isEditing ? `Edit ${formData.type.name}` : `Add ${formData.type.name}`} showBack>
+    <Layout title={isEditing ? t('bills:editSpecialItem') : t('bills:addSpecialItem')} showBack>
       <div className="max-w-lg mx-auto">
         <form onSubmit={handleSubmit} className="space-y-6">
           <Select
-            label="Type"
+            label={t('bills:specialItemType')}
             options={specialItemTypes}
             value={formData.type}
             onChange={(value) => setFormData((prev) => ({ ...prev, type: value }))}
-            displayValue={(selected) => selected.name}
+            displayValue={(selected) => selected ? t(selected.translationKey) : t('bills:selectSpecialItemType')}
           />
 
           <Select
-            label="Method"
+            label={t('bills:selectSpecialItemType')}
             options={methods}
             value={formData.method}
             onChange={(value) => setFormData((prev) => ({ ...prev, method: value }))}
-            displayValue={(selected) => selected.name}
+            displayValue={(selected) => selected ? t(selected.translationKey) : t('bills:selectMethod')}
           />
 
           <Input
-            label={formData.method.id === 'percentage' ? 'Percentage' : 'Amount'}
+            label={formData.method.id === 'percentage' ? t('bills:taxTip.percentage') : t('bills:taxTip.amount')}
             id="value"
             type="number"
             step={formData.method.id === 'percentage' ? '1' : '0.01'}
@@ -137,14 +139,14 @@ export default function AddSpecialItemScreen() {
             error={errors.value}
             placeholder={
               formData.method.id === 'percentage'
-                ? 'e.g., 10'
-                : `e.g., ${formatCurrency(0, user.currency)}`
+                ? t('bills:taxTip.percentagePlaceholder')
+                : t('bills:taxTip.amountPlaceholder', { currency: user.currency })
             }
           />
 
           {formData.value && (
             <div className="text-sm text-gray-500">
-              Calculated amount:{' '}
+              {t('bills:taxTip.calculatedAmount')}:{' '}
               <span className="font-medium">
                 {formatCurrency(calculatedValue, user.currency)}
               </span>
@@ -157,10 +159,10 @@ export default function AddSpecialItemScreen() {
               variant="outline"
               onClick={() => navigate(`/bills/${id}`)}
             >
-              Cancel
+              {t('common:buttons.cancel')}
             </Button>
             <Button type="submit">
-              {isEditing ? 'Update' : 'Add'} {formData.type.name}
+              {isEditing ? t('common:buttons.update') : t('common:buttons.add')} {t(formData.type.translationKey)}
             </Button>
           </div>
         </form>
@@ -172,12 +174,12 @@ export default function AddSpecialItemScreen() {
           setShowNoItemsDialog(false);
           navigate(`/bills/${id}`);
         }}
-        title="No Items Added"
-        description="You need to add at least one item to the bill before adding Tax/Tip."
+        title={t('bills:noItemsTitle')}
+        description={t('bills:noItemsDescription')}
         icon={<ShoppingBagIcon className="h-12 w-12 text-blue-500" />}
         actions={[
           {
-            label: 'Back to Bill',
+            label: t('common:backToBill'),
             onClick: () => {
               setShowNoItemsDialog(false);
               navigate(`/bills/${id}`);
@@ -186,7 +188,7 @@ export default function AddSpecialItemScreen() {
             icon: ArrowLeftIcon
           },
           {
-            label: 'Add Item',
+            label: t('bills:addItem'),
             onClick: () => {
               setShowNoItemsDialog(false);
               navigate(`/bills/${id}/add-item`);

@@ -1,0 +1,106 @@
+{
+  "title": "Bills",
+  "new": "New Bill",
+  "edit": "Edit Bill",
+  "delete": {
+    "title": "Delete Bill",
+    "confirm": "Are you sure you want to delete this bill?"
+  },
+  "name": "Bill Name",
+  "type": "Bill Type",
+  "place": "Place",
+  "date": "Date",
+  "namePlaceholder": "e.g., Dinner at Italian Restaurant",
+  "placePlaceholder": "e.g., La Cucina",
+  "selectType": "Select type",
+  "details": "Bill Details",
+  "createNew": "Create New Bill",
+  "noBills": "No bills yet",
+  "createFirstBill": "Create your first bill",
+  "editBill": "Edit Bill",
+  "deleteBill": "Delete Bill",
+  "deleteBillConfirm": "Are you sure you want to delete this bill?",
+  "notFound": "Not found",
+  "items": {
+    "title": "Items",
+    "add": "Add Item",
+    "edit": "Edit Item",
+    "delete": "Delete Item",
+    "name": "Item Name",
+    "price": "Price",
+    "itemNamePlaceholder": "e.g., Pizza Margherita",
+    "itemPricePlaceholder": "e.g., {{currency}}10.00",
+    "split": {
+      "title": "Split Method",
+      "equal": "Split Equally",
+      "percentage": "Split by Percentage",
+      "value": "Split by Value",
+      "between": "Split Between",
+      "selectSplitMethod": "Select split method",
+      "splitMethodInfo": "Split method information",
+      "splitMethodOptions": "Split Method Options",
+      "splitEqually": "Split the amount equally between selected people",
+      "splitByPercentage": "Split the amount by percentage between selected people",
+      "splitByValue": "Split the amount by specific values between selected people"
+    }
+  },
+  "taxTip": {
+    "title": "Tax/Tip",
+    "add": "Add Tax/Tip",
+    "edit": "Edit Tax/Tip",
+    "delete": "Delete Tax/Tip",
+    "type": {
+      "tax": "Tax",
+      "tip": "Tip"
+    },
+    "method": {
+      "percentage": "Percentage",
+      "fixed": "Fixed Amount"
+    },
+    "percentage": "Percentage",
+    "amount": "Amount",
+    "percentagePlaceholder": "e.g., 10",
+    "amountPlaceholder": "e.g., {{currency}}5.00",
+    "calculatedAmount": "Calculated amount"
+  },
+  "people": {
+    "title": "People",
+    "add": "Add Person",
+    "edit": "Edit Person",
+    "delete": "Delete Person",
+    "name": "Person Name",
+    "icon": "Icon"
+  },
+  "summary": {
+    "title": "Summary",
+    "subtotal": "Subtotal",
+    "total": "Total",
+    "perPerson": "Per Person"
+  },
+  "errors": {
+    "nameRequired": "Bill name is required",
+    "typeRequired": "Bill type is required",
+    "placeRequired": "Place is required",
+    "itemNameRequired": "Item name is required",
+    "itemPriceRequired": "Item price is required",
+    "itemPriceInvalid": "Item price must be greater than 0",
+    "splitMethodRequired": "Split method is required",
+    "splitBetweenRequired": "Select at least one person to split between",
+    "percentageInvalid": "Percentage must be between 0 and 100",
+    "valueInvalid": "Value must be greater than 0",
+    "valueTotalInvalid": "Total of split values must equal item price"
+  },
+  "splitMethod": "Split Method",
+  "splitBetween": "Split Between",
+  "splitPercentages": "Split Percentages",
+  "splitValues": "Split Values",
+  "noPeopleAddedTitle": "No People Added",
+  "noPeopleAddedDescription": "Please add people to the bill before adding items",
+  "addPerson": "Add Person",
+  "editSpecialItem": "Edit Tax/Tip",
+  "addSpecialItem": "Add Tax/Tip",
+  "specialItemType": "Type",
+  "selectSpecialItemType": "Select type",
+  "noItemsTitle": "No Items Added",
+  "noItemsDescription": "Please add items to the bill before adding tax or tip"
+} 

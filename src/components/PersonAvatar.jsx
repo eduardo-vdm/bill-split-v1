@@ -1,4 +1,5 @@
 import { classNames } from '../utils/helpers';
+import { useTranslation } from 'react-i18next';
 
 export default function PersonAvatar({
   name,
@@ -10,6 +11,8 @@ export default function PersonAvatar({
   className = '',
   ...props
 }) {
+  const { t } = useTranslation();
+
   const sizeClasses = {
     sm: 'h-8 w-8 text-lg',
     md: 'h-10 w-10 text-xl',
@@ -39,7 +42,7 @@ export default function PersonAvatar({
           sizeClasses[size]
         )}
       >
-        <span role="img" aria-label={`${name}'s avatar`}>
+        <span role="img" aria-label={t('person:icon')}>
           {icon}
         </span>
       </div>
@@ -50,7 +53,7 @@ export default function PersonAvatar({
             nameSizeClasses[size]
           )}
         >
-          {name}
+          {typeof name === 'string' ? t(name) : name}
         </span>
       )}
     </div>
@@ -66,6 +69,8 @@ export function PersonAvatarGroup({
   className = '',
   ...props
 }) {
+  const { t } = useTranslation();
+
   const visiblePersons = persons.slice(0, max);
   const remainingCount = persons.length - max;
 
@@ -83,7 +88,11 @@ export function PersonAvatarGroup({
       {visiblePersons.map((person, index) => (
         <div
           key={person.id}
-          className={classNames(index !== 0 && sizeClasses[size])}
+          className={classNames(
+            'relative',
+            index > 0 && sizeClasses[size]
+          )}
+          style={{ zIndex: visiblePersons.length - index }}
         >
           <PersonAvatar
             name={person.name}
@@ -94,18 +103,17 @@ export function PersonAvatarGroup({
         </div>
       ))}
       {remainingCount > 0 && (
-        <div
-          className={classNames(
-            'flex items-center justify-center rounded-full bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-300 font-medium',
-            sizeClasses[size],
-            size === 'sm' ? 'h-8 w-8 text-xs' : size === 'lg' ? 'h-12 w-12 text-base' : 'h-10 w-10 text-sm'
-          )}
+        <button
           onClick={onMoreClick}
-          role="button"
-          tabIndex={0}
+          className={classNames(
+            'flex items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300',
+            sizeClasses[size],
+            size === 'sm' ? 'h-8 w-8 text-sm' : size === 'lg' ? 'h-12 w-12 text-lg' : 'h-10 w-10 text-base'
+          )}
+          style={{ zIndex: 0 }}
         >
           +{remainingCount}
-        </div>
+        </button>
       )}
     </div>
   );

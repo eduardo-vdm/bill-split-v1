@@ -1,0 +1,13 @@
+{
+  "home": "Home",
+  "bills": "Bills",
+  "settings": "Settings",
+  "profile": "Profile",
+  "help": "Help",
+  "logout": "Logout",
+  "menu": {
+    "open": "Open Menu",
+    "close": "Close Menu"
+  },
+  "newBill": "New Bill"
+} 

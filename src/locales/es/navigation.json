@@ -1,0 +1,13 @@
+{
+  "home": "Inicio",
+  "bills": "Facturas",
+  "settings": "Configuración",
+  "profile": "Perfil",
+  "help": "Ayuda",
+  "logout": "Cerrar sesión",
+  "menu": {
+    "open": "Abrir menú",
+    "close": "Cerrar menú"
+  },
+  "newBill": "Nueva factura"
+} 

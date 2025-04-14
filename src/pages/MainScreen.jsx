@@ -8,12 +8,14 @@ import { billTypes, generateId } from '../utils/helpers';
 import Layout from '../components/Layout';
 import ConfirmDialog from '../components/ConfirmDialog';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 export default function MainScreen() {
   const navigate = useNavigate();
   const { bills, deleteBill, addBill } = useBillsContext();
   const { user } = useUserContext();
   const [billToDelete, setBillToDelete] = useState(null);
+  const { t } = useTranslation();
 
   const calculateBillTotal = (bill) => {
     const subtotal = bill.items.reduce((sum, item) => sum + item.price, 0);
@@ -56,14 +58,14 @@ export default function MainScreen() {
   };
 
   return (
-    <Layout title="Your Bills">
+    <Layout title={t('bills:title')}>
       <div className="p-4 max-w-2xl mx-auto">
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-bold">Your Bills</h1>
+          <h1 className="text-2xl font-bold">{t('bills:title')}</h1>
           <button
             onClick={() => navigate('/bills/new')}
             className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700"
-            aria-label="Create new bill"
+            aria-label={t('bills:createNew')}
           >
             <PlusIcon className="w-6 h-6" />
           </button>
@@ -71,12 +73,12 @@ export default function MainScreen() {
 
         {bills.length === 0 ? (
           <div className="text-center py-12">
-            <p className="text-gray-500 dark:text-gray-400 mb-4">No bills yet</p>
+            <p className="text-gray-500 dark:text-gray-400 mb-4">{t('bills:noBills')}</p>
             <button
               onClick={() => navigate('/bills/new')}
               className="bg-blue-600 dark:bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600"
             >
-              Create Your First Bill
+              {t('bills:createFirstBill')}
             </button>
           </div>
         ) : (
@@ -147,11 +149,11 @@ export default function MainScreen() {
         )}
 
         <ConfirmDialog
-          isOpen={billToDelete !== null}
+          isOpen={!!billToDelete}
           onClose={() => setBillToDelete(null)}
           onConfirm={handleConfirmDelete}
-          title="Delete Bill"
-          message={billToDelete ? `Are you sure you want to delete "${billToDelete.name}"? This action cannot be undone.` : ''}
+          title={t('bills:deleteBill')}
+          description={t('bills:deleteBillConfirm')}
         />
       </div>
     </Layout>

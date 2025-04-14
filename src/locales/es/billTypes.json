@@ -1,0 +1,9 @@
+{
+  "dining": "Comida",
+  "shopping": "Compras",
+  "entertainment": "Entretenimiento",
+  "transportation": "Transporte",
+  "utilities": "Servicios",
+  "rent": "Alquiler",
+  "other": "Otro"
+} 

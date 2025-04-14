@@ -39,13 +39,13 @@ export function classNames(...classes) {
 }
 
 export const billTypes = [
-  { id: 'dining', name: 'Dining', icon: '🍽️' },
-  { id: 'shopping', name: 'Shopping', icon: '🛒' },
-  { id: 'entertainment', name: 'Entertainment', icon: '🎬' },
-  { id: 'transportation', name: 'Transportation', icon: '🚗' },
-  { id: 'utilities', name: 'Utilities', icon: '💡' },
-  { id: 'rent', name: 'Rent', icon: '🏠' },
-  { id: 'other', name: 'Other', icon: '📝' },
+  { id: 'dining', translationKey: 'billTypes:dining', icon: '🍽️' },
+  { id: 'shopping', translationKey: 'billTypes:shopping', icon: '🛒' },
+  { id: 'entertainment', translationKey: 'billTypes:entertainment', icon: '🎬' },
+  { id: 'transportation', translationKey: 'billTypes:transportation', icon: '🚗' },
+  { id: 'utilities', translationKey: 'billTypes:utilities', icon: '💡' },
+  { id: 'rent', translationKey: 'billTypes:rent', icon: '🏠' },
+  { id: 'other', translationKey: 'billTypes:other', icon: '📝' },
 ];
 
 export const currencies = [
