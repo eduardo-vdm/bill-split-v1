@@ -1,7 +1,7 @@
 {
   "name": "base-from-prompt",
   "private": true,
-  "version": "0.1.8",
+  "version": "0.1.9",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -15,6 +15,7 @@
     "autoprefixer": "^10.4.16",
     "date-fns": "^4.1.0",
     "framer-motion": "^10.16.4",
+    "html2canvas": "^1.4.1",
     "i18next": "^24.2.3",
     "i18next-browser-languagedetector": "^8.0.4",
     "postcss": "^8.4.31",

@@ -1,0 +1,15 @@
+{
+  "title": "Compartir Resumen de Factura",
+  "description": "Elige cómo quieres compartir este resumen de factura:",
+  "asText": "Compartir como Texto",
+  "asImage": "Compartir como Imagen",
+  "capturing": "Capturando imagen...",
+  "success": {
+    "text": "¡Resumen de factura copiado al portapapeles!",
+    "image": "¡Imagen del resumen de factura copiada al portapapeles!"
+  },
+  "error": {
+    "text": "Error al copiar el texto al portapapeles",
+    "image": "Error al capturar y copiar la imagen"
+  }
+} 

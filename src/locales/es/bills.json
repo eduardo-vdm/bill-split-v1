@@ -37,7 +37,7 @@
       "value": "Dividir por valor",
       "between": "Dividir entre",
       "selectSplitMethod": "Seleccionar método de división",
-      "splitMethodInfo": "Información del método de división",
+      "splitMethodInfo": "Más información sobre métodos de división",
       "splitMethodOptions": "Opciones de método de división",
       "splitEqually": "Dividir el monto equitativamente entre las personas seleccionadas",
       "splitByPercentage": "Dividir el monto por porcentaje entre las personas seleccionadas",
@@ -72,10 +72,13 @@
     "icon": "Ícono"
   },
   "summary": {
-    "title": "Resumen",
+    "title": "Resumen de Factura",
     "subtotal": "Subtotal",
     "total": "Total",
-    "perPerson": "Por persona"
+    "breakdown": "Desglose por persona",
+    "share": "Compartir",
+    "tax": "Impuesto",
+    "tip": "Propina"
   },
   "errors": {
     "nameRequired": "El nombre de la factura es requerido",

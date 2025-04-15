@@ -1,11 +1,9 @@
 {
   "title": "Faturas",
-  "new": "Nova fatura",
-  "edit": "Editar fatura",
-  "delete": {
-    "title": "Eliminar fatura",
-    "confirm": "Tem certeza que deseja eliminar esta fatura?"
-  },
+  "new": "Nova Fatura",
+  "edit": "Editar Fatura",
+  "delete": "Eliminar Fatura",
+  "deleteConfirm": "Tem certeza que deseja eliminar esta fatura?",
   "name": "Nome da fatura",
   "type": "Tipo de fatura",
   "place": "Local",
@@ -23,7 +21,7 @@
   "notFound": "Não encontrado",
   "items": {
     "title": "Itens",
-    "add": "Adicionar item",
+    "add": "Adicionar Item",
     "edit": "Editar item",
     "delete": "Eliminar item",
     "name": "Nome do item",
@@ -31,17 +29,9 @@
     "itemNamePlaceholder": "ex. Pizza Margherita",
     "itemPricePlaceholder": "ex. {{currency}}10,00",
     "split": {
-      "title": "Método de divisão",
-      "equal": "Dividir igualmente",
-      "percentage": "Dividir por porcentagem",
-      "value": "Dividir por valor",
-      "between": "Dividir entre",
+      "title": "Método de Divisão",
       "selectSplitMethod": "Selecionar método de divisão",
-      "splitMethodInfo": "Informação do método de divisão",
-      "splitMethodOptions": "Opções de método de divisão",
-      "splitEqually": "Dividir o valor igualmente entre as pessoas selecionadas",
-      "splitByPercentage": "Dividir o valor por porcentagem entre as pessoas selecionadas",
-      "splitByValue": "Dividir o valor por valores específicos entre as pessoas selecionadas"
+      "splitMethodInfo": "Saiba mais sobre métodos de divisão"
     }
   },
   "taxTip": {
@@ -65,17 +55,20 @@
   },
   "people": {
     "title": "Pessoas",
-    "add": "Adicionar pessoa",
+    "add": "Adicionar Pessoa",
     "edit": "Editar pessoa",
     "delete": "Eliminar pessoa",
     "name": "Nome da pessoa",
     "icon": "Ícone"
   },
   "summary": {
-    "title": "Resumo",
+    "title": "Resumo da Fatura",
     "subtotal": "Subtotal",
     "total": "Total",
-    "perPerson": "Por pessoa"
+    "breakdown": "Detalhamento por pessoa",
+    "share": "Compartilhar",
+    "tax": "Imposto",
+    "tip": "Gorjeta"
   },
   "errors": {
     "nameRequired": "O nome da fatura é obrigatório",

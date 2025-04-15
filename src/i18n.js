@@ -35,6 +35,10 @@ import enSpecialItems from './locales/en/specialItems.json';
 import esSpecialItems from './locales/es/specialItems.json';
 import ptSpecialItems from './locales/pt/specialItems.json';
 
+import enShare from './locales/en/share.json';
+import esShare from './locales/es/share.json';
+import ptShare from './locales/pt/share.json';
+
 i18n
   // Detect user language
   .use(LanguageDetector)
@@ -56,7 +60,8 @@ i18n
         person: enPerson,
         billTypes: enBillTypes,
         splitMethods: enSplitMethods,
-        specialItems: enSpecialItems
+        specialItems: enSpecialItems,
+        share: enShare
       },
       es: {
         bills: esBills,
@@ -66,7 +71,8 @@ i18n
         person: esPerson,
         billTypes: esBillTypes,
         splitMethods: esSplitMethods,
-        specialItems: esSpecialItems
+        specialItems: esSpecialItems,
+        share: esShare
       },
       pt: {
         bills: ptBills,
@@ -76,7 +82,8 @@ i18n
         person: ptPerson,
         billTypes: ptBillTypes,
         splitMethods: ptSplitMethods,
-        specialItems: ptSpecialItems
+        specialItems: ptSpecialItems,
+        share: ptShare
       }
     },
     ns: ['bills', 'common', 'settings', 'navigation', 'person', 'billTypes', 'splitMethods', 'specialItems'],

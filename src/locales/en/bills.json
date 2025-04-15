@@ -37,7 +37,7 @@
       "value": "Split by Value",
       "between": "Split Between",
       "selectSplitMethod": "Select split method",
-      "splitMethodInfo": "Split method information",
+      "splitMethodInfo": "Learn more about split methods",
       "splitMethodOptions": "Split Method Options",
       "splitEqually": "Split the amount equally between selected people",
       "splitByPercentage": "Split the amount by percentage between selected people",
@@ -72,10 +72,13 @@
     "icon": "Icon"
   },
   "summary": {
-    "title": "Summary",
+    "title": "Bill Summary",
     "subtotal": "Subtotal",
     "total": "Total",
-    "perPerson": "Per Person"
+    "breakdown": "Breakdown per person",
+    "share": "Share",
+    "tax": "Tax",
+    "tip": "Tip"
   },
   "errors": {
     "nameRequired": "Bill name is required",

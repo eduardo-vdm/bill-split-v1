@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ShareIcon } from '@heroicons/react/24/outline';
+import html2canvas from 'html2canvas';
 import { useBillsContext } from '../contexts/BillsContext';
 import { useCurrentBillContext } from '../contexts/CurrentBillContext';
 import { useUserContext } from '../contexts/UserContext';
@@ -11,6 +12,8 @@ import Layout from '../components/Layout';
 import Card, { CardHeader, CardTitle, CardContent } from '../components/Card';
 import Button from '../components/Button';
 import PersonAvatar from '../components/PersonAvatar';
+import ShareDialog from '../components/ShareDialog';
+import { useTranslation } from 'react-i18next';
 
 export default function BillSummaryScreen() {
   const navigate = useNavigate();
@@ -19,7 +22,10 @@ export default function BillSummaryScreen() {
   const { currentBill, updateCurrentBill } = useCurrentBillContext();
   const { currency, user } = useUserContext();
   const [summary, setSummary] = useState(null);
-  const [showShareToast, setShowShareToast] = useState(false);
+  const [showShareDialog, setShowShareDialog] = useState(false);
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
+  const { t } = useTranslation();
 
   useEffect(() => {
     // If we have a currentBill, use it to generate the summary
@@ -57,7 +63,7 @@ export default function BillSummaryScreen() {
     }
   }, [billId, bills, navigate, updateCurrentBill, currentBill]);
 
-  const handleShare = () => {
+  const handleShareAsText = () => {
     if (!summary) return;
 
     const bill = currentBill;
@@ -67,30 +73,28 @@ export default function BillSummaryScreen() {
     const currency = user.currency;
     const total = summary.total;
 
-    let shareText = `Bill Summary - ${bill.name || 'Unnamed Bill'}\n`;
+    let shareText = `${t('bills:summary.title')} - ${bill.name || t('bills:namePlaceholder')}\n`;
     if (bill.place) {
-      shareText += `Place: ${bill.place}\n`;
+      shareText += `${t('bills:place')}: ${bill.place}\n`;
     }
-    shareText += `Date: ${date}\n\n`;
+    shareText += `${t('bills:date')}: ${date}\n`;
 
     const lines = [
-      `${summary.name} - Bill Summary`,
-      summary.place ? `${summary.place} • ${summary.date}` : summary.date,
-      `\nSubtotal: ${formatCurrency(summary.subtotal, currency)}`,
+      `\n${t('bills:summary.subtotal')}: ${formatCurrency(summary.subtotal, currency)}`,
       ...summary.specialItems.map(item => 
-        `${item.type === 'tax' ? 'Tax' : 'Tip'} (${item.method === 'percentage'
+        `${item.type === 'tax' ? t('bills:summary.tax') : t('bills:summary.tip')} (${item.method === 'percentage'
           ? `${item.value}%`
           : formatCurrency(item.value, currency)}): ${formatCurrency(item.calculatedValue, currency)}`
       ),
-      `Total: ${formatCurrency(summary.total, currency)}`,
-      '\nBreakdown per person:',
+      `${t('bills:summary.total')}: ${formatCurrency(summary.total, currency)}`,
+      `\n${t('bills:summary.breakdown')}:`,
       ...summary.personDetails.map(person => {
         const lines = [
           `${person.name}: ${formatCurrency(person.total, currency)}`,
           ...person.items.map(item => `  ${item.name}: ${formatCurrency(item.amount, currency)}`),
           ...summary.specialItems.map(specialItem => {
             const share = specialItem.calculatedValue / summary.personDetails.length;
-            return `  ${specialItem.type === 'tax' ? 'Tax' : 'Tip'}: ${formatCurrency(share, currency)}`;
+            return `  ${specialItem.type === 'tax' ? t('bills:summary.tax') : t('bills:summary.tip')}: ${formatCurrency(share, currency)}`;
           })
         ];
         return lines.join('\n');
@@ -98,14 +102,57 @@ export default function BillSummaryScreen() {
     ];
     shareText += lines.join('\n');
 
-    navigator.clipboard.writeText(shareText);
-    setShowShareToast(true);
-    setTimeout(() => setShowShareToast(false), 2000);
+    navigator.clipboard.writeText(shareText)
+      .then(() => {
+        setToastMessage(t('share:success.text'));
+        setShowToast(true);
+        setTimeout(() => setShowToast(false), 2000);
+      })
+      .catch(() => {
+        setToastMessage(t('share:error.text'));
+        setShowToast(true);
+        setTimeout(() => setShowToast(false), 2000);
+      });
+    setShowShareDialog(false);
+  };
+
+  const handleShareAsImage = async () => {
+    try {
+      const element = document.querySelector('.bill-summary-content');
+      if (!element) return;
+
+      const canvas = await html2canvas(element, {
+        scrollY: -window.scrollY,
+        useCORS: true,
+        allowTaint: true,
+        backgroundColor: '#ffffff'
+      });
+
+      canvas.toBlob((blob) => {
+        const item = new ClipboardItem({ 'image/png': blob });
+        navigator.clipboard.write([item])
+          .then(() => {
+            setToastMessage(t('share:success.image'));
+            setShowToast(true);
+            setTimeout(() => setShowToast(false), 2000);
+          })
+          .catch(() => {
+            setToastMessage(t('share:error.image'));
+            setShowToast(true);
+            setTimeout(() => setShowToast(false), 2000);
+          });
+      });
+    } catch (error) {
+      setToastMessage(t('share:error.image'));
+      setShowToast(true);
+      setTimeout(() => setShowToast(false), 2000);
+    }
+    setShowShareDialog(false);
   };
 
   if (!summary) {
     return (
-      <Layout title="Bill Summary" showBack>
+      <Layout title={t('bills:summary.title')} showBack>
         <div className="flex items-center justify-center h-64">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
         </div>
@@ -114,8 +161,8 @@ export default function BillSummaryScreen() {
   }
 
   return (
-    <Layout title="Bill Summary" showBack>
-      <div className="space-y-6">
+    <Layout title={t('bills:summary.title')} showBack>
+      <div className="space-y-6 bill-summary-content">
         <Card>
           <CardHeader>
             <div>
@@ -130,15 +177,15 @@ export default function BillSummaryScreen() {
               variant="outline"
               size="sm"
               icon={ShareIcon}
-              onClick={handleShare}
+              onClick={() => setShowShareDialog(true)}
             >
-              Share
+              {t('bills:summary.share')}
             </Button>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
               <div className="flex justify-between items-center text-lg">
-                <span>Subtotal</span>
+                <span>{t('bills:summary.subtotal')}</span>
                 <span>{formatCurrency(summary.subtotal, currency)}</span>
               </div>
 
@@ -151,7 +198,7 @@ export default function BillSummaryScreen() {
                   className="flex justify-between items-center text-gray-600 dark:text-gray-300"
                 >
                   <span>
-                    {item.type === 'tax' ? 'Tax' : 'Tip'} ({item.method === 'percentage'
+                    {item.type === 'tax' ? t('bills:summary.tax') : t('bills:summary.tip')} ({item.method === 'percentage'
                       ? `${item.value}%`
                       : formatCurrency(item.value, currency)})
                   </span>
@@ -161,9 +208,9 @@ export default function BillSummaryScreen() {
                 </motion.div>
               ))}
 
-              <div className="border-t border-gray-200 dark:border-gray-700 pt-4">
-                <div className="flex justify-between items-center text-xl font-semibold">
-                  <span>Total</span>
+              <div className="border-t border-gray-200 dark:border-gray-700 pt-2 mt-2">
+                <div className="flex justify-between items-center text-lg font-semibold">
+                  <span>{t('bills:summary.total')}</span>
                   <span className="text-primary-600 dark:text-primary-400">
                     {formatCurrency(summary.total, currency)}
                   </span>
@@ -173,13 +220,14 @@ export default function BillSummaryScreen() {
           </CardContent>
         </Card>
 
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="space-y-4">
+          <h2 className="text-lg font-semibold">{t('bills:summary.breakdown')}</h2>
           {summary.personDetails.map((person, index) => (
             <motion.div
               key={person.id}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 + index * 0.1 }}
+              transition={{ delay: index * 0.1 }}
             >
               <Card>
                 <CardHeader>
@@ -220,7 +268,7 @@ export default function BillSummaryScreen() {
                           className="flex justify-between items-center text-sm"
                         >
                           <span className="text-gray-600 dark:text-gray-300">
-                            {specialItem.type === 'tax' ? 'Tax' : 'Tip'} ({specialItem.method === 'percentage'
+                            {specialItem.type === 'tax' ? t('bills:summary.tax') : t('bills:summary.tip')} ({specialItem.method === 'percentage'
                               ? `${specialItem.value}%`
                               : formatCurrency(specialItem.value, currency)})
                           </span>
@@ -238,14 +286,21 @@ export default function BillSummaryScreen() {
         </div>
       </div>
 
-      {showShareToast && (
+      <ShareDialog
+        isOpen={showShareDialog}
+        onClose={() => setShowShareDialog(false)}
+        onShareAsText={handleShareAsText}
+        onShareAsImage={handleShareAsImage}
+      />
+
+      {showToast && (
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 50 }}
           className="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white px-4 py-2 rounded-full"
         >
-          Bill summary copied to clipboard!
+          {toastMessage}
         </motion.div>
       )}
     </Layout>

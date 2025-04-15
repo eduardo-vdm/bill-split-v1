@@ -1,0 +1,15 @@
+{
+  "title": "Share Bill Summary",
+  "description": "Choose how you'd like to share this bill summary:",
+  "asText": "Share as Text",
+  "asImage": "Share as Image",
+  "capturing": "Capturing image...",
+  "success": {
+    "text": "Bill summary copied to clipboard!",
+    "image": "Bill summary image copied to clipboard!"
+  },
+  "error": {
+    "text": "Failed to copy text to clipboard",
+    "image": "Failed to capture and copy image"
+  }
+} 
