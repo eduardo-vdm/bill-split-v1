@@ -121,12 +121,41 @@ export default function BillSummaryScreen() {
       const element = document.querySelector('.bill-summary-content');
       if (!element) return;
 
-      const canvas = await html2canvas(element, {
+      // Create a clone of the content
+      const clone = element.cloneNode(true);
+      
+      // Apply temporary styles to the clone
+      clone.style.width = '400px';
+      clone.style.position = 'absolute';
+      clone.style.left = '-9999px';
+      clone.style.top = '-9999px';
+      
+      // Get the computed background color from body
+      const computedStyle = window.getComputedStyle(document.querySelector('body'));
+      const backgroundColor = computedStyle.backgroundColor;
+      
+      // Apply the background color to the clone
+      clone.style.backgroundColor = backgroundColor;
+      
+      // Hide the share button in the clone
+      const shareButton = clone.querySelector('button');
+      if (shareButton) {
+        shareButton.style.display = 'none';
+      }
+
+      // Add the clone to the document
+      document.body.appendChild(clone);
+
+      const canvas = await html2canvas(clone, {
         scrollY: -window.scrollY,
         useCORS: true,
         allowTaint: true,
-        backgroundColor: '#ffffff'
+        backgroundColor: backgroundColor,
+        width: 400
       });
+
+      // Remove the clone
+      document.body.removeChild(clone);
 
       canvas.toBlob((blob) => {
         const item = new ClipboardItem({ 'image/png': blob });

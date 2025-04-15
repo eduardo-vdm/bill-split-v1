@@ -2,6 +2,7 @@ import { Fragment } from 'react';
 import { Dialog as HeadlessDialog, Transition } from '@headlessui/react';
 import Button from './Button';
 import { useTranslation } from 'react-i18next';
+import { XMarkIcon } from '@heroicons/react/24/outline';
 
 export default function Dialog({ isOpen, onClose, title, description, icon, actions }) {
   const { t } = useTranslation();
@@ -33,6 +34,16 @@ export default function Dialog({ isOpen, onClose, title, description, icon, acti
               leaveTo="opacity-0 scale-95"
             >
               <HeadlessDialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white dark:bg-gray-800 p-6 text-left align-middle shadow-xl transition-all">
+                <div className="absolute top-0 right-0 pt-4 pr-4">
+                  <button
+                    type="button"
+                    className="rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
+                    onClick={onClose}
+                  >
+                    <span className="sr-only">Close</span>
+                    <XMarkIcon className="h-6 w-6" aria-hidden="true" />
+                  </button>
+                </div>
                 {icon && (
                   <div className="flex justify-center mb-4">
                     {icon}
@@ -40,7 +51,7 @@ export default function Dialog({ isOpen, onClose, title, description, icon, acti
                 )}
                 <HeadlessDialog.Title
                   as="h3"
-                  className="text-lg font-medium leading-6 text-gray-900 dark:text-white"
+                  className="text-lg font-medium leading-6 text-gray-900 dark:text-white pr-8"
                 >
                   {typeof title === 'string' ? t(title) : title}
                 </HeadlessDialog.Title>

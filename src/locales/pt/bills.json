@@ -35,12 +35,12 @@
     }
   },
   "taxTip": {
-    "title": "Imposto/Gorjeta",
-    "add": "Adicionar imposto/gorjeta",
-    "edit": "Editar imposto/gorjeta",
-    "delete": "Eliminar imposto/gorjeta",
+    "title": "Taxa/Gorjeta",
+    "add": "Adicionar taxa/gorjeta",
+    "edit": "Editar taxa/gorjeta",
+    "delete": "Eliminar taxa/gorjeta",
     "type": {
-      "tax": "Imposto",
+      "tax": "Taxa",
       "tip": "Gorjeta"
     },
     "method": {
@@ -67,7 +67,7 @@
     "total": "Total",
     "breakdown": "Detalhamento por pessoa",
     "share": "Compartilhar",
-    "tax": "Imposto",
+    "tax": "Taxa",
     "tip": "Gorjeta"
   },
   "errors": {
