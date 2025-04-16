@@ -1,6 +1,7 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
+import { languages } from './utils/helpers';
 
 // Import translations for each language and namespace
 import enBills from './locales/en/bills.json';
@@ -52,7 +53,7 @@ i18n
   .init({
     debug: process.env.NODE_ENV === 'development',
     fallbackLng: 'en',
-    supportedLngs: ['en', 'es', 'pt'],
+    supportedLngs: languages.map(lang => lang.code),
     detection: {
       order: ['navigator', 'htmlTag'],
       caches: ['localStorage'],
@@ -64,7 +65,7 @@ i18n
         const baseLang = lng.split('-')[0].toLowerCase();
         
         // If the base language is one of our supported languages, use it
-        if (['en', 'es', 'pt'].includes(baseLang)) {
+        if (languages.some(lang => lang.code === baseLang)) {
           return baseLang;
         }
         

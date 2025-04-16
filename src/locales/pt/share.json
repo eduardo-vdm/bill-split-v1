@@ -1,12 +1,12 @@
 {
-  "title": "Compartilhar Resumo da Fatura",
-  "description": "Escolha como deseja compartilhar este resumo da fatura:",
+  "title": "Compartilhar Resumo da Conta",
+  "description": "Escolha como deseja compartilhar este resumo da conta:",
   "asText": "Compartilhar como Texto",
   "asImage": "Compartilhar como Imagem",
   "capturing": "Capturando imagem...",
   "success": {
-    "text": "Resumo da fatura copiado para a área de transferência!",
-    "image": "Imagem do resumo da fatura copiada para a área de transferência!"
+    "text": "Resumo da conta copiado para a área de transferência!",
+    "image": "Imagem do resumo da conta copiada para a área de transferência!"
   },
   "error": {
     "text": "Falha ao copiar texto para a área de transferência",

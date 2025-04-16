@@ -2,12 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Menu } from '@headlessui/react';
 import { GlobeAltIcon } from '@heroicons/react/24/outline';
-
-const languages = [
-  { code: 'en', name: 'English' },
-  { code: 'es', name: 'Español' },
-  { code: 'pt', name: 'Português' }
-];
+import { languages } from '../utils/helpers';
 
 export default function LanguageSelector() {
   const { i18n } = useTranslation();

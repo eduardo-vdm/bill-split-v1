@@ -1,6 +1,6 @@
 {
   "home": "Início",
-  "bills": "Faturas",
+  "bills": "Contas",
   "settings": "Configurações",
   "profile": "Perfil",
   "help": "Ajuda",
@@ -9,5 +9,5 @@
     "open": "Abrir menu",
     "close": "Fechar menu"
   },
-  "newBill": "Nova fatura"
+  "newBill": "Nova conta"
 } 
