@@ -6,7 +6,8 @@
   },
   "setup": {
     "title": "Bienvenido a Bill Split",
-    "name": "¿Cuál es tu nombre?",
+    "name": "¿Cómo prefieres que te llamen?",
+    "namePlaceholder": "Nombre, apodo, \"persona\", etc.",
     "currency": "Moneda",
     "start": "Comenzar"
   }

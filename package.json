@@ -10,7 +10,7 @@
     "url": "https://github.com/edunazareth/bill-split.git"
   },
   "private": true,
-  "version": "0.1.10a",
+  "version": "0.1.10b",
   "type": "module",
   "scripts": {
     "dev": "vite",

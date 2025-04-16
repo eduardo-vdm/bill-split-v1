@@ -67,9 +67,9 @@ export const currencies = [
 ].sort((a, b) => a.name.localeCompare(b.name));
 
 export const languages = [
-  { code: 'en', name: 'English' },
-  { code: 'es', name: 'Español' },
-  { code: 'pt', name: 'Português' }
+  { code: 'en', name: 'English', defaultCurrencyCode: 'USD' },
+  { code: 'es', name: 'Español', defaultCurrencyCode: 'EUR' },
+  { code: 'pt', name: 'Português', defaultCurrencyCode: 'BRL' }
 ];
 
 export function generateBillSummary(bill) {

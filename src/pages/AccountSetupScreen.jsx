@@ -1,16 +1,20 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useUserContext } from '../contexts/UserContext';
 import { useTranslation } from 'react-i18next';
-import { currencies } from '../utils/helpers';
+import { currencies, languages } from '../utils/helpers';
 
 export default function AccountSetupScreen() {
   const navigate = useNavigate();
   const { updateUser } = useUserContext();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [name, setName] = useState('');
-  const [currency, setCurrency] = useState('USD');
+  const [currency, setCurrency] = useState(() => {
+    // Get the current language's default currency
+    const currentLanguage = languages.find(lang => lang.code === i18n.language);
+    return currentLanguage?.defaultCurrencyCode || 'USD';
+  });
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -43,6 +47,7 @@ export default function AccountSetupScreen() {
               id="name"
               value={name}
               onChange={(e) => setName(e.target.value)}
+              placeholder={t('app:setup.namePlaceholder')}
               className="w-full p-2 border rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400"
               required
               autoFocus

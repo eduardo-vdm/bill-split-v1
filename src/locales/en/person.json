@@ -1,7 +1,16 @@
 {
   "icon": "Person Icon",
   "name": "Name",
-  "add": "Add Person",
+  "add": {
+    "title": "Add Person",
+    "editTitle": "Edit Person",
+    "name": "What's their name?",
+    "namePlaceholder": "Name, nickname, \"person\", etc.",
+    "cancel": "Cancel",
+    "save": "Save Changes",
+    "add": "Add Person",
+    "recent": "Recently Added People"
+  },
   "edit": "Edit Person",
   "delete": "Delete Person"
 } 

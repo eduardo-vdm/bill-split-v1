@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { useBillsContext } from '../contexts/BillsContext';
 import { useCurrentBillContext } from '../contexts/CurrentBillContext';
+import { useTranslation } from 'react-i18next';
 import Layout from '../components/Layout';
 import Input from '../components/Input';
 import Button from '../components/Button';
@@ -16,6 +17,7 @@ export default function AddPersonScreen() {
   const location = useLocation();
   const { updateBill } = useBillsContext();
   const { currentBill, updateCurrentBill } = useCurrentBillContext();
+  const { t } = useTranslation();
   
   const editPerson = location.state?.editPerson;
   const isEditing = !!editPerson;
@@ -35,7 +37,7 @@ export default function AddPersonScreen() {
     e.preventDefault();
 
     if (!name.trim()) {
-      setError('Name is required');
+      setError(t('person:name'));
       return;
     }
 
@@ -60,12 +62,12 @@ export default function AddPersonScreen() {
   };
 
   return (
-    <Layout title={isEditing ? 'Edit Person' : 'Add Person'} showBack>
+    <Layout title={isEditing ? t('person:add.editTitle') : t('person:add.title')} showBack>
       <div className="max-w-lg mx-auto">
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="flex flex-col items-center space-y-4">
             <PersonAvatar
-              name={name || 'New Person'}
+              name={name || t('person:name')}
               icon={icon}
               size="lg"
               showName={false}
@@ -89,7 +91,7 @@ export default function AddPersonScreen() {
           </div>
 
           <Input
-            label="Name"
+            label={t('person:add.name')}
             id="name"
             value={name}
             onChange={(e) => {
@@ -97,7 +99,7 @@ export default function AddPersonScreen() {
               setError('');
             }}
             error={error}
-            placeholder="Enter name"
+            placeholder={t('person:add.namePlaceholder')}
             autoFocus
           />
 
@@ -108,10 +110,10 @@ export default function AddPersonScreen() {
               className="flex-1"
               onClick={() => navigate(-1)}
             >
-              Cancel
+              {t('person:add.cancel')}
             </Button>
             <Button type="submit" className="flex-1">
-              {isEditing ? 'Save Changes' : 'Add Person'}
+              {isEditing ? t('person:add.save') : t('person:add.add')}
             </Button>
           </div>
         </form>
@@ -119,7 +121,7 @@ export default function AddPersonScreen() {
         {currentBill.recentPeople?.length > 0 && (
           <div className="mt-8">
             <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-4">
-              Recently Added People
+              {t('person:add.recent')}
             </h3>
             <div className="grid grid-cols-4 gap-4">
               {currentBill.recentPeople.map((person) => (

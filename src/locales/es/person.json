@@ -1,7 +1,16 @@
 {
   "icon": "Ícono de persona",
   "name": "Nombre",
-  "add": "Agregar persona",
+  "add": {
+    "title": "Agregar persona",
+    "editTitle": "Editar persona",
+    "name": "¿Cuál es su nombre?",
+    "namePlaceholder": "Nombre, apodo, \"persona\", etc.",
+    "cancel": "Cancelar",
+    "save": "Guardar cambios",
+    "add": "Agregar persona",
+    "recent": "Personas agregadas recientemente"
+  },
   "edit": "Editar persona",
   "delete": "Eliminar persona"
 } 
