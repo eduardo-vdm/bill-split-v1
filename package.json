@@ -1,10 +1,21 @@
 {
-  "name": "base-from-prompt",
+  "name": "bill-split",
+  "title": "Bill Split",
+  "description": "Bill Splitter",
+  "author": "Eduardo Nazareth",
+  "license": "MIT",
+  "homepage": "https://github.com/edunazareth/bill-split",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/edunazareth/bill-split.git"
+  },
   "private": true,
-  "version": "0.1.9",
+  "version": "0.1.10",
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "generate-env": "node scripts/generate-env.js",
+    "prebuild": "npm run generate-env",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview"

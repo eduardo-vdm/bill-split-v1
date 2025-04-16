@@ -49,14 +49,22 @@ export const billTypes = [
 ];
 
 export const currencies = [
-  { code: 'USD', symbol: '$', name: 'US Dollar' },
+  { code: 'AUD', symbol: 'A$', name: 'Australian Dollar' },
+  { code: 'BRL', symbol: 'R$', name: 'Real brasileiro' },
+  { code: 'CAD', symbol: 'C$', name: 'Canadian Dollar' },
+  { code: 'CNY', symbol: '¥', name: '人民币' },
+  { code: 'EGP', symbol: 'E£', name: 'جنيه مصري' },
   { code: 'EUR', symbol: '€', name: 'Euro' },
   { code: 'GBP', symbol: '£', name: 'British Pound' },
-  { code: 'JPY', symbol: '¥', name: 'Japanese Yen' },
-  { code: 'CNY', symbol: '¥', name: 'Chinese Yuan' },
-  { code: 'KRW', symbol: '₩', name: 'South Korean Won' },
-  { code: 'INR', symbol: '₹', name: 'Indian Rupee' },
-];
+  { code: 'INR', symbol: '₹', name: 'भारतीय रुपया' },
+  { code: 'JPY', symbol: '¥', name: '日本円' },
+  { code: 'KRW', symbol: '₩', name: '대한민국 원' },
+  { code: 'MXN', symbol: 'Mex$', name: 'Peso mexicano' },
+  { code: 'NGN', symbol: '₦', name: 'Naira' },
+  { code: 'PEN', symbol: 'S/', name: 'Sol peruano' },
+  { code: 'USD', symbol: '$', name: 'US Dollar' },
+  { code: 'ZAR', symbol: 'R', name: 'South African Rand' }
+].sort((a, b) => a.name.localeCompare(b.name));
 
 export const languages = [
   { code: 'en', name: 'English' },

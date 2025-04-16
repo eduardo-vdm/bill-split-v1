@@ -39,6 +39,10 @@ import enShare from './locales/en/share.json';
 import esShare from './locales/es/share.json';
 import ptShare from './locales/pt/share.json';
 
+import enApp from './locales/en/app.json';
+import esApp from './locales/es/app.json';
+import ptApp from './locales/pt/app.json';
+
 i18n
   // Detect user language
   .use(LanguageDetector)
@@ -48,6 +52,26 @@ i18n
   .init({
     debug: process.env.NODE_ENV === 'development',
     fallbackLng: 'en',
+    supportedLngs: ['en', 'es', 'pt'],
+    detection: {
+      order: ['navigator', 'htmlTag'],
+      caches: ['localStorage'],
+      lookupLocalStorage: 'i18nextLng',
+      checkWhitelist: true,
+      // Add language code mapping for variants
+      convertDetectedLanguage: (lng) => {
+        // Get the base language code (e.g., 'pt' from 'pt-BR')
+        const baseLang = lng.split('-')[0].toLowerCase();
+        
+        // If the base language is one of our supported languages, use it
+        if (['en', 'es', 'pt'].includes(baseLang)) {
+          return baseLang;
+        }
+        
+        // Otherwise, fall back to English
+        return 'en';
+      }
+    },
     interpolation: {
       escapeValue: false, // React already escapes values
     },
@@ -61,7 +85,8 @@ i18n
         billTypes: enBillTypes,
         splitMethods: enSplitMethods,
         specialItems: enSpecialItems,
-        share: enShare
+        share: enShare,
+        app: enApp
       },
       es: {
         bills: esBills,
@@ -72,7 +97,8 @@ i18n
         billTypes: esBillTypes,
         splitMethods: esSplitMethods,
         specialItems: esSpecialItems,
-        share: esShare
+        share: esShare,
+        app: esApp
       },
       pt: {
         bills: ptBills,
@@ -83,10 +109,11 @@ i18n
         billTypes: ptBillTypes,
         splitMethods: ptSplitMethods,
         specialItems: ptSpecialItems,
-        share: ptShare
+        share: ptShare,
+        app: ptApp
       }
     },
-    ns: ['bills', 'common', 'settings', 'navigation', 'person', 'billTypes', 'splitMethods', 'specialItems'],
+    ns: ['bills', 'common', 'settings', 'navigation', 'person', 'billTypes', 'splitMethods', 'specialItems', 'share', 'app'],
     defaultNS: 'common'
   });
 

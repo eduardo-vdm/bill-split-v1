@@ -2,10 +2,12 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useUserContext } from '../contexts/UserContext';
+import { useTranslation } from 'react-i18next';
 
 export default function SplashScreen() {
   const navigate = useNavigate();
   const { user } = useUserContext();
+  const { t } = useTranslation();
 
   useEffect(() => {
     // Check if user exists after a delay
@@ -32,7 +34,7 @@ export default function SplashScreen() {
         className="text-center"
       >
         <h1 className="text-4xl md:text-6xl font-bold text-white mb-4">
-          Bill Split
+          {t('app:splash.title')}
         </h1>
         <motion.div
           initial={{ opacity: 0 }}
@@ -40,7 +42,7 @@ export default function SplashScreen() {
           transition={{ delay: 0.5 }}
           className="text-xl md:text-2xl text-white opacity-90"
         >
-          Split bills with friends, hassle-free
+          {t('app:splash.subtitle')}
         </motion.div>
       </motion.div>
 

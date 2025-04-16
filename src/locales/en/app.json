@@ -1,0 +1,13 @@
+{
+  "splash": {
+    "title": "Bill Split",
+    "subtitle": "Split bills with friends",
+    "loading": "Loading"
+  },
+  "setup": {
+    "title": "Welcome to Bill Split",
+    "name": "What's your name?",
+    "currency": "Currency",
+    "start": "Get Started"
+  }
+} 
