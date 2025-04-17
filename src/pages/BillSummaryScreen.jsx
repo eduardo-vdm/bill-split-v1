@@ -90,7 +90,7 @@ export default function BillSummaryScreen() {
       `\n${t('bills:summary.breakdown')}:`,
       ...summary.personDetails.map(person => {
         const lines = [
-          `${person.name}: ${formatCurrency(person.total, currency)}`,
+          `${person.name}${person.name === user.name ? ` (${t('person:you')})` : ''}: ${formatCurrency(person.total, currency)}`,
           ...person.items.map(item => `  ${item.name}: ${formatCurrency(item.amount, currency)}`),
           ...summary.specialItems.map(specialItem => {
             const share = specialItem.calculatedValue / summary.personDetails.length;
@@ -267,7 +267,14 @@ export default function BillSummaryScreen() {
                       showName={false}
                     />
                     <div>
-                      <CardTitle>{person.name}</CardTitle>
+                      <CardTitle>
+                        {person.name}
+                        {person.name === user.name && (
+                          <span className="text-gray-500 dark:text-gray-400 ml-1">
+                            ({t('person:you')})
+                          </span>
+                        )}
+                      </CardTitle>
                       <div className="text-lg font-semibold text-primary-600 dark:text-primary-400">
                         {formatCurrency(person.total, currency)}
                       </div>

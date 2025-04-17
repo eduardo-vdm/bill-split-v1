@@ -1,6 +1,8 @@
 {
   "icon": "Ícone de pessoa",
+  "iconUsed": "Este ícone já está em uso por outra pessoa",
   "name": "Nome",
+  "you": "Você",
   "add": {
     "title": "Adicionar pessoa",
     "editTitle": "Editar pessoa",
@@ -9,7 +11,10 @@
     "cancel": "Cancelar",
     "save": "Salvar alterações",
     "add": "Adicionar pessoa",
-    "recent": "Pessoas adicionadas recentemente"
+    "recent": "Pessoas adicionadas recentemente",
+    "or": "ou",
+    "addYourself": "Adicionar você mesmo",
+    "nameExists": "Já existe uma pessoa com este nome na conta"
   },
   "edit": "Editar pessoa",
   "delete": "Eliminar pessoa"

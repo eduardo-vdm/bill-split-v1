@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { useBillsContext } from '../contexts/BillsContext';
 import { useCurrentBillContext } from '../contexts/CurrentBillContext';
+import { useUserContext } from '../contexts/UserContext';
 import { useTranslation } from 'react-i18next';
 import Layout from '../components/Layout';
 import Input from '../components/Input';
@@ -17,6 +18,7 @@ export default function AddPersonScreen() {
   const location = useLocation();
   const { updateBill } = useBillsContext();
   const { currentBill, updateCurrentBill } = useCurrentBillContext();
+  const { user } = useUserContext();
   const { t } = useTranslation();
   
   const editPerson = location.state?.editPerson;
@@ -25,6 +27,22 @@ export default function AddPersonScreen() {
   const [name, setName] = useState('');
   const [error, setError] = useState('');
   const [icon, setIcon] = useState(PERSON_ICONS[0]);
+
+  const isUserInBill = currentBill.people?.some(person => person.name === user.name);
+  const isNameUnique = !currentBill.people?.some(person => 
+    person.name.toLowerCase() === name.trim().toLowerCase() && 
+    (!editPerson || person.id !== editPerson.id)
+  );
+
+  // Get list of used icons, excluding the current person if editing
+  const usedIcons = currentBill.people
+    ?.filter(person => !editPerson || person.id !== editPerson.id)
+    ?.map(person => person.icon) || [];
+
+  // Check if an icon is available (first icon is always available)
+  const isIconAvailable = (emoji) => {
+    return emoji === PERSON_ICONS[0] || !usedIcons.includes(emoji);
+  };
 
   useEffect(() => {
     if (editPerson) {
@@ -38,6 +56,11 @@ export default function AddPersonScreen() {
 
     if (!name.trim()) {
       setError(t('person:name'));
+      return;
+    }
+
+    if (!isNameUnique) {
+      setError(t('person:add.nameExists'));
       return;
     }
 
@@ -61,6 +84,25 @@ export default function AddPersonScreen() {
     navigate(`/bills/${id}`);
   };
 
+  const handleAddYourself = () => {
+    if (!user.name) return;
+
+    const personData = {
+      id: generateId('person-'),
+      name: user.name,
+      icon: user.icon || PERSON_ICONS[0],
+    };
+
+    const updatedBill = {
+      ...currentBill,
+      people: [...(currentBill.people || []), personData],
+    };
+
+    updateBill(id, updatedBill);
+    updateCurrentBill(updatedBill);
+    navigate(`/bills/${id}`);
+  };
+
   return (
     <Layout title={isEditing ? t('person:add.editTitle') : t('person:add.title')} showBack>
       <div className="max-w-lg mx-auto">
@@ -73,20 +115,33 @@ export default function AddPersonScreen() {
               showName={false}
             />
             <div className="grid grid-cols-8 gap-2">
-              {PERSON_ICONS.map((emoji) => (
-                <button
-                  key={emoji}
-                  type="button"
-                  onClick={() => setIcon(emoji)}
-                  className={`text-2xl p-2 rounded-lg transition-colors ${
-                    icon === emoji
-                      ? 'bg-blue-100 dark:bg-blue-900'
-                      : 'hover:bg-gray-100 dark:hover:bg-gray-800'
-                  }`}
-                >
-                  {emoji}
-                </button>
-              ))}
+              {PERSON_ICONS.map((emoji) => {
+                const isAvailable = isIconAvailable(emoji);
+                const isSelected = icon === emoji;
+                return (
+                  <button
+                    key={emoji}
+                    type="button"
+                    onClick={() => isAvailable && setIcon(emoji)}
+                    disabled={!isAvailable}
+                    className={`text-2xl p-2 rounded-lg transition-colors relative
+                      ${isSelected
+                        ? 'bg-blue-100 dark:bg-blue-900'
+                        : isAvailable
+                          ? 'hover:bg-gray-100 dark:hover:bg-gray-800'
+                          : 'opacity-30 cursor-not-allowed'
+                      }`}
+                    title={!isAvailable ? t('person:iconUsed') : undefined}
+                  >
+                    {emoji}
+                    {!isAvailable && (
+                      <span className="absolute top-0 right-0 text-xs text-gray-500 dark:text-gray-400">
+                        🔒
+                      </span>
+                    )}
+                  </button>
+                );
+              })}
             </div>
           </div>
 
@@ -102,6 +157,19 @@ export default function AddPersonScreen() {
             placeholder={t('person:add.namePlaceholder')}
             autoFocus
           />
+
+          {!isEditing && user.name && !isUserInBill && (
+            <div className="flex items-center justify-center space-x-2 text-sm text-gray-600 dark:text-gray-400">
+              <span>{t('person:add.or')}</span>
+              <button
+                type="button"
+                onClick={handleAddYourself}
+                className="text-primary-600 dark:text-primary-400 hover:underline"
+              >
+                {t('person:add.addYourself')}
+              </button>
+            </div>
+          )}
 
           <div className="flex space-x-4">
             <Button

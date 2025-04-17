@@ -223,7 +223,14 @@ export default function BillDetailsScreen() {
                 >
                   <div className="flex items-center gap-2">
                     <span className="text-2xl">{person.icon}</span>
-                    <span>{person.name}</span>
+                    <span>
+                      {person.name}
+                      {person.name === user.name && (
+                        <span className="text-gray-500 dark:text-gray-400 ml-1">
+                          ({t('person:you')})
+                        </span>
+                      )}
+                    </span>
                   </div>
                   <div className="flex items-center gap-4">
                     <span className="font-medium">

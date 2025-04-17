@@ -1,6 +1,8 @@
 {
   "icon": "Person Icon",
+  "iconUsed": "This icon is already in use by another person",
   "name": "Name",
+  "you": "You",
   "add": {
     "title": "Add Person",
     "editTitle": "Edit Person",
@@ -9,7 +11,10 @@
     "cancel": "Cancel",
     "save": "Save Changes",
     "add": "Add Person",
-    "recent": "Recently Added People"
+    "recent": "Recently Added People",
+    "or": "or",
+    "addYourself": "Add Yourself",
+    "nameExists": "A person with this name already exists in the bill"
   },
   "edit": "Edit Person",
   "delete": "Delete Person"

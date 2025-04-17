@@ -1,6 +1,8 @@
 {
   "icon": "Ícono de persona",
+  "iconUsed": "Este ícono ya está en uso por otra persona",
   "name": "Nombre",
+  "you": "Tú",
   "add": {
     "title": "Agregar persona",
     "editTitle": "Editar persona",
@@ -9,7 +11,10 @@
     "cancel": "Cancelar",
     "save": "Guardar cambios",
     "add": "Agregar persona",
-    "recent": "Personas agregadas recientemente"
+    "recent": "Personas agregadas recientemente",
+    "or": "o",
+    "addYourself": "Agregarte a ti mismo",
+    "nameExists": "Ya existe una persona con este nombre en la factura"
   },
   "edit": "Editar persona",
   "delete": "Eliminar persona"
