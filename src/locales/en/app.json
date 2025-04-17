@@ -1,6 +1,6 @@
 {
   "splash": {
-    "title": "Bill Split",
+    "title": "Welcome to Bill Split",
     "subtitle": "Split bills with friends",
     "loading": "Loading"
   },
@@ -9,6 +9,7 @@
     "name": "What name do you prefer to go by?",
     "namePlaceholder": "Name, nickname, \"person\", etc.",
     "currency": "Currency",
+    "icon": "Icon",
     "start": "Get Started"
   }
 } 
