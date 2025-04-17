@@ -15,7 +15,7 @@ export default function MainScreen() {
   const { bills, deleteBill, addBill } = useBillsContext();
   const { user } = useUserContext();
   const [billToDelete, setBillToDelete] = useState(null);
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const calculateBillTotal = (bill) => {
     const subtotal = bill.items.reduce((sum, item) => sum + item.price, 0);
@@ -104,7 +104,7 @@ export default function MainScreen() {
                           <h3 className="font-medium">{bill.name}</h3>
                         </div>
                         <p className="text-sm text-gray-500 dark:text-gray-400">
-                          {bill.place} • {new Date(bill.date).toLocaleDateString()}
+                          {bill.place} • {new Date(bill.date).toLocaleDateString(i18n.language)}
                         </p>
                       </div>
                       <div className="text-lg font-semibold text-primary-600 dark:text-primary-400">

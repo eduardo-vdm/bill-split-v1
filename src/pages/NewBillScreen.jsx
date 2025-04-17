@@ -2,11 +2,12 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useBillsContext } from '../contexts/BillsContext';
 import { useCurrentBillContext } from '../contexts/CurrentBillContext';
+import { useUserContext } from '../contexts/UserContext';
 import Layout from '../components/Layout';
 import Input from '../components/Input';
 import Select from '../components/Select';
 import Button from '../components/Button';
-import { billTypes, generateId } from '../utils/helpers';
+import { billTypes, generateId, getDateInputLocale } from '../utils/helpers';
 import { useTranslation } from 'react-i18next';
 
 export default function NewBillScreen() {
@@ -14,7 +15,8 @@ export default function NewBillScreen() {
   const location = useLocation();
   const { addBill, updateBill } = useBillsContext();
   const { updateCurrentBill, clearCurrentBill } = useCurrentBillContext();
-  const { t } = useTranslation(['bills', 'common', 'billTypes']);
+  const { user } = useUserContext();
+  const { t, i18n } = useTranslation(['bills', 'common', 'billTypes']);
   const editBill = location.state?.editBill;
 
   const [formData, setFormData] = useState({
@@ -180,6 +182,7 @@ export default function NewBillScreen() {
               onChange={(e) => setFormData((prev) => ({ ...prev, date: e.target.value }))}
               className="w-full p-2 border rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400"
               required
+              lang={getDateInputLocale(i18n.language)}
             />
           </div>
 

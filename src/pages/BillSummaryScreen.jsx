@@ -25,7 +25,7 @@ export default function BillSummaryScreen() {
   const [showShareDialog, setShowShareDialog] = useState(false);
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   useEffect(() => {
     // If we have a currentBill, use it to generate the summary
@@ -198,7 +198,7 @@ export default function BillSummaryScreen() {
               <CardTitle>{summary.name}</CardTitle>
               {summary.place && (
                 <p className="text-sm text-gray-600 dark:text-gray-300 mt-1">
-                  {summary.place} • {summary.date}
+                  {summary.place} • {new Date(summary.date).toLocaleDateString(i18n.language)}
                 </p>
               )}
             </div>

@@ -172,4 +172,15 @@ const calculatePersonTotal = (personId) => {
     const splitCount = item.splitBetween.length;
     return total + price / splitCount;
   }, 0);
+};
+
+export const getDateInputLocale = (language) => {
+  // Map our language codes to browser locale codes
+  const localeMap = {
+    'en': 'en-US',    // English (United States)
+    'es': 'es-ES',    // Spanish (Spain)
+    'pt': 'pt-BR',    // Portuguese (Brazil)
+  };
+  
+  return localeMap[language] || 'en-US'; // Default to en-US if no match
 }; 

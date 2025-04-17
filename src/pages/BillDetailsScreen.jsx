@@ -21,7 +21,7 @@ export default function BillDetailsScreen() {
   const [showEditUserDialog, setShowEditUserDialog] = useState(false);
   const [personToDelete, setPersonToDelete] = useState(null);
   const [personToEdit, setPersonToEdit] = useState(null);
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   useEffect(() => {
     const bill = bills.find(b => b.id === id);
@@ -202,7 +202,7 @@ export default function BillDetailsScreen() {
             <div className="space-y-2">
               <div className="flex justify-between">
                 <span>{t('bills:date')}</span>
-                <span>{new Date(currentBill.date).toLocaleDateString()}</span>
+                <span>{new Date(currentBill.date).toLocaleDateString(i18n.language)}</span>
               </div>
               <div className="flex justify-between">
                 <span>{t('bills:place')}</span>
