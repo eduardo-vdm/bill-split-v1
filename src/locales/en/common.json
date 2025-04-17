@@ -10,7 +10,8 @@
     "confirm": "Confirm",
     "create": "Create",
     "update": "Update",
-    "backToBill": "Back to Bill"
+    "backToBill": "Back to Bill",
+    "addItem": "Add Item"
   },
   "errors": {
     "required": "This field is required",

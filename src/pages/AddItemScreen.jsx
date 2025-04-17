@@ -573,10 +573,10 @@ export default function AddItemScreen() {
                 className="flex-1"
                 onClick={() => navigate(-1)}
               >
-                {t('common:cancel')}
+                {t('common:buttons.cancel')}
               </Button>
               <Button type="submit" className="flex-1">
-                {t('common:add')}
+                {t('common:buttons.add')}
               </Button>
             </div>
           </form>

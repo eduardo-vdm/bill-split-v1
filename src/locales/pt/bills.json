@@ -30,8 +30,16 @@
     "itemPricePlaceholder": "ex. {{currency}}10,00",
     "split": {
       "title": "Método de Divisão",
+      "between": "Dividir entre",
+      "equal": "Igual",
+      "percentage": "Porcentagem",
+      "value": "Valor",
       "selectSplitMethod": "Selecionar método de divisão",
-      "splitMethodInfo": "Saiba mais sobre métodos de divisão"
+      "splitMethodInfo": "Saiba mais sobre métodos de divisão",
+      "splitMethodOptions": "Opções de método de divisão",
+      "splitEqually": "Dividir o valor igualmente entre as pessoas selecionadas",
+      "splitByPercentage": "Dividir o valor pela porcentagem entre as pessoas selecionadas",
+      "splitByValue": "Dividir o valor por valores específicos entre as pessoas selecionadas"
     }
   },
   "taxTip": {
@@ -90,10 +98,10 @@
   "noPeopleAddedTitle": "Não há pessoas adicionadas",
   "noPeopleAddedDescription": "Por favor adicione pessoas à conta antes de adicionar itens",
   "addPerson": "Adicionar pessoa",
-  "editSpecialItem": "Editar imposto/gorjeta",
-  "addSpecialItem": "Adicionar imposto/gorjeta",
+  "editSpecialItem": "Editar taxa/gorjeta",
+  "addSpecialItem": "Adicionar taxa/gorjeta",
   "specialItemType": "Tipo",
   "selectSpecialItemType": "Selecionar tipo",
   "noItemsTitle": "Não há itens adicionados",
-  "noItemsDescription": "Por favor adicione itens à conta antes de adicionar imposto ou gorjeta"
+  "noItemsDescription": "Por favor adicione itens à conta antes de adicionar taxa ou gorjeta"
 } 

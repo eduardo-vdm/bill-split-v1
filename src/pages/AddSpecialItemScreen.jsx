@@ -179,7 +179,7 @@ export default function AddSpecialItemScreen() {
         icon={<ShoppingBagIcon className="h-12 w-12 text-blue-500" />}
         actions={[
           {
-            label: t('common:backToBill'),
+            label: t('common:buttons.backToBill'),
             onClick: () => {
               setShowNoItemsDialog(false);
               navigate(`/bills/${id}`);
@@ -188,7 +188,7 @@ export default function AddSpecialItemScreen() {
             icon: ArrowLeftIcon
           },
           {
-            label: t('bills:addItem'),
+            label: t('common:buttons.addItem'),
             onClick: () => {
               setShowNoItemsDialog(false);
               navigate(`/bills/${id}/add-item`);

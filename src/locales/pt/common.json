@@ -10,7 +10,8 @@
     "confirm": "Confirmar",
     "create": "Criar",
     "update": "Atualizar",
-    "backToBill": "Voltar para a conta"
+    "backToBill": "Voltar para a conta",
+    "addItem": "Adicionar item"
   },
   "errors": {
     "required": "Este campo é obrigatório",

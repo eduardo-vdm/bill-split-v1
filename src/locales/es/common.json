@@ -10,7 +10,8 @@
     "confirm": "Confirmar",
     "create": "Crear",
     "update": "Actualizar",
-    "backToBill": "Volver a la factura"
+    "backToBill": "Volver a la factura",
+    "addItem": "Agregar item"
   },
   "errors": {
     "required": "Este campo es requerido",
