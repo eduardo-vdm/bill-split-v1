@@ -8,14 +8,20 @@
     "editTitle": "Edit Person",
     "name": "What's their name?",
     "namePlaceholder": "Name, nickname, \"person\", etc.",
+    "nameRequired": "Name is required",
+    "nameExists": "A person with this name already exists in the bill",
+    "sameNameAsUser": "Cannot use the same name as the user",
     "cancel": "Cancel",
     "save": "Save Changes",
     "add": "Add Person",
     "recent": "Recently Added People",
     "or": "or",
-    "addYourself": "Add Yourself",
-    "nameExists": "A person with this name already exists in the bill"
+    "addYourself": "Add Yourself"
   },
   "edit": "Edit Person",
-  "delete": "Delete Person"
+  "delete": "Delete Person",
+  "editUser": {
+    "title": "Cannot Edit User",
+    "description": "You cannot edit your own user information here. Please use the settings screen to modify your user details."
+  }
 } 

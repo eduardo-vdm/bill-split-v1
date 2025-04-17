@@ -8,14 +8,20 @@
     "editTitle": "Editar persona",
     "name": "¿Cuál es su nombre?",
     "namePlaceholder": "Nombre, apodo, \"persona\", etc.",
+    "nameRequired": "El nombre es requerido",
+    "nameExists": "Ya existe una persona con este nombre en la factura",
+    "sameNameAsUser": "No puedes usar el mismo nombre que el usuario",
     "cancel": "Cancelar",
     "save": "Guardar cambios",
     "add": "Agregar persona",
     "recent": "Personas agregadas recientemente",
     "or": "o",
-    "addYourself": "Agregarte a ti mismo",
-    "nameExists": "Ya existe una persona con este nombre en la factura"
+    "addYourself": "Agregarte a ti mismo"
   },
   "edit": "Editar persona",
-  "delete": "Eliminar persona"
+  "delete": "Eliminar persona",
+  "editUser": {
+    "title": "No se puede editar el usuario",
+    "description": "No puedes editar tu propia información de usuario aquí. Por favor, usa la pantalla de configuración para modificar tus datos de usuario."
+  }
 } 

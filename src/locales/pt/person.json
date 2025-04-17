@@ -8,14 +8,20 @@
     "editTitle": "Editar pessoa",
     "name": "Qual é o nome dela?",
     "namePlaceholder": "Nome, apelido, \"pessoa\", etc.",
+    "nameRequired": "O nome é obrigatório",
+    "nameExists": "Já existe uma pessoa com este nome na conta",
+    "sameNameAsUser": "Não pode usar o mesmo nome do usuário",
     "cancel": "Cancelar",
     "save": "Salvar alterações",
     "add": "Adicionar pessoa",
     "recent": "Pessoas adicionadas recentemente",
     "or": "ou",
-    "addYourself": "Adicionar você mesmo",
-    "nameExists": "Já existe uma pessoa com este nome na conta"
+    "addYourself": "Adicionar você mesmo"
   },
   "edit": "Editar pessoa",
-  "delete": "Eliminar pessoa"
+  "delete": "Eliminar pessoa",
+  "editUser": {
+    "title": "Não é possível editar o usuário",
+    "description": "Você não pode editar suas próprias informações de usuário aqui. Por favor, use a tela de configurações para modificar seus dados de usuário."
+  }
 } 

@@ -370,29 +370,40 @@ export default function AddItemScreen() {
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-6">
-            <Input
-              label={t('bills:items.name')}
-              id="name"
-              value={formData.name}
-              onChange={(e) =>
-                setFormData((prev) => ({ ...prev, name: e.target.value }))
-              }
-              error={errors.name}
-              placeholder={t('bills:items.itemNamePlaceholder')}
-              autoFocus
-            />
+            <div>
+              <label htmlFor="name" className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">
+                {t('bills:items.name')}
+              </label>
+              <input
+                type="text"
+                id="name"
+                value={formData.name}
+                onChange={(e) =>
+                  setFormData((prev) => ({ ...prev, name: e.target.value }))
+                }
+                placeholder={t('bills:items.itemNamePlaceholder')}
+                className="w-full p-2 border rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400"
+                required
+                autoFocus
+              />
+            </div>
 
-            <Input
-              label={t('bills:items.price')}
-              id="price"
-              type="number"
-              min="0"
-              step="0.01"
-              value={formData.price}
-              onChange={handlePriceChange}
-              error={errors.price}
-              placeholder={t('bills:items.itemPricePlaceholder', { currency: user.currency })}
-            />
+            <div>
+              <label htmlFor="price" className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">
+                {t('bills:items.price')}
+              </label>
+              <input
+                type="number"
+                id="price"
+                min="0"
+                step="0.01"
+                value={formData.price}
+                onChange={handlePriceChange}
+                placeholder={t('bills:items.itemPricePlaceholder', { currency: user.currency })}
+                className="w-full p-2 border rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400"
+                required
+              />
+            </div>
 
             <div className="space-y-2">
               <label
@@ -402,15 +413,19 @@ export default function AddItemScreen() {
                 {t('bills:items.split.title')}
               </label>
               <div className="flex items-center gap-2">
-                <Select
+                <select
                   id="splitMethod"
-                  value={formData.splitMethod}
-                  onChange={handleSplitMethodChange}
-                  options={splitMethods}
-                  className="flex-1"
+                  value={formData.splitMethod.id}
+                  onChange={(e) => handleSplitMethodChange(splitMethods.find(m => m.id === e.target.value))}
+                  className="flex-1 p-2 border rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400"
                   disabled={!isPriceValid}
-                  displayValue={(selected) => selected ? t(selected.translationKey) : t('bills:items.split.selectSplitMethod')}
-                />
+                >
+                  {splitMethods.map((method) => (
+                    <option key={method.id} value={method.id}>
+                      {t(method.translationKey)}
+                    </option>
+                  ))}
+                </select>
                 <div className="tooltip">
                   <button
                     type="button"
@@ -474,7 +489,7 @@ export default function AddItemScreen() {
 
             {formData.splitMethod.id === 'percentage' && formData.splitBetween.length > 0 && (
               <div className="space-y-4">
-                {t('bills:items.split.percentages')}
+                {t('bills:splitPercentages')}
                 {formData.splitBetween.map((personId) => {
                   const person = currentBill.people.find(p => p.id === personId);
                   const percentage = parseFloat(formData.percentages[personId] || 0);

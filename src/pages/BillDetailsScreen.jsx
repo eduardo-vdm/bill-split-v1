@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { TrashIcon, PencilIcon } from '@heroicons/react/24/outline';
+import { TrashIcon, PencilIcon, ArrowLeftIcon } from '@heroicons/react/24/outline';
 import { useBillsContext } from '../contexts/BillsContext';
 import { useCurrentBillContext } from '../contexts/CurrentBillContext';
 import { useUserContext } from '../contexts/UserContext';
@@ -17,7 +17,10 @@ export default function BillDetailsScreen() {
   const { currentBill, updateCurrentBill } = useCurrentBillContext();
   const { user } = useUserContext();
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [showDeletePersonDialog, setShowDeletePersonDialog] = useState(false);
+  const [showEditUserDialog, setShowEditUserDialog] = useState(false);
   const [personToDelete, setPersonToDelete] = useState(null);
+  const [personToEdit, setPersonToEdit] = useState(null);
   const { t } = useTranslation();
 
   useEffect(() => {
@@ -180,6 +183,14 @@ export default function BillDetailsScreen() {
     setPersonToDelete(null);
   };
 
+  const handleEditPerson = (person) => {
+    if (person.name === user.name) {
+      setShowEditUserDialog(true);
+      return;
+    }
+    navigate(`/bills/${id}/add-person`, { state: { editPerson: person } });
+  };
+
   if (!currentBill) return null;
 
   return (
@@ -218,7 +229,7 @@ export default function BillDetailsScreen() {
               {currentBill.people?.map((person) => (
                 <div
                   key={person.id}
-                  onClick={() => navigate(`/bills/${id}/add-person`, { state: { editPerson: person } })}
+                  onClick={() => handleEditPerson(person)}
                   className="flex items-center justify-between bg-white dark:bg-gray-800 p-3 rounded-lg shadow group hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer transition-colors"
                 >
                   <div className="flex items-center gap-2">
@@ -374,6 +385,21 @@ export default function BillDetailsScreen() {
               setPersonToDelete(null);
             },
             variant: 'danger'
+          }
+        ]}
+      />
+
+      <Dialog
+        isOpen={showEditUserDialog}
+        onClose={() => setShowEditUserDialog(false)}
+        title={t('person:editUser.title')}
+        description={t('person:editUser.description')}
+        actions={[
+          {
+            label: t('common:buttons.backToBill'),
+            onClick: () => setShowEditUserDialog(false),
+            variant: 'outline',
+            icon: ArrowLeftIcon
           }
         ]}
       />

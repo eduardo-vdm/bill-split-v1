@@ -98,47 +98,90 @@ export default function NewBillScreen() {
     <Layout title={editBill ? t('bills:edit') : t('bills:new')} showBack>
       <div className="max-w-lg mx-auto">
         <form onSubmit={handleSubmit} className="space-y-6">
-          <Input
-            label={t('bills:name')}
-            id="name"
-            type="text"
-            value={formData.name}
-            onChange={(e) =>
-              setFormData((prev) => ({ ...prev, name: e.target.value }))
-            }
-            error={errors.name}
-            placeholder={t('bills:namePlaceholder')}
-          />
+          <div>
+            <label htmlFor="name" className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">
+              {t('bills:name')}
+            </label>
+            <input
+              type="text"
+              id="name"
+              value={formData.name}
+              onChange={(e) => {
+                setFormData((prev) => ({ ...prev, name: e.target.value }));
+                setErrors((prev) => ({ ...prev, name: '' }));
+              }}
+              placeholder={t('bills:namePlaceholder')}
+              className="w-full p-2 border rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400"
+              required
+              autoFocus
+            />
+            {errors.name && (
+              <p className="mt-1 text-sm text-red-600 dark:text-red-400">
+                {errors.name}
+              </p>
+            )}
+          </div>
 
-          <Select
-            label={t('bills:type')}
-            options={billTypes}
-            value={formData.type}
-            onChange={(value) => setFormData((prev) => ({ ...prev, type: value }))}
-            displayValue={(selected) => selected ? `${selected.icon} ${t(selected.translationKey)}` : t('bills:selectType')}
-          />
+          <div>
+            <label htmlFor="type" className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">
+              {t('bills:type')}
+            </label>
+            <select
+              id="type"
+              value={formData.type}
+              onChange={(e) => setFormData((prev) => ({ ...prev, type: e.target.value }))}
+              className="w-full p-2 border rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400"
+              required
+            >
+              {billTypes.map((type) => (
+                <option key={type.id} value={type.id}>
+                  {type.icon} {t(type.translationKey)}
+                </option>
+              ))}
+            </select>
+            {errors.type && (
+              <p className="mt-1 text-sm text-red-600 dark:text-red-400">
+                {errors.type}
+              </p>
+            )}
+          </div>
 
-          <Input
-            label={t('bills:place')}
-            id="place"
-            type="text"
-            value={formData.place}
-            onChange={(e) =>
-              setFormData((prev) => ({ ...prev, place: e.target.value }))
-            }
-            error={errors.place}
-            placeholder={t('bills:placePlaceholder')}
-          />
+          <div>
+            <label htmlFor="place" className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">
+              {t('bills:place')}
+            </label>
+            <input
+              type="text"
+              id="place"
+              value={formData.place}
+              onChange={(e) => {
+                setFormData((prev) => ({ ...prev, place: e.target.value }));
+                setErrors((prev) => ({ ...prev, place: '' }));
+              }}
+              placeholder={t('bills:placePlaceholder')}
+              className="w-full p-2 border rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400"
+              required
+            />
+            {errors.place && (
+              <p className="mt-1 text-sm text-red-600 dark:text-red-400">
+                {errors.place}
+              </p>
+            )}
+          </div>
 
-          <Input
-            label={t('bills:date')}
-            id="date"
-            type="date"
-            value={formData.date}
-            onChange={(e) =>
-              setFormData((prev) => ({ ...prev, date: e.target.value }))
-            }
-          />
+          <div>
+            <label htmlFor="date" className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">
+              {t('bills:date')}
+            </label>
+            <input
+              type="date"
+              id="date"
+              value={formData.date}
+              onChange={(e) => setFormData((prev) => ({ ...prev, date: e.target.value }))}
+              className="w-full p-2 border rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400"
+              required
+            />
+          </div>
 
           <div className="flex space-x-4">
             <Button

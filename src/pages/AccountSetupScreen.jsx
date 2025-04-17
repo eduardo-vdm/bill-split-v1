@@ -7,6 +7,7 @@ import { currencies, languages } from '../utils/helpers';
 import IconSelector from '../components/IconSelector';
 import { SunIcon, MoonIcon } from '@heroicons/react/24/outline';
 import Footer from '../components/Footer';
+import LanguageSelector from '../components/LanguageSelector';
 
 export default function AccountSetupScreen() {
   const navigate = useNavigate();
@@ -20,6 +21,19 @@ export default function AccountSetupScreen() {
     const currentLanguage = languages.find(lang => lang.code === i18n.language);
     return currentLanguage?.defaultCurrencyCode || 'USD';
   });
+
+  // Update currency when language changes
+  useEffect(() => {
+    const handleLanguageChange = (lng) => {
+      const currentLanguage = languages.find(lang => lang.code === lng);
+      setCurrency(currentLanguage?.defaultCurrencyCode || 'USD');
+    };
+
+    i18n.on('languageChanged', handleLanguageChange);
+    return () => {
+      i18n.off('languageChanged', handleLanguageChange);
+    };
+  }, [i18n]);
 
   const toggleTheme = () => {
     const newTheme = theme === 'light' ? 'dark' : 'light';
@@ -41,17 +55,22 @@ export default function AccountSetupScreen() {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-gradient-to-br from-primary-500 to-secondary-500">
-      <button
-        onClick={toggleTheme}
-        className="absolute top-4 right-4 p-2 rounded-lg bg-white/10 hover:bg-white/20 transition-colors"
-        aria-label={theme === 'light' ? t('settings:theme.dark') : t('settings:theme.light')}
-      >
-        {theme === 'light' ? (
-          <MoonIcon className="w-6 h-6 text-white" />
-        ) : (
-          <SunIcon className="w-6 h-6 text-white" />
-        )}
-      </button>
+      <div className="absolute top-4 right-4 flex items-center space-x-3">
+        <div className="p-1 rounded-lg bg-white/10 hover:bg-white/20 transition-colors">
+          <LanguageSelector />
+        </div>
+        <button
+          onClick={toggleTheme}
+          className="p-2 rounded-lg bg-white/10 hover:bg-white/20 transition-colors"
+          aria-label={theme === 'light' ? t('settings:theme.dark') : t('settings:theme.light')}
+        >
+          {theme === 'light' ? (
+            <MoonIcon className="w-6 h-6 text-white" />
+          ) : (
+            <SunIcon className="w-6 h-6 text-white" />
+          )}
+        </button>
+      </div>
       <motion.div
         initial={{ scale: 0.9, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
@@ -62,7 +81,7 @@ export default function AccountSetupScreen() {
         </h1>
         
         <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="grid grid-cols-4 gap-3">
+          <div className="grid grid-cols-4 gap-3 pb-3">
             <div className="col-span-3">
               <div>
                 <label htmlFor="name" className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">

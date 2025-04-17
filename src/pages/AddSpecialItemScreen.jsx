@@ -111,38 +111,63 @@ export default function AddSpecialItemScreen() {
     <Layout title={isEditing ? t('bills:editSpecialItem') : t('bills:addSpecialItem')} showBack>
       <div className="max-w-lg mx-auto">
         <form onSubmit={handleSubmit} className="space-y-6">
-          <Select
-            label={t('bills:specialItemType')}
-            options={specialItemTypes}
-            value={formData.type}
-            onChange={(value) => setFormData((prev) => ({ ...prev, type: value }))}
-            displayValue={(selected) => selected ? t(selected.translationKey) : t('bills:selectSpecialItemType')}
-          />
+          <div>
+            <label htmlFor="type" className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">
+              {t('bills:specialItemType')}
+            </label>
+            <select
+              id="type"
+              value={formData.type.id}
+              onChange={(e) => setFormData((prev) => ({ ...prev, type: specialItemTypes.find(t => t.id === e.target.value) }))}
+              className="w-full p-2 border rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400"
+            >
+              {specialItemTypes.map((type) => (
+                <option key={type.id} value={type.id}>
+                  {t(type.translationKey)}
+                </option>
+              ))}
+            </select>
+          </div>
 
-          <Select
-            label={t('bills:selectSpecialItemType')}
-            options={methods}
-            value={formData.method}
-            onChange={(value) => setFormData((prev) => ({ ...prev, method: value }))}
-            displayValue={(selected) => selected ? t(selected.translationKey) : t('bills:selectMethod')}
-          />
+          <div>
+            <label htmlFor="method" className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">
+              {t('bills:selectSpecialItemType')}
+            </label>
+            <select
+              id="method"
+              value={formData.method.id}
+              onChange={(e) => setFormData((prev) => ({ ...prev, method: methods.find(m => m.id === e.target.value) }))}
+              className="w-full p-2 border rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400"
+            >
+              {methods.map((method) => (
+                <option key={method.id} value={method.id}>
+                  {t(method.translationKey)}
+                </option>
+              ))}
+            </select>
+          </div>
 
-          <Input
-            label={formData.method.id === 'percentage' ? t('bills:taxTip.percentage') : t('bills:taxTip.amount')}
-            id="value"
-            type="number"
-            step={formData.method.id === 'percentage' ? '1' : '0.01'}
-            value={formData.value}
-            onChange={(e) =>
-              setFormData((prev) => ({ ...prev, value: e.target.value }))
-            }
-            error={errors.value}
-            placeholder={
-              formData.method.id === 'percentage'
-                ? t('bills:taxTip.percentagePlaceholder')
-                : t('bills:taxTip.amountPlaceholder', { currency: user.currency })
-            }
-          />
+          <div>
+            <label htmlFor="value" className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">
+              {formData.method.id === 'percentage' ? t('bills:taxTip.percentage') : t('bills:taxTip.amount')}
+            </label>
+            <input
+              type="number"
+              id="value"
+              step={formData.method.id === 'percentage' ? '1' : '0.01'}
+              value={formData.value}
+              onChange={(e) =>
+                setFormData((prev) => ({ ...prev, value: e.target.value }))
+              }
+              placeholder={
+                formData.method.id === 'percentage'
+                  ? t('bills:taxTip.percentagePlaceholder')
+                  : t('bills:taxTip.amountPlaceholder', { currency: user.currency })
+              }
+              className="w-full p-2 border rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400"
+              required
+            />
+          </div>
 
           {formData.value && (
             <div className="text-sm text-gray-500">

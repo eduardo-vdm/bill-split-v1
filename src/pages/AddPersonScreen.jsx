@@ -56,30 +56,32 @@ export default function AddPersonScreen() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    let errorMessage = '';
 
     if (!name.trim()) {
-      setError(t('person:name'));
+      errorMessage = t('person:add.nameRequired');
+    } else if (name.trim().toLowerCase() === user.name.toLowerCase()) {
+      errorMessage = t('person:add.sameNameAsUser');
+    } else if (currentBill.people.some(
+      person => person.name.toLowerCase() === name.trim().toLowerCase()
+    )) {
+      errorMessage = t('person:add.nameExists');
+    }
+
+    if (errorMessage) {
+      setError(errorMessage);
       return;
     }
 
-    if (!isNameUnique) {
-      setError(t('person:add.nameExists'));
-      return;
-    }
-
-    const personData = {
-      id: editPerson ? editPerson.id : generateId('person-'),
+    const newPerson = {
+      id: generateId('person-'),
       name: name.trim(),
-      icon,
+      icon: icon || '👤',
     };
 
     const updatedBill = {
       ...currentBill,
-      people: editPerson
-        ? currentBill.people.map(person =>
-            person.id === editPerson.id ? personData : person
-          )
-        : [...(currentBill.people || []), personData],
+      people: [...currentBill.people, newPerson],
     };
 
     updateBill(id, updatedBill);
@@ -148,21 +150,32 @@ export default function AddPersonScreen() {
             </div>
           </div>
 
-          <Input
-            label={t('person:add.name')}
-            id="name"
-            value={name}
-            onChange={(e) => {
-              setName(e.target.value);
-              setError('');
-            }}
-            error={error}
-            placeholder={t('person:add.namePlaceholder')}
-            autoFocus
-          />
+          <div>
+            <label htmlFor="name" className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">
+              {t('person:add.name')}
+            </label>
+            <input
+              type="text"
+              id="name"
+              value={name}
+              onChange={(e) => {
+                setName(e.target.value);
+                setError(''); // Clear error when user types
+              }}
+              placeholder={t('person:add.namePlaceholder')}
+              className="w-full p-2 border rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400"
+              required
+              autoFocus
+            />
+            {error && (
+              <p className="mt-1 text-sm text-red-600 dark:text-red-400">
+                {error}
+              </p>
+            )}
+          </div>
 
           {!isEditing && user.name && !isUserInBill && (
-            <div className="flex items-center justify-center space-x-2 text-sm text-gray-600 dark:text-gray-400">
+            <div className="flex items-center justify-center space-x-2 text-md text-gray-600 dark:text-gray-400">
               <span>{t('person:add.or')}</span>
               <button
                 type="button"
