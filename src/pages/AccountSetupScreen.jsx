@@ -5,18 +5,27 @@ import { useUserContext } from '../contexts/UserContext';
 import { useTranslation } from 'react-i18next';
 import { currencies, languages } from '../utils/helpers';
 import IconSelector from '../components/IconSelector';
+import { SunIcon, MoonIcon } from '@heroicons/react/24/outline';
+import Footer from '../components/Footer';
 
 export default function AccountSetupScreen() {
   const navigate = useNavigate();
-  const { updateUser } = useUserContext();
+  const { updateUser, user } = useUserContext();
   const { t, i18n } = useTranslation();
   const [name, setName] = useState('');
   const [icon, setIcon] = useState('');
+  const [theme, setTheme] = useState(user?.theme || 'light');
   const [currency, setCurrency] = useState(() => {
     // Get the current language's default currency
     const currentLanguage = languages.find(lang => lang.code === i18n.language);
     return currentLanguage?.defaultCurrencyCode || 'USD';
   });
+
+  const toggleTheme = () => {
+    const newTheme = theme === 'light' ? 'dark' : 'light';
+    setTheme(newTheme);
+    document.documentElement.classList.toggle('dark', newTheme === 'dark');
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -24,6 +33,7 @@ export default function AccountSetupScreen() {
       name,
       icon,
       currency,
+      theme,
       isSetup: true
     });
     navigate('/bills');
@@ -31,6 +41,17 @@ export default function AccountSetupScreen() {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-gradient-to-br from-primary-500 to-secondary-500">
+      <button
+        onClick={toggleTheme}
+        className="absolute top-4 right-4 p-2 rounded-lg bg-white/10 hover:bg-white/20 transition-colors"
+        aria-label={theme === 'light' ? t('settings:theme.dark') : t('settings:theme.light')}
+      >
+        {theme === 'light' ? (
+          <MoonIcon className="w-6 h-6 text-white" />
+        ) : (
+          <SunIcon className="w-6 h-6 text-white" />
+        )}
+      </button>
       <motion.div
         initial={{ scale: 0.9, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
@@ -41,7 +62,7 @@ export default function AccountSetupScreen() {
         </h1>
         
         <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="grid grid-cols-4 gap-1">
+          <div className="grid grid-cols-4 gap-3">
             <div className="col-span-3">
               <div>
                 <label htmlFor="name" className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">
@@ -96,6 +117,7 @@ export default function AccountSetupScreen() {
           </button>
         </form>
       </motion.div>
+      <Footer />
     </div>
   );
 } 

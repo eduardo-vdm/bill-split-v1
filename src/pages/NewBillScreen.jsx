@@ -147,10 +147,10 @@ export default function NewBillScreen() {
               className="flex-1"
               onClick={() => navigate(-1)}
             >
-              {t('common:cancel')}
+              {t('common:buttons.cancel')}
             </Button>
             <Button type="submit" className="flex-1">
-              {editBill ? t('common:save') : t('common:create')}
+              {editBill ? t('common:buttons.save') : t('common:buttons.create')}
             </Button>
           </div>
         </form>

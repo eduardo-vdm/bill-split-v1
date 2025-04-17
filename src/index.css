@@ -65,7 +65,7 @@
 
 .tooltip .tooltip-text {
   @apply invisible absolute z-50 w-64 p-2 text-sm text-white bg-gray-800 dark:bg-gray-700 rounded-lg shadow-lg opacity-0 transition-opacity duration-300;
-  @apply left-1/2 -translate-x-1/2 bottom-full mb-2;
+  @apply left-3/4 -translate-x-72 translate-y-1/2 bottom-full mb-2;
 }
 
 .tooltip:hover .tooltip-text {
@@ -73,8 +73,8 @@
 }
 
 .tooltip .tooltip-text::after {
-  @apply content-[''] absolute left-1/2 -translate-x-1/2 top-full;
-  @apply border-8 border-transparent border-t-gray-800 dark:border-t-gray-700;
+  @apply content-[''] absolute top-1/2 left-full translate-y-3/4 -translate-x-1/4 -translate-x-3/4;
+  @apply border-8 border-transparent border-r-gray-800 dark:border-r-gray-700 border-t-gray-800 dark:border-t-gray-700 rotate-45;
 }
 
 /* Component styles */

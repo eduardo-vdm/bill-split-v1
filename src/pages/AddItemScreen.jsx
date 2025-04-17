@@ -17,8 +17,7 @@ import { useTranslation } from 'react-i18next';
 const splitMethods = [
   { id: 'equal', translationKey: 'splitMethods:equal' },
   { id: 'percentage', translationKey: 'splitMethods:percentage' },
-  { id: 'value', translationKey: 'splitMethods:value' },
-  { id: 'full', translationKey: 'splitMethods:full' }
+  { id: 'value', translationKey: 'splitMethods:value' }
 ];
 
 export default function AddItemScreen() {
@@ -594,7 +593,7 @@ export default function AddItemScreen() {
         icon={<UserGroupIcon className="h-12 w-12 text-blue-500" />}
         actions={[
           {
-            label: t('common:backToBill'),
+            label: t('common:buttons.backToBill'),
             onClick: () => {
               setShowNoPeopleDialog(false);
               navigate(`/bills/${id}`);

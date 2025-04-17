@@ -21,6 +21,7 @@
   "deleteBill": "Eliminar factura",
   "deleteBillConfirm": "¿Estás seguro de que deseas eliminar esta factura?",
   "notFound": "No encontrado",
+  "total": "Total",
   "items": {
     "title": "Artículos",
     "add": "Agregar artículo",

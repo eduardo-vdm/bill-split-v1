@@ -8,9 +8,7 @@ import Layout from '../components/Layout';
 import Input from '../components/Input';
 import Button from '../components/Button';
 import PersonAvatar from '../components/PersonAvatar';
-import { generateId } from '../utils/helpers';
-
-const PERSON_ICONS = ['👤', '👩', '👨', '👧', '👦', '👶', '👱‍♀️', '👱', '👩‍🦰', '👨‍🦰', '👩‍🦱', '👨‍🦱', '👩‍🦳', '👨‍🦳', '👩‍🦲', '👨‍🦲'];
+import { generateId, personIcons } from '../utils/helpers';
 
 export default function AddPersonScreen() {
   const navigate = useNavigate();
@@ -26,7 +24,7 @@ export default function AddPersonScreen() {
 
   const [name, setName] = useState('');
   const [error, setError] = useState('');
-  const [icon, setIcon] = useState(PERSON_ICONS[0]);
+  const [icon, setIcon] = useState(personIcons[0]);
 
   const isUserInBill = currentBill.people?.some(person => person.name === user.name);
   const isNameUnique = !currentBill.people?.some(person => 
@@ -39,9 +37,14 @@ export default function AddPersonScreen() {
     ?.filter(person => !editPerson || person.id !== editPerson.id)
     ?.map(person => person.icon) || [];
 
-  // Check if an icon is available (first icon is always available)
+  // Check if an icon is available (first icon is always available except if it's the user's icon)
   const isIconAvailable = (emoji) => {
-    return emoji === PERSON_ICONS[0] || !usedIcons.includes(emoji);
+    // If it's the user's icon, it's not available
+    if (emoji === user.icon) return false;
+    // If it's the first icon and not the user's icon, it's available
+    if (emoji === personIcons[0]) return true;
+    // Otherwise check if it's already used
+    return !usedIcons.includes(emoji);
   };
 
   useEffect(() => {
@@ -90,7 +93,7 @@ export default function AddPersonScreen() {
     const personData = {
       id: generateId('person-'),
       name: user.name,
-      icon: user.icon || PERSON_ICONS[0],
+      icon: user.icon || personIcons[0],
     };
 
     const updatedBill = {
@@ -115,7 +118,7 @@ export default function AddPersonScreen() {
               showName={false}
             />
             <div className="grid grid-cols-8 gap-2">
-              {PERSON_ICONS.map((emoji) => {
+              {personIcons.map((emoji) => {
                 const isAvailable = isIconAvailable(emoji);
                 const isSelected = icon === emoji;
                 return (

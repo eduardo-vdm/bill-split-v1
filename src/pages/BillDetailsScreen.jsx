@@ -314,7 +314,7 @@ export default function BillDetailsScreen() {
                     <span className="text-gray-500 dark:text-gray-400">
                       {item.type === 'tax' ? '💸' : '💰'}
                     </span>
-                    <span className="font-medium">{item.type}</span>
+                    <span className="font-medium">{t(`bills:taxTip.type.${item.type}`)}</span>
                   </div>
                   <div className="flex items-center space-x-4">
                     <span className="text-gray-600 dark:text-gray-300">

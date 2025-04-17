@@ -45,7 +45,7 @@ export default function Layout({ children, title, showBack = false, showSettings
               >
                 <HomeIcon className="h-6 w-6" />
               </button>
-              <h1 className="text-xl font-semibold text-gray-900 dark:text-white">
+              <h1 className="text-md font-semibold text-gray-900 dark:text-white">
                 {typeof title === 'string' ? t(title) : title}
               </h1>
             </div>

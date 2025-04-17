@@ -72,6 +72,11 @@ export const languages = [
   { code: 'pt', name: 'Português', defaultCurrencyCode: 'BRL' }
 ];
 
+export const personIcons = [
+  '👤', '👩', '👨', '👧', '👦', '👶', '👱‍♀️', '👱', 
+  '👩‍🦰', '👨‍🦰', '👩‍🦱', '👨‍🦱', '👩‍🦳', '👨‍🦳', '👩‍🦲', '👨‍🦲'
+];
+
 export function generateBillSummary(bill) {
   const subtotal = bill.items.reduce((sum, item) => sum + item.price, 0);
   const specialItems = bill.specialItems.map((item) => {

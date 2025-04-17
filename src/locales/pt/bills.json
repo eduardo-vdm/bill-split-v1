@@ -19,6 +19,7 @@
   "deleteBill": "Eliminar conta",
   "deleteBillConfirm": "Tem certeza que deseja eliminar esta conta?",
   "notFound": "Não encontrado",
+  "total": "Total",
   "items": {
     "title": "Itens",
     "add": "Adicionar Item",

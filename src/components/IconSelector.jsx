@@ -1,17 +1,16 @@
 import { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
-
-const PERSON_ICONS = ['👤', '👩', '👨', '👧', '👦', '👶', '👱‍♀️', '👱', '👩‍🦰', '👨‍🦰', '👩‍🦱', '👨‍🦱', '👩‍🦳', '👨‍🦳', '👩‍🦲', '👨‍🦲'];
+import { personIcons } from '../utils/helpers';
 
 export default function IconSelector({ value, onChange, disabled }) {
   const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedIcon, setSelectedIcon] = useState(value || PERSON_ICONS[0]);
+  const [selectedIcon, setSelectedIcon] = useState(value || personIcons[0]);
   const containerRef = useRef(null);
 
   useEffect(() => {
-    setSelectedIcon(value || PERSON_ICONS[0]);
+    setSelectedIcon(value || personIcons[0]);
   }, [value]);
 
   useEffect(() => {
@@ -78,7 +77,7 @@ export default function IconSelector({ value, onChange, disabled }) {
             className="absolute right-full top-0 mr-2 z-10 bg-white dark:bg-gray-800 rounded-lg shadow-xl border border-primary-500 dark:border-primary-400 p-4 min-w-fit"
           >
             <div className="grid grid-cols-4 gap-3" style={{ width: 'max-content' }}>
-              {PERSON_ICONS.map((icon) => (
+              {personIcons.map((icon) => (
                 <button
                   key={icon}
                   type="button"
