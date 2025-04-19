@@ -5,7 +5,7 @@
     "loading": "Loading"
   },
   "setup": {
-    "title": "Welcome to Bill Split",
+    "title": "Bill Split",
     "name": "What name do you prefer to go by?",
     "namePlaceholder": "Name, nickname, \"person\", etc.",
     "currency": "Currency",

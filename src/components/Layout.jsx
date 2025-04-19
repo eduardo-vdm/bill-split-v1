@@ -43,7 +43,15 @@ export default function Layout({ children, title, showBack = false, showSettings
                 className="mr-2 p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700"
                 aria-label={t('navigation:home')}
               >
-                <HomeIcon className="h-6 w-6" />
+                <img 
+                  src="/optimized_bill_icon.svg" 
+                  alt="Bill Icon" 
+                  className="w-12 h-12"
+                  style={{
+                    margin: '0 auto'
+                  }}
+                />
+                
               </button>
               <h1 className="text-md font-semibold text-gray-900 dark:text-white">
                 {typeof title === 'string' ? t(title) : title}
@@ -80,7 +88,7 @@ export default function Layout({ children, title, showBack = false, showSettings
         <div className="fixed bottom-6 right-6">
           <button
             onClick={() => navigate('/bills/new')}
-            className="bg-blue-600 hover:bg-blue-700 text-white rounded-full shadow-lg flex items-center justify-center w-14 h-14 text-2xl"
+            className="bg-tertiary-600 dark:bg-tertiary-700 text-white dark:drop-shadow-white drop-shadow-dark hover:bg-tertiary-700 dark:hover:bg-tertiary-800 rounded-full flex content-center justify-center w-12 h-12 text-4xl"
             aria-label={t('navigation:newBill')}
           >
             +

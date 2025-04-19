@@ -20,7 +20,7 @@ export default function BillSummaryScreen() {
   const { id:billId } = useParams();
   const { bills } = useBillsContext();
   const { currentBill, updateCurrentBill } = useCurrentBillContext();
-  const { currency, user } = useUserContext();
+  const { user } = useUserContext();
   const [summary, setSummary] = useState(null);
   const [showShareDialog, setShowShareDialog] = useState(false);
   const [showToast, setShowToast] = useState(false);
@@ -69,7 +69,7 @@ export default function BillSummaryScreen() {
     const bill = currentBill;
     if (!bill) return;
 
-    const date = new Date(bill.date).toLocaleDateString();
+    const date = new Date(bill.date).toLocaleDateString(i18n.language);
     const currency = user.currency;
     const total = summary.total;
 
@@ -215,7 +215,7 @@ export default function BillSummaryScreen() {
             <div className="space-y-4">
               <div className="flex justify-between items-center text-lg">
                 <span>{t('bills:summary.subtotal')}</span>
-                <span>{formatCurrency(summary.subtotal, currency)}</span>
+                <span>{formatCurrency(summary.subtotal, user.currency)}</span>
               </div>
 
               {summary.specialItems.map((item, index) => (
@@ -229,10 +229,10 @@ export default function BillSummaryScreen() {
                   <span>
                     {item.type === 'tax' ? t('bills:summary.tax') : t('bills:summary.tip')} ({item.method === 'percentage'
                       ? `${item.value}%`
-                      : formatCurrency(item.value, currency)})
+                      : formatCurrency(item.value, user.currency)})
                   </span>
                   <span>
-                    {formatCurrency(item.calculatedValue, currency)}
+                    {formatCurrency(item.calculatedValue, user.currency)}
                   </span>
                 </motion.div>
               ))}
@@ -241,7 +241,7 @@ export default function BillSummaryScreen() {
                 <div className="flex justify-between items-center text-lg font-semibold">
                   <span>{t('bills:summary.total')}</span>
                   <span className="text-primary-600 dark:text-primary-400">
-                    {formatCurrency(summary.total, currency)}
+                    {formatCurrency(summary.total, user.currency)}
                   </span>
                 </div>
               </div>
@@ -276,7 +276,7 @@ export default function BillSummaryScreen() {
                         )}
                       </CardTitle>
                       <div className="text-lg font-semibold text-primary-600 dark:text-primary-400">
-                        {formatCurrency(person.total, currency)}
+                        {formatCurrency(person.total, user.currency)}
                       </div>
                     </div>
                   </div>
@@ -292,7 +292,7 @@ export default function BillSummaryScreen() {
                           {item.name}
                         </span>
                         <span>
-                          {formatCurrency(item.amount, currency)}
+                          {formatCurrency(item.amount, user.currency)}
                         </span>
                       </div>
                     ))}
@@ -306,10 +306,10 @@ export default function BillSummaryScreen() {
                           <span className="text-gray-600 dark:text-gray-300">
                             {specialItem.type === 'tax' ? t('bills:summary.tax') : t('bills:summary.tip')} ({specialItem.method === 'percentage'
                               ? `${specialItem.value}%`
-                              : formatCurrency(specialItem.value, currency)})
+                              : formatCurrency(specialItem.value, user.currency)})
                           </span>
                           <span>
-                            {formatCurrency(share, currency)}
+                            {formatCurrency(share, user.currency)}
                           </span>
                         </div>
                       );

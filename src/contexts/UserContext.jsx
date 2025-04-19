@@ -12,7 +12,7 @@ export function UserProvider({ children }) {
     return savedUser ? JSON.parse(savedUser) : {
       name: '',
       currency: 'USD',
-      theme: 'light',
+      theme: 'dark',
       isSetup: false
     };
   });

@@ -605,7 +605,7 @@ export default function AddItemScreen() {
         }}
         title={t('bills:noPeopleAddedTitle')}
         description={t('bills:noPeopleAddedDescription')}
-        icon={<UserGroupIcon className="h-12 w-12 text-blue-500" />}
+        icon={<UserGroupIcon className="h-12 w-12 text-tertiary-500" />}
         actions={[
           {
             label: t('common:buttons.backToBill'),

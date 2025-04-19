@@ -79,11 +79,11 @@
 
 /* Component styles */
 .btn {
-  @apply inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-blue-500 disabled:pointer-events-none disabled:opacity-50;
+  @apply inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-tertiary-500 disabled:pointer-events-none disabled:opacity-50;
 }
 
 .btn-primary {
-  @apply bg-blue-500 text-white shadow hover:bg-blue-600;
+  @apply bg-tertiary-500 text-white shadow hover:bg-tertiary-600;
 }
 
 .btn-secondary {
@@ -95,7 +95,7 @@
 }
 
 .btn-link {
-  @apply text-blue-500 underline-offset-4 hover:underline;
+  @apply text-tertiary-500 underline-offset-4 hover:underline;
 }
 
 .btn-sm {
@@ -115,11 +115,11 @@
 }
 
 .input {
-  @apply flex h-9 w-full rounded-md border border-gray-300 bg-white px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-gray-400 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-blue-500 disabled:cursor-not-allowed disabled:opacity-50 dark:border-gray-600 dark:bg-gray-800 dark:placeholder:text-gray-500;
+  @apply block w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-tertiary-500 disabled:cursor-not-allowed disabled:opacity-50 dark:border-gray-600 dark:bg-gray-800 dark:placeholder:text-gray-500;
 }
 
 .select {
-  @apply flex h-9 w-full items-center justify-between rounded-md border border-gray-300 bg-white px-3 py-2 text-sm shadow-sm ring-offset-white placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 disabled:cursor-not-allowed disabled:opacity-50 dark:border-gray-600 dark:bg-gray-800 dark:placeholder:text-gray-500;
+  @apply block w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-tertiary-500 disabled:cursor-not-allowed disabled:opacity-50 dark:border-gray-600 dark:bg-gray-800 dark:placeholder:text-gray-500;
 }
 
 .card {

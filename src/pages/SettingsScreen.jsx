@@ -39,13 +39,17 @@ export default function SettingsScreen() {
     updateUser({
       name: '',
       currency: 'USD',
-      theme: 'light',
+      theme: 'dark',
       isSetup: false
     });
     
     // Delete all bills one by one
     bills.forEach(bill => deleteBill(bill.id));
     clearCurrentBill();
+    
+    // Clear any remaining data
+    localStorage.removeItem('recentPeople');
+    localStorage.removeItem('recentPlaces');
     
     // Navigate to the splash screen instead of setup
     navigate('/');
@@ -105,7 +109,7 @@ export default function SettingsScreen() {
 
             <button
               type="submit"
-              className="w-full bg-blue-600 dark:bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600"
+              className="w-full bg-tertiary-600 dark:bg-tertiary-700 text-white dark:drop-shadow-white drop-shadow-dark py-2 px-4 rounded-lg hover:bg-tertiary-700 dark:hover:bg-tertiary-800"
             >
               {t('common:buttons.save')}
             </button>
@@ -115,7 +119,7 @@ export default function SettingsScreen() {
             <h2 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">{t('settings:dangerZone')}</h2>
             <button
               onClick={handleResetData}
-              className="w-full bg-red-600 text-white py-2 px-4 rounded-lg hover:bg-red-700"
+              className="w-full bg-orange-600 text-white py-2 px-4 rounded-lg hover:bg-orange-700"
             >
               {t('settings:resetData')}
             </button>

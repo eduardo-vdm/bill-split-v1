@@ -201,7 +201,7 @@ export default function AddSpecialItemScreen() {
         }}
         title={t('bills:noItemsTitle')}
         description={t('bills:noItemsDescription')}
-        icon={<ShoppingBagIcon className="h-12 w-12 text-blue-500" />}
+        icon={<ShoppingBagIcon className="h-12 w-12 text-tertiary-500" />}
         actions={[
           {
             label: t('common:buttons.backToBill'),

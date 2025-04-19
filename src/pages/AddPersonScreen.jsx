@@ -131,7 +131,7 @@ export default function AddPersonScreen() {
                     disabled={!isAvailable}
                     className={`text-2xl p-2 rounded-lg transition-colors relative
                       ${isSelected
-                        ? 'bg-blue-100 dark:bg-blue-900'
+                        ? 'bg-tertiary-100 dark:bg-tertiary-900'
                         : isAvailable
                           ? 'hover:bg-gray-100 dark:hover:bg-gray-800'
                           : 'opacity-30 cursor-not-allowed'
@@ -180,7 +180,7 @@ export default function AddPersonScreen() {
               <button
                 type="button"
                 onClick={handleAddYourself}
-                className="text-primary-600 dark:text-primary-400 hover:underline"
+                className="text-primary-600 dark:text-primary-400 underline hover:text-primary-700 dark:hover:text-primary-500"
               >
                 {t('person:add.addYourself')}
               </button>
@@ -196,7 +196,7 @@ export default function AddPersonScreen() {
             >
               {t('person:add.cancel')}
             </Button>
-            <Button type="submit" className="flex-1">
+            <Button type="submit" className="flex-1 bg-tertiary-600 dark:bg-tertiary-700 text-white dark:drop-shadow-white drop-shadow-dark py-2 px-4 rounded-lg hover:bg-tertiary-700 dark:hover:bg-tertiary-800">
               {isEditing ? t('person:add.save') : t('person:add.add')}
             </Button>
           </div>

@@ -5,7 +5,7 @@
     "loading": "Carregando"
   },
   "setup": {
-    "title": "Bem-vindo ao Bill Split",
+    "title": "Bill Split",
     "name": "Como quer que eu te chame?",
     "namePlaceholder": "Nome, apelido, \"pessoa\", etc.",
     "currency": "Moeda",

@@ -133,7 +133,7 @@ export function initializeMockData() {
   const user = {
     name: '',
     currency: 'USD',
-    theme: 'light',
+    theme: 'dark',
     isSetup: false
   };
   localStorage.setItem('user', JSON.stringify(user));

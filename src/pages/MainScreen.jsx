@@ -76,7 +76,7 @@ export default function MainScreen() {
             <p className="text-gray-500 dark:text-gray-400 mb-4">{t('bills:noBills')}</p>
             <button
               onClick={() => navigate('/bills/new')}
-              className="bg-blue-600 dark:bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600"
+              className="bg-tertiary-600 dark:bg-tertiary-700 text-white dark:drop-shadow-white drop-shadow-dark py-2 px-4 rounded-lg hover:bg-tertiary-700 dark:hover:bg-tertiary-800"
             >
               {t('bills:createFirstBill')}
             </button>
@@ -120,14 +120,14 @@ export default function MainScreen() {
                     </div>
                     <div className="absolute bottom-3 right-3 flex space-x-1">
                       <button
-                        className="p-1.5 text-gray-400 hover:text-blue-500 dark:text-gray-500 dark:hover:text-blue-400 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                        className="p-1.5 text-gray-400 hover:text-tertiary-500 dark:text-gray-500 dark:hover:text-tertiary-400 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
                         onClick={(e) => handleEditBill(e, bill)}
                         aria-label={`Edit ${bill.name}`}
                       >
                         <PencilIcon className="w-5 h-5" />
                       </button>
                       <button
-                        className="p-1.5 text-gray-400 hover:text-green-500 dark:text-gray-500 dark:hover:text-green-400 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                        className="p-1.5 text-gray-400 hover:text-tertiary-500 dark:text-gray-500 dark:hover:text-tertiary-400 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
                         onClick={(e) => handleDuplicateBill(e, bill)}
                         aria-label={`Duplicate ${bill.name}`}
                       >

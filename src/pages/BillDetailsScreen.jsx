@@ -220,7 +220,7 @@ export default function BillDetailsScreen() {
               <h2 className="text-lg font-semibold">{t('bills:people.title')} ({currentBill.people?.length || 0})</h2>
               <button
                 onClick={() => navigate(`/bills/${id}/add-person`)}
-                className="text-blue-600 hover:text-blue-700"
+                className="text-tertiary-600 hover:text-tertiary-700"
               >
                 {t('bills:people.add')}
               </button>
@@ -271,7 +271,7 @@ export default function BillDetailsScreen() {
               <h2 className="text-lg font-semibold">{t('bills:items.title')} ({currentBill.items?.length || 0})</h2>
               <button
                 onClick={() => navigate(`/bills/${id}/add-item`)}
-                className="text-blue-600 hover:text-blue-700"
+                className="text-tertiary-600 hover:text-tertiary-700"
               >
                 {t('bills:items.add')}
               </button>
@@ -310,7 +310,7 @@ export default function BillDetailsScreen() {
               <h2 className="text-lg font-semibold">{t('bills:taxTip.title')} ({currentBill.specialItems?.length || 0})</h2>
               <button
                 onClick={() => navigate(`/bills/${id}/add-special`)}
-                className="text-blue-600 hover:text-blue-700"
+                className="text-tertiary-600 hover:text-tertiary-700"
               >
                 {t('bills:taxTip.add')}
               </button>
@@ -347,7 +347,7 @@ export default function BillDetailsScreen() {
 
           <button
             onClick={() => navigate(`/bills/${id}/summary`)}
-            className="w-full bg-blue-600 dark:bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600"
+            className="w-full bg-tertiary-600 dark:bg-tertiary-700 text-white dark:drop-shadow-white drop-shadow-dark py-2 px-4 rounded-lg hover:bg-tertiary-700 dark:hover:bg-tertiary-800"
           >
             {t('bills:summary.title')}
           </button>

@@ -21,6 +21,8 @@ const Input = forwardRef(
   ) => {
     const { t } = useTranslation();
 
+    const baseClasses = 'block w-full rounded-md border-gray-300 shadow-sm focus:border-tertiary-500 focus:ring-tertiary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white sm:text-sm';
+
     return (
       <div className={className}>
         {label && (
@@ -42,7 +44,7 @@ const Input = forwardRef(
           id={name}
           placeholder={typeof placeholder === 'string' ? t(placeholder) : placeholder}
           className={classNames(
-            'block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white sm:text-sm',
+            baseClasses,
             error && 'border-red-300 focus:border-red-500 focus:ring-red-500',
             inputClassName
           )}

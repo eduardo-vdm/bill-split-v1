@@ -15,7 +15,7 @@ export default function AccountSetupScreen() {
   const { t, i18n } = useTranslation();
   const [name, setName] = useState('');
   const [icon, setIcon] = useState('');
-  const [theme, setTheme] = useState(user?.theme || 'light');
+  const [theme, setTheme] = useState(user?.theme || 'dark');
   const [currency, setCurrency] = useState(() => {
     // Get the current language's default currency
     const currentLanguage = languages.find(lang => lang.code === i18n.language);
@@ -71,14 +71,27 @@ export default function AccountSetupScreen() {
           )}
         </button>
       </div>
+
       <motion.div
         initial={{ scale: 0.9, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
-        className="w-full max-w-md bg-white dark:bg-gray-800 rounded-xl shadow-xl p-6"
+        className="w-full max-w-md bg-white dark:bg-gray-800 rounded-xl shadow-xl p-6 relative"
       >
         <h1 className="text-2xl font-bold text-center mb-6 text-gray-900 dark:text-white">
           {t('app:setup.title')}
         </h1>
+
+        <img 
+          src="/optimized_bill_icon_shadow_w.svg" 
+          alt="Bill Icon" 
+          className="w-32 h-32 mb-8"
+          style={{
+            margin: '0 auto',
+            position: 'absolute',
+            top: '-60px',
+            right: '12px',
+          }}
+        />
         
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="grid grid-cols-4 gap-3 pb-3">
@@ -130,7 +143,7 @@ export default function AccountSetupScreen() {
           </div>
           <button
             type="submit"
-            className="w-full bg-blue-600 dark:bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600"
+            className="w-full bg-tertiary-600 dark:bg-tertiary-700 text-white dark:drop-shadow-white drop-shadow-dark py-2 px-4 rounded-lg hover:bg-tertiary-700 dark:hover:bg-tertiary-800"
           >
             {t('app:setup.start')}
           </button>

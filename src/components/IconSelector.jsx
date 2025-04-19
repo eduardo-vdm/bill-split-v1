@@ -49,7 +49,7 @@ export default function IconSelector({ value, onChange, disabled }) {
         type="button"
         onClick={() => !disabled && setIsOpen(!isOpen)}
         disabled={disabled}
-        className={`w-full h-full p-2 border rounded-lg flex flex-col items-center justify-between
+        className={`w-full h-5/6 p-2 border rounded-lg flex flex-col items-center justify-between
           ${disabled 
             ? 'bg-gray-100 dark:bg-gray-800 text-gray-400 dark:text-gray-600 border-gray-200 dark:border-gray-700' 
             : 'bg-white dark:bg-gray-700 text-gray-900 dark:text-white border-gray-300 dark:border-gray-600 hover:border-primary-500 dark:hover:border-primary-400'
