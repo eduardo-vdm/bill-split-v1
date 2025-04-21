@@ -31,22 +31,22 @@ export default function Layout({ children, title, showBack = false, showSettings
     <div className="min-h-screen flex flex-col bg-white dark:bg-gray-900">
       {showBackgroundCircles && <BackgroundCircles />}
       
-      <header className="sticky top-0 z-10 bg-navyblue-100 dark:bg-navyblue-800 shadow-sm">
+      <header className="sticky top-0 z-10 bg-gradient-to-br from-primary-500 to-secondary-500 dark:from-primary-600 dark:to-secondary-600 shadow-lg dark:shadow-primary-900/50 border-b-4 border-primary-50 dark:border-primary-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
               {showBack && (
                 <button
                   onClick={handleBack}
-                  className="mr-2 p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700"
+                  className="mr-2 p-2 rounded-full hover:bg-white/20 dark:hover:bg-white/20"
                   aria-label={t('common:back')}
                 >
-                  <ArrowLeftIcon className="h-6 w-6" />
+                  <ArrowLeftIcon className="h-6 w-6 text-white" />
                 </button>
               )}
               <button
                 onClick={handleHome}
-                className="mr-2 p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700"
+                className="mr-2 p-2 rounded-full hover:bg-white/20 dark:hover:bg-white/20"
                 aria-label={t('navigation:home')}
               >
                 <img 
@@ -57,9 +57,8 @@ export default function Layout({ children, title, showBack = false, showSettings
                     margin: '0 auto'
                   }}
                 />
-                
               </button>
-              <h1 className="text-md font-semibold text-gray-900 dark:text-white">
+              <h1 className="text-md font-semibold text-white">
                 {typeof title === 'string' ? t(title) : title}
               </h1>
             </div>
@@ -68,14 +67,14 @@ export default function Layout({ children, title, showBack = false, showSettings
               {showSettings && (
                 <button
                   onClick={handleSettings}
-                  className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700"
+                  className="p-2 rounded-full hover:bg-white/20 dark:hover:bg-white/20"
                   aria-label={t('navigation:settings')}
                 >
-                  <Cog6ToothIcon className="h-6 w-6" />
+                  <Cog6ToothIcon className="h-6 w-6 text-white" />
                 </button>
               )}
               {user.icon && (
-                <div className="text-2xl" role="img" aria-label={t('person:icon')}>
+                <div className="text-2xl text-white" role="img" aria-label={t('person:icon')}>
                   {user.icon}
                 </div>
               )}
