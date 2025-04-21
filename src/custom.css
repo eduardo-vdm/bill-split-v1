@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+
+@layer components {
+  .card-accent-bottom-left {
+    @apply absolute bottom-0 left-0 w-12 h-12 bg-primary-500 rounded-bl-lg z-[-1];
+    clip-path: polygon(0 0, 0% 100%, 100% 100%);
+  }
+
+  .card-accent-top-right {
+    @apply absolute -top-0 -right-0 w-6 h-6 bg-tertiary-500 z-[-1];
+    clip-path: polygon(100% 0, 0 0, 100% 100%);
+  }
+}
+
+@tailwind utilities;

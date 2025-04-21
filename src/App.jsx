@@ -17,7 +17,7 @@ import BillSummaryScreen from './pages/BillSummaryScreen';
 
 // Import Tailwind CSS
 import './index.css';
-
+import './custom.css';
 function App() {
   useEffect(() => {
     initializeMockData();

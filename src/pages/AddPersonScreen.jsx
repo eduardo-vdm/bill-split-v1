@@ -196,7 +196,7 @@ export default function AddPersonScreen() {
             >
               {t('person:add.cancel')}
             </Button>
-            <Button type="submit" className="flex-1 bg-tertiary-600 dark:bg-tertiary-700 text-white dark:drop-shadow-white drop-shadow-dark py-2 px-4 rounded-lg hover:bg-tertiary-700 dark:hover:bg-tertiary-800">
+            <Button type="submit" className="flex-1 bg-tertiary-600 dark:bg-tertiary-600 text-white dark:drop-shadow-white drop-shadow-dark py-2 px-4 rounded-lg hover:bg-tertiary-700 dark:hover:bg-tertiary-700">
               {isEditing ? t('person:add.save') : t('person:add.add')}
             </Button>
           </div>

@@ -195,7 +195,7 @@ export default function NewBillScreen() {
             >
               {t('common:buttons.cancel')}
             </Button>
-            <Button type="submit" className="flex-1 bg-tertiary-600 dark:bg-tertiary-700 text-white dark:drop-shadow-white drop-shadow-dark py-2 px-4 rounded-lg hover:bg-tertiary-700 dark:hover:bg-tertiary-800">
+            <Button type="submit" className="flex-1 bg-tertiary-600 dark:bg-tertiary-600 text-white dark:drop-shadow-white drop-shadow-dark py-2 px-4 rounded-lg hover:bg-tertiary-700 dark:hover:bg-tertiary-700">
               {editBill ? t('common:buttons.save') : t('common:buttons.create')}
             </Button>
           </div>

@@ -347,7 +347,7 @@ export default function BillDetailsScreen() {
 
           <button
             onClick={() => navigate(`/bills/${id}/summary`)}
-            className="w-full bg-tertiary-600 dark:bg-tertiary-700 text-white dark:drop-shadow-white drop-shadow-dark py-2 px-4 rounded-lg hover:bg-tertiary-700 dark:hover:bg-tertiary-800"
+            className="w-full bg-tertiary-600 dark:bg-tertiary-600 text-white dark:drop-shadow-white drop-shadow-dark py-2 px-4 rounded-lg hover:bg-tertiary-700 dark:hover:bg-tertiary-700"
           >
             {t('bills:summary.title')}
           </button>

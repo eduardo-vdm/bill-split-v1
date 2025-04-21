@@ -76,7 +76,7 @@ export default function MainScreen() {
             <p className="text-gray-500 dark:text-gray-400 mb-4">{t('bills:noBills')}</p>
             <button
               onClick={() => navigate('/bills/new')}
-              className="bg-tertiary-600 dark:bg-tertiary-700 text-white dark:drop-shadow-white drop-shadow-dark py-2 px-4 rounded-lg hover:bg-tertiary-700 dark:hover:bg-tertiary-800"
+              className="bg-tertiary-600 dark:bg-tertiary-600 text-white dark:drop-shadow-white drop-shadow-dark py-2 px-4 rounded-lg hover:bg-tertiary-700 dark:hover:bg-tertiary-700"
             >
               {t('bills:createFirstBill')}
             </button>
@@ -94,14 +94,21 @@ export default function MainScreen() {
                   >
                     <div
                       onClick={() => navigate(`/bills/${bill.id}`)}
-                      className="w-[312px] bg-gradient-to-r from-tertiary-500 from-5% to-gray-100 dark:to-gray-900 to-5% hover:to-gray-50 to-5% dark:hover:to-gray-800 to-5% hover:from-secondary-600 dark:hover:from-secondary-600 rounded-lg rounded-r-none p-4 border-t-4 border-tertiary-500 dark:border-tertiary-500 hover:border-secondary-500 dark:hover:border-secondary-500 dark:drop-shadow-white drop-shadow-dark transition-all relative hover:bg-white dark:hover:bg-gray-700 pl-6"
+                      className="w-[312px] bg-gradient-to-r from-tertiary-500 from-5% to-gray-100 dark:to-gray-900 to-5% hover:to-gray-50 to-5% dark:hover:to-gray-800 to-5% hover:from-secondary-600 dark:hover:from-secondary-600 rounded-lg rounded-r-none p-4 border-t-2 border-tertiary-500 dark:border-tertiary-500 hover:border-secondary-500 dark:hover:border-secondary-500 dark:drop-shadow-white drop-shadow-dark transition-all relative hover:bg-white dark:hover:bg-gray-700 pl-6"
                     >
+                      <div className="card-accent-bottom-left flex items-end justify-start">
+                        <span role="img" aria-label={bill.type} className="text-xl">
+                          {billType?.icon}
+                        </span>
+                      </div>
+                      <div className="card-accent-top-right">
+                      </div>
                       <div className="flex items-start justify-between">
                         <div>
                           <div className="flex items-center space-x-2 mb-2">
-                            <span role="img" aria-label={bill.type}>
+                            {/* <span role="img" aria-label={bill.type}>
                               {billType?.icon}
-                            </span>
+                            </span> */}
                             <h3 className="font-medium">{bill.name}</h3>
                           </div>
                           <p className="text-sm text-gray-500 dark:text-gray-400">
@@ -149,7 +156,7 @@ export default function MainScreen() {
             </div>
             <button
               onClick={() => navigate('/bills/new')}
-              // className="fixed bottom-6 right-6 lg:right-1/2 lg:translate-x-[324px] bg-tertiary-600 dark:bg-tertiary-700 text-white dark:drop-shadow-white drop-shadow-dark hover:bg-tertiary-700 dark:hover:bg-tertiary-800 rounded-full flex content-center justify-center w-12 h-12 text-4xl"
+              // className="fixed bottom-6 right-6 lg:right-1/2 lg:translate-x-[324px] bg-tertiary-600 dark:bg-tertiary-600 text-white dark:drop-shadow-white drop-shadow-dark hover:bg-tertiary-700 dark:hover:bg-tertiary-700 rounded-full flex content-center justify-center w-12 h-12 text-4xl"
               className="fixed bottom-6 right-6 lg:right-1/2 lg:translate-x-[324px] text-white flex content-center justify-center w-24 h-24 text-4xl"
               aria-label={t('navigation:newBill')}
             >

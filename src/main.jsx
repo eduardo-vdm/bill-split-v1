@@ -7,6 +7,7 @@ import { CurrentBillProvider } from './contexts/CurrentBillContext';
 import App from './App.jsx';
 import './i18n'; // Import i18n configuration
 import './index.css';
+import './custom.css';
 
 createRoot(document.getElementById('root')).render(
   <React.StrictMode>
