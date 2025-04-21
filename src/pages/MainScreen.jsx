@@ -82,8 +82,8 @@ export default function MainScreen() {
             </button>
           </div>
         ) : (
-          <div className="flex justify-center">
-            <div className="flex flex-wrap gap-4 justify-start w-min lg:w-auto lg:min-w-[648px]">
+          <div className="flex justify-center relative">
+            <div className="flex flex-wrap gap-4 justify-start w-min lg:w-auto lg:min-w-[648px] pb-16">
               {bills.map((bill) => {
                 const billType = billTypes.find((t) => t.id === bill.type);
                 return (
@@ -94,7 +94,7 @@ export default function MainScreen() {
                   >
                     <div
                       onClick={() => navigate(`/bills/${bill.id}`)}
-                      className="w-[312px] bg-gradient-to-r from-tertiary-500 from-5% to-gray-100 dark:to-gray-900 to-5% hover:to-gray-50 to-5% dark:hover:to-gray-800 to-5% hover:from-secondary-600 dark:hover:from-secondary-600 rounded-lg rounded-r-none p-4 border-2 border-tertiary-500 dark:border-tertiary-500 hover:border-secondary-500 dark:hover:border-secondary-500 dark:drop-shadow-white drop-shadow-dark transition-all relative hover:bg-white dark:hover:bg-gray-700 pl-6"
+                      className="w-[312px] bg-gradient-to-r from-tertiary-500 from-5% to-gray-100 dark:to-gray-900 to-5% hover:to-gray-50 to-5% dark:hover:to-gray-800 to-5% hover:from-secondary-600 dark:hover:from-secondary-600 rounded-lg rounded-r-none p-4 border-t-4 border-tertiary-500 dark:border-tertiary-500 hover:border-secondary-500 dark:hover:border-secondary-500 dark:drop-shadow-white drop-shadow-dark transition-all relative hover:bg-white dark:hover:bg-gray-700 pl-6"
                     >
                       <div className="flex items-start justify-between">
                         <div>
@@ -147,6 +147,22 @@ export default function MainScreen() {
                 );
               })}
             </div>
+            <button
+              onClick={() => navigate('/bills/new')}
+              // className="fixed bottom-6 right-6 lg:right-1/2 lg:translate-x-[324px] bg-tertiary-600 dark:bg-tertiary-700 text-white dark:drop-shadow-white drop-shadow-dark hover:bg-tertiary-700 dark:hover:bg-tertiary-800 rounded-full flex content-center justify-center w-12 h-12 text-4xl"
+              className="fixed bottom-6 right-6 lg:right-1/2 lg:translate-x-[324px] text-white flex content-center justify-center w-24 h-24 text-4xl"
+              aria-label={t('navigation:newBill')}
+            >
+              <img 
+                  src="/ticket_icon_1.svg"
+                  alt="Create Bill" 
+                  className="w-24 h-24 dark:drop-shadow-white hover:drop-shadow-dark-hover dark:hover:drop-shadow-white-hover drop-shadow-dark brightness-100 hover:brightness-125"
+                style={{
+                  margin: '0 auto'
+                }}
+              />
+              <span className="text-5xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-7 pointer-events-none">+</span>
+            </button>
           </div>
         )}
 

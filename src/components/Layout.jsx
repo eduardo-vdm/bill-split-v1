@@ -89,17 +89,6 @@ export default function Layout({ children, title, showBack = false, showSettings
         </div>
       </main>
 
-      {location.pathname === '/bills' && (
-        <div className="fixed bottom-6 right-6">
-          <button
-            onClick={() => navigate('/bills/new')}
-            className="bg-tertiary-600 dark:bg-tertiary-700 text-white dark:drop-shadow-white drop-shadow-dark hover:bg-tertiary-700 dark:hover:bg-tertiary-800 rounded-full flex content-center justify-center w-12 h-12 text-4xl"
-            aria-label={t('navigation:newBill')}
-          >
-            +
-          </button>
-        </div>
-      )}
     </div>
   );
 } 

@@ -78,6 +78,8 @@ export default {
       dropShadow: {
         'white': '3px 3px rgba(255, 255, 255, .8)',
         'dark': '3px 3px #0e2a63',
+        'white-hover': '3px 3px #c9721f',
+        'dark-hover': '3px 3px #c9721f',
       }
     },
   },
