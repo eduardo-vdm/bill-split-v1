@@ -46,19 +46,19 @@ export default function Layout({ children, title, showBack = false, showSettings
               )}
               <button
                 onClick={handleHome}
-                className="mr-2 p-2 rounded-full hover:bg-white/20 dark:hover:bg-white/20"
+                className="mr-2 p-2 rounded-full"
                 aria-label={t('navigation:home')}
               >
                 <img 
                   src="/optimized_bill_icon.svg" 
                   alt="Bill Icon" 
-                  className="w-16 h-16 drop-shadow-white-sm relative top-2 -left-2"
+                  className="w-16 h-16 drop-shadow-white-sm relative top-2 -left-2 brightness-100 hover:brightness-125"
                   style={{
                     margin: '0 auto'
                   }}
                 />
               </button>
-              <h1 className="text-md font-semibold text-white">
+              <h1 className="text-md md:text-lg lg:text-xl font-semibold text-white truncate">
                 {typeof title === 'string' ? t(title) : title}
               </h1>
             </div>

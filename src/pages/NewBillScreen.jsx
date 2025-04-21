@@ -66,7 +66,7 @@ export default function NewBillScreen() {
       };
       updateBill(editBill.id, updatedBill);
       updateCurrentBill(updatedBill);
-      navigate(`/bills/${editBill.id}`);
+      navigate(-1);
     } else {
       // Create new bill
       const newBill = {
