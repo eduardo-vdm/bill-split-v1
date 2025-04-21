@@ -191,154 +191,156 @@ export default function BillSummaryScreen() {
 
   return (
     <Layout title={t('bills:summary.title')} showBack>
-      <div className="space-y-6 bill-summary-content">
-        <Card>
-          <CardHeader>
-            <div>
-              <CardTitle>{summary.name}</CardTitle>
-              {summary.place && (
-                <p className="text-sm text-gray-600 dark:text-gray-300 mt-1">
-                  {summary.place} • {new Date(summary.date).toLocaleDateString(i18n.language)}
-                </p>
-              )}
-            </div>
-            <Button
-              variant="outline"
-              size="sm"
-              icon={ShareIcon}
-              onClick={() => setShowShareDialog(true)}
-            >
-              {t('bills:summary.share')}
-            </Button>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              <div className="flex justify-between items-center text-lg">
-                <span>{t('bills:summary.subtotal')}</span>
-                <span>{formatCurrency(summary.subtotal, user.currency)}</span>
+      <div className="max-w-[28rem] min-w-[20rem] mx-auto">
+        <div className="space-y-6 bill-summary-content">
+          <Card>
+            <CardHeader>
+              <div>
+                <CardTitle>{summary.name}</CardTitle>
+                {summary.place && (
+                  <p className="text-sm text-gray-600 dark:text-gray-300 mt-1">
+                    {summary.place} • {new Date(summary.date).toLocaleDateString(i18n.language)}
+                  </p>
+                )}
               </div>
+              <Button
+                variant="outline"
+                size="sm"
+                icon={ShareIcon}
+                onClick={() => setShowShareDialog(true)}
+              >
+                {t('bills:summary.share')}
+              </Button>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                <div className="flex justify-between items-center text-lg">
+                  <span>{t('bills:summary.subtotal')}</span>
+                  <span>{formatCurrency(summary.subtotal, user.currency)}</span>
+                </div>
 
-              {summary.specialItems.map((item, index) => (
-                <motion.div
-                  key={item.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1 }}
-                  className="flex justify-between items-center text-gray-600 dark:text-gray-300"
-                >
-                  <span>
-                    {item.type === 'tax' ? t('bills:summary.tax') : t('bills:summary.tip')} ({item.method === 'percentage'
-                      ? `${item.value}%`
-                      : formatCurrency(item.value, user.currency)})
-                  </span>
-                  <span>
-                    {formatCurrency(item.calculatedValue, user.currency)}
-                  </span>
-                </motion.div>
-              ))}
+                {summary.specialItems.map((item, index) => (
+                  <motion.div
+                    key={item.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.1 }}
+                    className="flex justify-between items-center text-gray-600 dark:text-gray-300"
+                  >
+                    <span>
+                      {item.type === 'tax' ? t('bills:summary.tax') : t('bills:summary.tip')} ({item.method === 'percentage'
+                        ? `${item.value}%`
+                        : formatCurrency(item.value, user.currency)})
+                    </span>
+                    <span>
+                      {formatCurrency(item.calculatedValue, user.currency)}
+                    </span>
+                  </motion.div>
+                ))}
 
-              <div className="border-t border-gray-200 dark:border-gray-700 pt-2 mt-2">
-                <div className="flex justify-between items-center text-lg font-semibold">
-                  <span>{t('bills:summary.total')}</span>
-                  <span className="text-primary-600 dark:text-primary-400">
-                    {formatCurrency(summary.total, user.currency)}
-                  </span>
+                <div className="border-t border-gray-200 dark:border-gray-700 pt-2 mt-2">
+                  <div className="flex justify-between items-center text-lg font-semibold">
+                    <span>{t('bills:summary.total')}</span>
+                    <span className="text-primary-600 dark:text-primary-400">
+                      {formatCurrency(summary.total, user.currency)}
+                    </span>
+                  </div>
                 </div>
               </div>
-            </div>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
 
-        <div className="space-y-4">
-          <h2 className="text-lg font-semibold">{t('bills:summary.breakdown')}</h2>
-          {summary.personDetails.map((person, index) => (
-            <motion.div
-              key={person.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
-            >
-              <Card>
-                <CardHeader>
-                  <div className="flex items-center space-x-3">
-                    <PersonAvatar
-                      name={person.name}
-                      icon={person.icon}
-                      showName={false}
-                    />
-                    <div>
-                      <CardTitle>
-                        {person.name}
-                        {person.name === user.name && (
-                          <span className="text-gray-500 dark:text-gray-400 ml-1">
-                            ({t('person:you')})
-                          </span>
-                        )}
-                      </CardTitle>
-                      <div className="text-lg font-semibold text-primary-600 dark:text-primary-400">
-                        {formatCurrency(person.total, user.currency)}
+          <div className="space-y-4">
+            <h2 className="text-lg font-semibold">{t('bills:summary.breakdown')}</h2>
+            {summary.personDetails.map((person, index) => (
+              <motion.div
+                key={person.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1 }}
+              >
+                <Card>
+                  <CardHeader>
+                    <div className="flex items-center space-x-3">
+                      <PersonAvatar
+                        name={person.name}
+                        icon={person.icon}
+                        showName={false}
+                      />
+                      <div>
+                        <CardTitle>
+                          {person.name}
+                          {person.name === user.name && (
+                            <span className="text-gray-500 dark:text-gray-400 ml-1">
+                              ({t('person:you')})
+                            </span>
+                          )}
+                        </CardTitle>
+                        <div className="text-lg font-semibold text-primary-600 dark:text-primary-400">
+                          {formatCurrency(person.total, user.currency)}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-2">
-                    {person.items.map((item) => (
-                      <div
-                        key={item.name}
-                        className="flex justify-between items-center text-sm"
-                      >
-                        <span className="text-gray-600 dark:text-gray-300">
-                          {item.name}
-                        </span>
-                        <span>
-                          {formatCurrency(item.amount, user.currency)}
-                        </span>
-                      </div>
-                    ))}
-                    {summary.specialItems.map((specialItem) => {
-                      const share = specialItem.calculatedValue / summary.personDetails.length;
-                      return (
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-2">
+                      {person.items.map((item) => (
                         <div
-                          key={specialItem.id}
+                          key={item.name}
                           className="flex justify-between items-center text-sm"
                         >
                           <span className="text-gray-600 dark:text-gray-300">
-                            {specialItem.type === 'tax' ? t('bills:summary.tax') : t('bills:summary.tip')} ({specialItem.method === 'percentage'
-                              ? `${specialItem.value}%`
-                              : formatCurrency(specialItem.value, user.currency)})
+                            {item.name}
                           </span>
                           <span>
-                            {formatCurrency(share, user.currency)}
+                            {formatCurrency(item.amount, user.currency)}
                           </span>
                         </div>
-                      );
-                    })}
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
-          ))}
+                      ))}
+                      {summary.specialItems.map((specialItem) => {
+                        const share = specialItem.calculatedValue / summary.personDetails.length;
+                        return (
+                          <div
+                            key={specialItem.id}
+                            className="flex justify-between items-center text-sm"
+                          >
+                            <span className="text-gray-600 dark:text-gray-300">
+                              {specialItem.type === 'tax' ? t('bills:summary.tax') : t('bills:summary.tip')} ({specialItem.method === 'percentage'
+                                ? `${specialItem.value}%`
+                                : formatCurrency(specialItem.value, user.currency)})
+                            </span>
+                            <span>
+                              {formatCurrency(share, user.currency)}
+                            </span>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            ))}
+          </div>
         </div>
+
+        <ShareDialog
+          isOpen={showShareDialog}
+          onClose={() => setShowShareDialog(false)}
+          onShareAsText={handleShareAsText}
+          onShareAsImage={handleShareAsImage}
+        />
+
+        {showToast && (
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 50 }}
+            className="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white px-4 py-2 rounded-full"
+          >
+            {toastMessage}
+          </motion.div>
+        )}
       </div>
-
-      <ShareDialog
-        isOpen={showShareDialog}
-        onClose={() => setShowShareDialog(false)}
-        onShareAsText={handleShareAsText}
-        onShareAsImage={handleShareAsImage}
-      />
-
-      {showToast && (
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: 50 }}
-          className="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white px-4 py-2 rounded-full"
-        >
-          {toastMessage}
-        </motion.div>
-      )}
     </Layout>
   );
 } 

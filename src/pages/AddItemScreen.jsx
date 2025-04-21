@@ -363,7 +363,7 @@ export default function AddItemScreen() {
 
   return (
     <Layout title={t('bills:items.add')} showBack>
-      <div className="max-w-lg mx-auto">
+      <div className="max-w-[28rem] min-w-[20rem] mx-auto">
         {!currentBill ? (
           <div className="text-center py-8">
             <p className="text-gray-600 dark:text-gray-400">{t('bills:notFound')}</p>

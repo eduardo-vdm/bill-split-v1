@@ -59,7 +59,7 @@ export default function MainScreen() {
 
   return (
     <Layout title={t('bills:title')}>
-      <div className="p-4 max-w-2xl mx-auto">
+      <div className="max-w-[48rem] min-w-[20rem] mx-auto lg:max-w-unset lg:w-min">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-2xl font-bold">{t('bills:title')}</h1>
           <button
@@ -82,69 +82,71 @@ export default function MainScreen() {
             </button>
           </div>
         ) : (
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {bills.map((bill) => {
-              const billType = billTypes.find((t) => t.id === bill.type);
-              return (
-                <motion.div
-                  key={bill.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                >
-                  <div
-                    onClick={() => navigate(`/bills/${bill.id}`)}
-                    className="bg-gray-100 dark:bg-gray-800 rounded-lg p-4 border border-gray-400 dark:border-gray-700 shadow-lg hover:shadow-xl transition-all relative group hover:bg-white dark:hover:bg-gray-700"
+          <div className="flex justify-center">
+            <div className="flex flex-wrap gap-4 justify-start w-min lg:w-auto lg:min-w-[648px]">
+              {bills.map((bill) => {
+                const billType = billTypes.find((t) => t.id === bill.type);
+                return (
+                  <motion.div
+                    key={bill.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
                   >
-                    <div className="flex items-start justify-between">
-                      <div>
-                        <div className="flex items-center space-x-2 mb-2">
-                          <span role="img" aria-label={bill.type}>
-                            {billType?.icon}
-                          </span>
-                          <h3 className="font-medium">{bill.name}</h3>
+                    <div
+                      onClick={() => navigate(`/bills/${bill.id}`)}
+                      className="w-[312px] bg-gradient-to-r from-tertiary-500 from-5% to-gray-100 dark:to-gray-900 to-5% hover:to-gray-50 to-5% dark:hover:to-gray-800 to-5% hover:from-secondary-600 dark:hover:from-secondary-600 rounded-lg rounded-r-none p-4 border-t-4 border-tertiary-500 dark:border-tertiary-500 hover:border-secondary-500 dark:hover:border-secondary-500 dark:drop-shadow-white drop-shadow-dark transition-all relative hover:bg-white dark:hover:bg-gray-700 pl-6"
+                    >
+                      <div className="flex items-start justify-between">
+                        <div>
+                          <div className="flex items-center space-x-2 mb-2">
+                            <span role="img" aria-label={bill.type}>
+                              {billType?.icon}
+                            </span>
+                            <h3 className="font-medium">{bill.name}</h3>
+                          </div>
+                          <p className="text-sm text-gray-500 dark:text-gray-400">
+                            {bill.place} • {new Date(bill.date).toLocaleDateString(i18n.language)}
+                          </p>
                         </div>
-                        <p className="text-sm text-gray-500 dark:text-gray-400">
-                          {bill.place} • {new Date(bill.date).toLocaleDateString(i18n.language)}
-                        </p>
+                        <div className="text-lg font-semibold text-primary-600 dark:text-primary-400">
+                          {formatCurrency(calculateBillTotal(bill), user.currency)}
+                        </div>
                       </div>
-                      <div className="text-lg font-semibold text-primary-600 dark:text-primary-400">
-                        {formatCurrency(calculateBillTotal(bill), user.currency)}
+                      <div className="flex gap-2 mt-2 mb-8">
+                        {bill.people?.map((person) => (
+                          <span key={person.id} className="text-2xl" title={person.name}>
+                            {person.icon}
+                          </span>
+                        ))}
+                      </div>
+                      <div className="absolute bottom-3 right-3 flex space-x-1">
+                        <button
+                          className="p-1.5 text-gray-400 hover:text-tertiary-500 dark:text-gray-500 dark:hover:text-tertiary-400 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                          onClick={(e) => handleEditBill(e, bill)}
+                          aria-label={`Edit ${bill.name}`}
+                        >
+                          <PencilIcon className="w-5 h-5" />
+                        </button>
+                        <button
+                          className="p-1.5 text-gray-400 hover:text-tertiary-500 dark:text-gray-500 dark:hover:text-tertiary-400 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                          onClick={(e) => handleDuplicateBill(e, bill)}
+                          aria-label={`Duplicate ${bill.name}`}
+                        >
+                          <DocumentDuplicateIcon className="w-5 h-5" />
+                        </button>
+                        <button
+                          className="p-1.5 text-gray-400 hover:text-red-500 dark:text-gray-500 dark:hover:text-red-400 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                          onClick={(e) => handleDeleteBill(e, bill)}
+                          aria-label={`Delete ${bill.name}`}
+                        >
+                          <TrashIcon className="w-5 h-5" />
+                        </button>
                       </div>
                     </div>
-                    <div className="flex gap-2 mt-2 mb-8">
-                      {bill.people?.map((person) => (
-                        <span key={person.id} className="text-2xl" title={person.name}>
-                          {person.icon}
-                        </span>
-                      ))}
-                    </div>
-                    <div className="absolute bottom-3 right-3 flex space-x-1">
-                      <button
-                        className="p-1.5 text-gray-400 hover:text-tertiary-500 dark:text-gray-500 dark:hover:text-tertiary-400 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-                        onClick={(e) => handleEditBill(e, bill)}
-                        aria-label={`Edit ${bill.name}`}
-                      >
-                        <PencilIcon className="w-5 h-5" />
-                      </button>
-                      <button
-                        className="p-1.5 text-gray-400 hover:text-tertiary-500 dark:text-gray-500 dark:hover:text-tertiary-400 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-                        onClick={(e) => handleDuplicateBill(e, bill)}
-                        aria-label={`Duplicate ${bill.name}`}
-                      >
-                        <DocumentDuplicateIcon className="w-5 h-5" />
-                      </button>
-                      <button
-                        className="p-1.5 text-gray-400 hover:text-red-500 dark:text-gray-500 dark:hover:text-red-400 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-                        onClick={(e) => handleDeleteBill(e, bill)}
-                        aria-label={`Delete ${bill.name}`}
-                      >
-                        <TrashIcon className="w-5 h-5" />
-                      </button>
-                    </div>
-                  </div>
-                </motion.div>
-              );
-            })}
+                  </motion.div>
+                );
+              })}
+            </div>
           </div>
         )}
 
@@ -158,4 +160,4 @@ export default function MainScreen() {
       </div>
     </Layout>
   );
-} 
+}

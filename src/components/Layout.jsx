@@ -4,6 +4,7 @@ import { ArrowLeftIcon, Cog6ToothIcon, HomeIcon } from '@heroicons/react/24/outl
 import { classNames } from '../utils/helpers';
 import LanguageSelector from './LanguageSelector';
 import { useTranslation } from 'react-i18next';
+import BackgroundCircles from './BackgroundCircles';
 
 export default function Layout({ children, title, showBack = false, showSettings = true }) {
   const navigate = useNavigate();
@@ -23,9 +24,14 @@ export default function Layout({ children, title, showBack = false, showSettings
     navigate('/settings');
   };
 
+  // Don't show background circles on BillSummaryScreen
+  const showBackgroundCircles = !location.pathname.includes('/summary');
+
   return (
     <div className="min-h-screen flex flex-col bg-white dark:bg-gray-900">
-      <header className="sticky top-0 z-10 bg-gray-50 dark:bg-gray-800 shadow-sm">
+      {showBackgroundCircles && <BackgroundCircles />}
+      
+      <header className="sticky top-0 z-10 bg-navyblue-100 dark:bg-navyblue-800 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">

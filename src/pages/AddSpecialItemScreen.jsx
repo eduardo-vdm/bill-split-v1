@@ -109,7 +109,7 @@ export default function AddSpecialItemScreen() {
 
   return (
     <Layout title={isEditing ? t('bills:editSpecialItem') : t('bills:addSpecialItem')} showBack>
-      <div className="max-w-lg mx-auto">
+      <div className="max-w-[28rem] min-w-[20rem] mx-auto">
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
             <label htmlFor="type" className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">

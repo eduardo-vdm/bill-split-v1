@@ -110,7 +110,7 @@ export default function AddPersonScreen() {
 
   return (
     <Layout title={isEditing ? t('person:add.editTitle') : t('person:add.title')} showBack>
-      <div className="max-w-lg mx-auto">
+      <div className="max-w-[28rem] min-w-[20rem] mx-auto">
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="flex flex-col items-center space-y-4">
             <PersonAvatar
