@@ -82,14 +82,11 @@ export default function AccountSetupScreen() {
         </h1>
 
         <img 
-          src="/optimized_bill_icon_shadow_w.svg" 
+          src="/optimized_bill_icon.svg" 
           alt="Bill Icon" 
-          className="w-32 h-32 mb-8"
+          className="w-32 h-32 mb-8 absolute -top-16 right-2"
           style={{
-            margin: '0 auto',
-            position: 'absolute',
-            top: '-60px',
-            right: '12px',
+            margin: '0 auto'
           }}
         />
         

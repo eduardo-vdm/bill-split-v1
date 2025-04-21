@@ -52,7 +52,7 @@ export default function Layout({ children, title, showBack = false, showSettings
                 <img 
                   src="/optimized_bill_icon.svg" 
                   alt="Bill Icon" 
-                  className="w-12 h-12"
+                  className="w-16 h-16 drop-shadow-white-sm relative top-2 -left-2"
                   style={{
                     margin: '0 auto'
                   }}
