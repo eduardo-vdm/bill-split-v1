@@ -7,6 +7,7 @@ import { formatCurrency } from '../utils/formatters';
 import { billTypes, generateId } from '../utils/helpers';
 import Layout from '../components/Layout';
 import ConfirmDialog from '../components/ConfirmDialog';
+import Tooltip from '../components/Tooltip';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -96,19 +97,31 @@ export default function MainScreen() {
                       onClick={() => navigate(`/bills/${bill.id}`)}
                       className="w-[312px] bg-gradient-to-r from-tertiary-500 from-5% to-gray-100 dark:to-gray-900 to-5% hover:to-gray-50 to-5% dark:hover:to-gray-800 to-5% hover:from-secondary-600 dark:hover:from-secondary-600 rounded-lg rounded-r-none p-4 border-t-2 border-tertiary-500 dark:border-tertiary-500 hover:border-secondary-500 dark:hover:border-secondary-500 dark:drop-shadow-white drop-shadow-dark transition-all relative hover:bg-white dark:hover:bg-gray-700 pl-6"
                     >
-                      <div className="card-accent-bottom-left flex items-end justify-start">
-                        <span role="img" aria-label={bill.type} className="text-2xl">
-                          {billType?.icon}
-                        </span>
+                      <div className="absolute bottom-0 left-0">
+                        <div className="card-accent-bottom-left"></div>
+                        <div className="absolute bottom-1 left-1">
+                          <Tooltip 
+                            content={t(billType?.translationKey)} 
+                            position="right"
+                            className="z-50"
+                          >
+                            <span 
+                              role="img" 
+                              aria-label={bill.type} 
+                              className="text-2xl cursor-help"
+                              onClick={(e) => e.stopPropagation()}
+                              onTouchStart={(e) => e.stopPropagation()}
+                            >
+                              {billType?.icon}
+                            </span>
+                          </Tooltip>
+                        </div>
                       </div>
                       <div className="card-accent-top-right">
                       </div>
                       <div className="flex items-start justify-between">
                         <div>
                           <div className="flex items-center space-x-2 mb-2">
-                            {/* <span role="img" aria-label={bill.type}>
-                              {billType?.icon}
-                            </span> */}
                             <h3 className="font-medium">{bill.name}</h3>
                           </div>
                           <p className="text-sm text-gray-500 dark:text-gray-400">
@@ -119,11 +132,26 @@ export default function MainScreen() {
                           {formatCurrency(calculateBillTotal(bill), user.currency)}
                         </div>
                       </div>
-                      <div className="flex gap-2 mt-2 mb-8">
+                      <div className="flex flex-wrap gap-2 mt-2 mb-8 w-full">
                         {bill.people?.map((person) => (
-                          <span key={person.id} className="text-2xl" title={person.name}>
-                            {person.icon}
-                          </span>
+                          <Tooltip
+                            key={person.id}
+                            content={person.name}
+                            position="top"
+                            className="z-50"
+                            showOnTouch={true}
+                          >
+                            <span 
+                              className={`
+                                text-2xl cursor-help hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full p-1 transition-colors
+                                ${person.name === user.name ? 'ring-2 ring-primary-500 dark:ring-primary-400 rounded-full' : ''}
+                              `}
+                              onClick={(e) => e.stopPropagation()}
+                              onTouchStart={(e) => e.stopPropagation()}
+                            >
+                              {person.icon}
+                            </span>
+                          </Tooltip>
                         ))}
                       </div>
                       <div className="absolute bottom-3 right-3 flex space-x-1">
