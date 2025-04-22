@@ -8,9 +8,11 @@ import {
   MagnifyingGlassIcon,
   FunnelIcon,
   XMarkIcon,
-  ChevronUpIcon
+  ChevronUpIcon,
+  ArrowsUpDownIcon
 } from '@heroicons/react/24/outline';
 import { FunnelIcon as FunnelIconSolid } from '@heroicons/react/24/solid';
+import { Menu } from '@headlessui/react';
 import { useBillsContext } from '../contexts/BillsContext';
 import { useUserContext } from '../contexts/UserContext';
 import { formatCurrency } from '../utils/formatters';
@@ -18,16 +20,17 @@ import { billTypes, generateId } from '../utils/helpers';
 import Layout from '../components/Layout';
 import ConfirmDialog from '../components/ConfirmDialog';
 import Tooltip from '../components/Tooltip';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 export default function MainScreen() {
   const navigate = useNavigate();
   const { bills, deleteBill, addBill } = useBillsContext();
-  const { user } = useUserContext();
+  const { user, updateUser } = useUserContext();
   const [billToDelete, setBillToDelete] = useState(null);
-  const [searchText, setSearchText] = useState('');
+  const [searchText, setSearchText] = useState(user.preferences?.search?.text || '');
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [sortBy, setSortBy] = useState(user.preferences?.sortBills || 'dateDesc');
   const { t, i18n } = useTranslation();
   const searchButtonRef = useRef(null);
 
@@ -87,25 +90,115 @@ export default function MainScreen() {
     navigate('/bills/new', { state: { editBill: createdBill } });
   };
 
-  const filteredBills = bills.filter(bill => 
-    bill.name.toLowerCase().includes(searchText.toLowerCase())
-  );
+  const handleSearchChange = (e) => {
+    const newSearchText = e.target.value;
+    setSearchText(newSearchText);
+    updateUser({
+      ...user,
+      preferences: {
+        ...user.preferences,
+        search: {
+          ...(user.preferences?.search || {}),
+          text: newSearchText,
+          // Future fields will be added here:
+          // persons: [],
+          // valueRange: { min: null, max: null },
+          // place: '',
+          // dateRange: { start: null, end: null },
+          // type: null
+        }
+      }
+    });
+  };
+
+  const handleClearSearch = () => {
+    setSearchText('');
+    updateUser({
+      ...user,
+      preferences: {
+        ...user.preferences,
+        search: undefined
+      }
+    });
+  };
+
+  const sortedAndFilteredBills = useMemo(() => {
+    const filtered = bills.filter(bill => 
+      bill.name.toLowerCase().includes(searchText.toLowerCase())
+    );
+
+    return filtered.sort((a, b) => {
+      switch (sortBy) {
+        case 'name':
+          return a.name.localeCompare(b.name);
+        case 'place':
+          return a.place.localeCompare(b.place);
+        case 'type':
+          const typeA = billTypes.find(t => t.id === a.type)?.translationKey || '';
+          const typeB = billTypes.find(t => t.id === b.type)?.translationKey || '';
+          return t(typeA).localeCompare(t(typeB));
+        case 'totalDesc':
+          return calculateBillTotal(b) - calculateBillTotal(a);
+        case 'totalAsc':
+          return calculateBillTotal(a) - calculateBillTotal(b);
+        case 'dateAsc':
+          return new Date(a.date) - new Date(b.date);
+        case 'dateDesc':
+        default:
+          return new Date(b.date) - new Date(a.date);
+      }
+    });
+  }, [bills, searchText, sortBy, t]);
+
+  const handleSortChange = (event) => {
+    const newSortBy = event.target.value;
+    setSortBy(newSortBy);
+    updateUser({
+      ...user,
+      preferences: {
+        ...user.preferences,
+        sortBills: newSortBy
+      }
+    });
+  };
 
   return (
     <Layout title={t('bills:title')}>
       <div className="max-w-[48rem] min-w-[20rem] mx-auto lg:max-w-unset lg:w-min">
-        <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-bold">
-            {t('bills:title')}
-            {searchText && (
-              <span className="text-sm font-normal text-gray-500 dark:text-gray-400 ml-2">
-                ({t('bills:search.filterCount', { 
-                  filtered: filteredBills.length, 
-                  total: bills.length 
-                })})
-              </span>
+        <div className="flex flex-row gap-2 mb-6 justify-between items-center">
+          <div className="flex flex-col gap-2">
+            <h1 className="text-2xl font-bold">
+              {t('bills:title')}
+            </h1>
+            {bills.length > 0 && (
+              <div className="flex flex-col gap-1">
+                {searchText && (
+                  <div className="flex items-center gap-2">
+                    <FunnelIcon className="w-5 h-5" />
+                    <span className="text-sm font-normal text-gray-500 dark:text-gray-400">
+                      {t('bills:search.filterCount', { 
+                        filtered: sortedAndFilteredBills.length, 
+                        total: bills.length 
+                      })}
+                    </span>
+                    <button
+                      onClick={handleClearSearch}
+                      className="inline-flex items-center gap-1 text-sm text-primary-500 dark:text-primary-400 hover:text-primary-600 dark:hover:text-primary-300 transition-colors"
+                    >
+                      <XMarkIcon className="w-4 h-4" />
+                      {t('bills:search.clearButton')}
+                    </button>
+                  </div>
+                )}
+                <div className="flex flex-row gap-1 items-center">
+                  <ArrowsUpDownIcon className="w-5 h-5" />
+                  <span className="text-sm font-normal text-gray-500 dark:text-gray-400">
+                    {t('bills:sort.titleLabel')} <span className="font-bold">{t(`bills:sort.options.${sortBy}`)}</span>
+                  </span>
+                </div>
+              </div>
             )}
-          </h1>
+          </div>
           <button
             onClick={() => navigate('/bills/new')}
             className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700"
@@ -125,7 +218,7 @@ export default function MainScreen() {
               {t('bills:createFirstBill')}
             </button>
           </div>
-        ) : filteredBills.length === 0 ? (
+        ) : sortedAndFilteredBills.length === 0 ? (
           <div className="text-center py-12">
             <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gray-100 dark:bg-gray-800 mb-4">
               <FunnelIconSolid className="w-8 h-8 text-gray-400 dark:text-gray-500" />
@@ -137,7 +230,7 @@ export default function MainScreen() {
               {t('bills:search.noResults.description')}
             </p>
             <button
-              onClick={() => setSearchText('')}
+              onClick={handleClearSearch}
               className="inline-flex items-center gap-2 text-primary-500 dark:text-primary-400 hover:text-primary-600 dark:hover:text-primary-300 font-medium transition-colors"
             >
               <XMarkIcon className="w-5 h-5" />
@@ -146,8 +239,8 @@ export default function MainScreen() {
           </div>
         ) : (
           <div className="flex justify-center relative">
-            <div className="flex flex-wrap gap-4 justify-start w-min lg:w-auto lg:min-w-[648px] pb-20">
-              {filteredBills.map((bill) => {
+            <div className="flex flex-wrap gap-4 justify-start w-min lg:w-auto lg:min-w-[648px] pb-14">
+              {sortedAndFilteredBills.map((bill) => {
                 const billType = billTypes.find((t) => t.id === bill.type);
                 return (
                   <motion.div
@@ -247,9 +340,9 @@ export default function MainScreen() {
           </div>
         )}
 
-        {/* Footer with search */}
-        <div className="fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 py-2 px-4 z-20">
-          <div className="max-w-[48rem] mx-auto flex justify-between items-center">
+        {/* Footer with search and sort */}
+        <div className="fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-900 border-t-2 border-t-gray-400 dark:border-t-gray-700 py-2 px-4 z-20">
+          <div className="w-[calc(312px+4rem)] lg:w-[calc(624px+8rem)] mx-auto px-4 sm:px-6 lg:px-8 flex justify-evenly items-center">
             <div className="relative" ref={searchButtonRef}>
               <button
                 onClick={() => setIsSearchOpen(!isSearchOpen)}
@@ -271,47 +364,169 @@ export default function MainScreen() {
               {/* Search Popover */}
               {isSearchOpen && (
                 <div className="absolute bottom-full mb-2 left-0 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 p-4 min-w-[280px]">
-                  <div className="flex items-center gap-2 mb-2">
-                    <input
-                      type="text"
-                      value={searchText}
-                      onChange={(e) => setSearchText(e.target.value)}
-                      placeholder={t('bills:search.placeholder')}
-                      className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 bg-white dark:bg-gray-900 text-gray-900 dark:text-white"
-                      autoFocus
-                    />
-                    <button
-                      onClick={() => setIsSearchOpen(false)}
-                      className="p-1.5 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700"
-                      aria-label={t('bills:search.close')}
-                    >
-                      <XMarkIcon className="w-5 h-5" />
-                    </button>
+                  <div className="flex flex-col gap-3">
+                    <div className="flex items-center gap-2">
+                      <input
+                        type="text"
+                        value={searchText}
+                        onChange={handleSearchChange}
+                        placeholder={t('bills:search.placeholder')}
+                        className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 bg-white dark:bg-gray-900 text-gray-900 dark:text-white"
+                        autoFocus
+                      />
+                      <button
+                        onClick={() => setIsSearchOpen(false)}
+                        className="p-1.5 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700"
+                        aria-label={t('bills:search.close')}
+                      >
+                        <XMarkIcon className="w-5 h-5" />
+                      </button>
+                    </div>
+                    {searchText && (
+                      <div className="flex justify-end">
+                        <button
+                          onClick={handleClearSearch}
+                          className="inline-flex items-center gap-1.5 text-sm text-primary-500 dark:text-primary-400 hover:text-primary-600 dark:hover:text-primary-300 font-medium transition-colors px-2 py-1 rounded-md hover:bg-gray-50 dark:hover:bg-gray-700"
+                        >
+                          <XMarkIcon className="w-4 h-4" />
+                          {t('bills:search.clearButton')}
+                        </button>
+                      </div>
+                    )}
                   </div>
                   {/* Future filter options will go here */}
                 </div>
               )}
             </div>
-            {/* Space for future sort selector */}
-          </div>
-        </div>
 
-        {/* New Bill Button - moved after footer to ensure proper z-index */}
-        <button
-          onClick={() => navigate('/bills/new')}
-          className="fixed bottom-6 right-6 lg:right-1/2 lg:translate-x-[324px] text-white flex content-center justify-center w-24 h-24 text-4xl z-30"
-          aria-label={t('navigation:newBill')}
-        >
-          <img 
-            src="/ticket_icon_1.svg"
-            alt="Create Bill" 
-            className="w-24 h-24 dark:drop-shadow-white hover:drop-shadow-dark-hover dark:hover:drop-shadow-white-hover drop-shadow-dark brightness-100 hover:brightness-125"
-            style={{
-              margin: '0 auto'
-            }}
-          />
-          <span className="text-5xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-7 pointer-events-none text-secondary-400 drop-shadow-dark font-bold">+</span>
-        </button>
+            <div className="flex items-center gap-2">
+              <Menu as="div" className="relative">
+                <Menu.Button className="inline-flex items-center gap-2 px-3 py-2 text-sm text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors">
+                  <ArrowsUpDownIcon className="w-5 h-5" />
+                  <span>{t('bills:sort.label')}</span>
+                </Menu.Button>
+
+                <Menu.Items className="absolute right-0 bottom-full mb-2 w-56 bg-white dark:bg-gray-800 rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                  <div className="py-1">
+                    <Menu.Item>
+                      {({ active }) => (
+                        <button
+                          onClick={() => handleSortChange({ target: { value: 'dateDesc' }})}
+                          className={`${
+                            active ? 'bg-gray-100 dark:bg-gray-700' : ''
+                          } ${
+                            sortBy === 'dateDesc' ? 'text-primary-600 dark:text-primary-400' : 'text-gray-700 dark:text-gray-200'
+                          } block w-full text-left px-4 py-2 text-sm`}
+                        >
+                          {t('bills:sort.options.dateDesc')}
+                        </button>
+                      )}
+                    </Menu.Item>
+                    <Menu.Item>
+                      {({ active }) => (
+                        <button
+                          onClick={() => handleSortChange({ target: { value: 'dateAsc' }})}
+                          className={`${
+                            active ? 'bg-gray-100 dark:bg-gray-700' : ''
+                          } ${
+                            sortBy === 'dateAsc' ? 'text-primary-600 dark:text-primary-400' : 'text-gray-700 dark:text-gray-200'
+                          } block w-full text-left px-4 py-2 text-sm`}
+                        >
+                          {t('bills:sort.options.dateAsc')}
+                        </button>
+                      )}
+                    </Menu.Item>
+                    <Menu.Item>
+                      {({ active }) => (
+                        <button
+                          onClick={() => handleSortChange({ target: { value: 'name' }})}
+                          className={`${
+                            active ? 'bg-gray-100 dark:bg-gray-700' : ''
+                          } ${
+                            sortBy === 'name' ? 'text-primary-600 dark:text-primary-400' : 'text-gray-700 dark:text-gray-200'
+                          } block w-full text-left px-4 py-2 text-sm`}
+                        >
+                          {t('bills:sort.options.name')}
+                        </button>
+                      )}
+                    </Menu.Item>
+                    <Menu.Item>
+                      {({ active }) => (
+                        <button
+                          onClick={() => handleSortChange({ target: { value: 'place' }})}
+                          className={`${
+                            active ? 'bg-gray-100 dark:bg-gray-700' : ''
+                          } ${
+                            sortBy === 'place' ? 'text-primary-600 dark:text-primary-400' : 'text-gray-700 dark:text-gray-200'
+                          } block w-full text-left px-4 py-2 text-sm`}
+                        >
+                          {t('bills:sort.options.place')}
+                        </button>
+                      )}
+                    </Menu.Item>
+                    <Menu.Item>
+                      {({ active }) => (
+                        <button
+                          onClick={() => handleSortChange({ target: { value: 'type' }})}
+                          className={`${
+                            active ? 'bg-gray-100 dark:bg-gray-700' : ''
+                          } ${
+                            sortBy === 'type' ? 'text-primary-600 dark:text-primary-400' : 'text-gray-700 dark:text-gray-200'
+                          } block w-full text-left px-4 py-2 text-sm`}
+                        >
+                          {t('bills:sort.options.type')}
+                        </button>
+                      )}
+                    </Menu.Item>
+                    <Menu.Item>
+                      {({ active }) => (
+                        <button
+                          onClick={() => handleSortChange({ target: { value: 'totalDesc' }})}
+                          className={`${
+                            active ? 'bg-gray-100 dark:bg-gray-700' : ''
+                          } ${
+                            sortBy === 'totalDesc' ? 'text-primary-600 dark:text-primary-400' : 'text-gray-700 dark:text-gray-200'
+                          } block w-full text-left px-4 py-2 text-sm`}
+                        >
+                          {t('bills:sort.options.totalDesc')}
+                        </button>
+                      )}
+                    </Menu.Item>
+                    <Menu.Item>
+                      {({ active }) => (
+                        <button
+                          onClick={() => handleSortChange({ target: { value: 'totalAsc' }})}
+                          className={`${
+                            active ? 'bg-gray-100 dark:bg-gray-700' : ''
+                          } ${
+                            sortBy === 'totalAsc' ? 'text-primary-600 dark:text-primary-400' : 'text-gray-700 dark:text-gray-200'
+                          } block w-full text-left px-4 py-2 text-sm`}
+                        >
+                          {t('bills:sort.options.totalAsc')}
+                        </button>
+                      )}
+                    </Menu.Item>
+                  </div>
+                </Menu.Items>
+              </Menu>
+            </div>
+          </div>
+          <button
+            onClick={() => navigate('/bills/new')}
+            className="absolute left-[calc(50vw+140px)] lg:left-[calc(50vw+(148px*2))] bottom-12 text-white flex content-center justify-center w-24 h-24 text-4xl z-30"
+            aria-label={t('navigation:newBill')}
+          >
+            <img 
+              src="/ticket_icon_1.svg"
+              alt="Create Bill" 
+              className="h-24 drop-shadow-white-sm brightness-100 hover:brightness-125"
+              style={{
+                margin: '0 auto'
+              }}
+            />
+            <span className="text-5xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-7 pointer-events-none text-secondary-400 drop-shadow-dark font-bold">+</span>
+          </button>
+        </div>
 
         <ConfirmDialog
           isOpen={!!billToDelete}

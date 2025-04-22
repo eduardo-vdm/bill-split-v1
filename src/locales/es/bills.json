@@ -111,11 +111,25 @@
     "toggle": "Alternar búsqueda y filtros",
     "close": "Cerrar búsqueda",
     "placeholder": "Buscar facturas por nombre...",
-    "filterCount": "mostrando {{filtered}} de {{total}} facturas",
+    "filterCount": "Filtrando {{filtered}} de {{total}} facturas",
+    "clearButton": "limpiar filtros",
     "noResults": {
       "title": "No se encontraron facturas",
       "description": "Intenta ajustar tus términos de búsqueda o limpia los filtros para ver todas las facturas",
       "clearButton": "Limpiar todos los filtros"
+    }
+  },
+  "sort": {
+    "titleLabel": "Ordenando por",
+    "label": "Ordenar por",
+    "options": {
+      "name": "Nombre de la cuenta",
+      "place": "Nombre del lugar",
+      "type": "Tipo de cuenta",
+      "totalDesc": "Monto total (mayor primero)",
+      "totalAsc": "Monto total (menor primero)",
+      "dateAsc": "Fecha (más antigua primero)",
+      "dateDesc": "Fecha (más reciente primero)"
     }
   }
 } 

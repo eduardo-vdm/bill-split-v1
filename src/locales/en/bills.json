@@ -118,11 +118,25 @@
     "toggle": "Toggle search and filters",
     "close": "Close search",
     "placeholder": "Search bills by name...",
-    "filterCount": "showing {{filtered}} of {{total}} bills",
+    "filterCount": "Filtering {{filtered}} of {{total}} bills",
+    "clearButton": "clear filters",
     "noResults": {
       "title": "No matching bills found",
       "description": "Try adjusting your search terms or clear the filters to see all bills",
       "clearButton": "Clear all filters"
+    }
+  },
+  "sort": {
+    "titleLabel": "Sorting by",
+    "label": "Sort by",
+    "options": {
+      "name": "Bill name",
+      "place": "Place name",
+      "type": "Bill type",
+      "totalDesc": "Total amount (highest first)",
+      "totalAsc": "Total amount (lowest first)",
+      "dateAsc": "Date (oldest first)",
+      "dateDesc": "Date (newest first)"
     }
   }
 } 
