@@ -146,7 +146,7 @@ export default function MainScreen() {
           </div>
         ) : (
           <div className="flex justify-center relative">
-            <div className="flex flex-wrap gap-4 justify-start w-min lg:w-auto lg:min-w-[648px] pb-16">
+            <div className="flex flex-wrap gap-4 justify-start w-min lg:w-auto lg:min-w-[648px] pb-20">
               {filteredBills.map((bill) => {
                 const billType = billTypes.find((t) => t.id === bill.type);
                 return (
@@ -161,7 +161,7 @@ export default function MainScreen() {
                     >
                       <div className="absolute bottom-0 left-0">
                         <div className="card-accent-bottom-left"></div>
-                        <div className="absolute bottom-1 left-1">
+                        <div className="absolute bottom-0.5 left-0.5">
                           <Tooltip 
                             content={t(billType?.translationKey)} 
                             position="right"
@@ -184,14 +184,14 @@ export default function MainScreen() {
                       <div className="flex items-start justify-between">
                         <div>
                           <div className="flex items-center space-x-2 mb-2">
-                            <h3 className="font-medium">{bill.name}</h3>
+                            <h3 className="font-medium max-w-[200px] truncate" aria-label={bill.name} title={bill.name}>{bill.name}</h3>
                           </div>
-                          <p className="text-sm text-gray-500 dark:text-gray-400">
-                            {bill.place} • {new Date(bill.date).toLocaleDateString(i18n.language)}
+                          <p className="text-sm text-gray-500 dark:text-gray-400 flex flex-wrap gap-2">
+                            <div className="max-w-[100px] truncate" aria-label={bill.place} title={bill.place}>{bill.place}</div> • <div className="max-w-[100px] truncate" aria-label={new Date(bill.date).toLocaleDateString(i18n.language)} title={new Date(bill.date).toLocaleDateString(i18n.language)}>{new Date(bill.date).toLocaleDateString(i18n.language)}</div>
                           </p>
                         </div>
                         <div className="text-lg font-semibold text-primary-600 dark:text-primary-400">
-                          {formatCurrency(calculateBillTotal(bill), user.currency)}
+                          <div className="max-w-[80px] truncate" aria-label={formatCurrency(calculateBillTotal(bill), user.currency)} title={formatCurrency(calculateBillTotal(bill), user.currency)}>{formatCurrency(calculateBillTotal(bill), user.currency)}</div>
                         </div>
                       </div>
                       <div className="flex flex-wrap gap-2 mt-2 mb-8 w-full">
@@ -310,7 +310,7 @@ export default function MainScreen() {
               margin: '0 auto'
             }}
           />
-          <span className="text-5xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-7 pointer-events-none">+</span>
+          <span className="text-5xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-7 pointer-events-none text-secondary-400 drop-shadow-dark font-bold">+</span>
         </button>
 
         <ConfirmDialog
