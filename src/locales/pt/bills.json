@@ -104,5 +104,16 @@
   "specialItemType": "Tipo",
   "selectSpecialItemType": "Selecionar tipo",
   "noItemsTitle": "Não há itens adicionados",
-  "noItemsDescription": "Por favor adicione itens à conta antes de adicionar taxa ou gorjeta"
+  "noItemsDescription": "Por favor adicione itens à conta antes de adicionar taxa ou gorjeta",
+  "search": {
+    "toggle": "Alternar busca e filtros",
+    "close": "Fechar busca",
+    "placeholder": "Buscar contas por nome...",
+    "filterCount": "mostrando {{filtered}} de {{total}} contas",
+    "noResults": {
+      "title": "Nenhuma conta encontrada",
+      "description": "Tente ajustar seus termos de busca ou limpe os filtros para ver todas as contas",
+      "clearButton": "Limpar todos os filtros"
+    }
+  }
 } 

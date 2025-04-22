@@ -106,5 +106,16 @@
   "specialItemType": "Tipo",
   "selectSpecialItemType": "Seleccionar tipo",
   "noItemsTitle": "No hay artículos agregados",
-  "noItemsDescription": "Por favor agrega artículos a la factura antes de agregar impuesto o propina"
+  "noItemsDescription": "Por favor agrega artículos a la factura antes de agregar impuesto o propina",
+  "search": {
+    "toggle": "Alternar búsqueda y filtros",
+    "close": "Cerrar búsqueda",
+    "placeholder": "Buscar facturas por nombre...",
+    "filterCount": "mostrando {{filtered}} de {{total}} facturas",
+    "noResults": {
+      "title": "No se encontraron facturas",
+      "description": "Intenta ajustar tus términos de búsqueda o limpia los filtros para ver todas las facturas",
+      "clearButton": "Limpiar todos los filtros"
+    }
+  }
 } 

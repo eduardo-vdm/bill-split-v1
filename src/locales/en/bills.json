@@ -15,11 +15,11 @@
   "selectType": "Select type",
   "details": "Bill Details",
   "createNew": "Create New Bill",
-  "noBills": "No bills yet",
+  "noBills": "You don't have any bills yet",
   "createFirstBill": "Create your first bill",
   "editBill": "Edit Bill",
   "deleteBill": "Delete Bill",
-  "deleteBillConfirm": "Are you sure you want to delete this bill?",
+  "deleteBillConfirm": "Are you sure you want to delete this bill? This action cannot be undone.",
   "notFound": "Not found",
   "total": "Total",
   "items": {
@@ -106,5 +106,23 @@
   "specialItemType": "Type",
   "selectSpecialItemType": "Select type",
   "noItemsTitle": "No Items Added",
-  "noItemsDescription": "Please add items to the bill before adding tax or tip"
+  "noItemsDescription": "Please add items to the bill before adding tax or tip",
+  "toggleSearch": "Toggle search and filters",
+  "closeSearch": "Close search",
+  "searchPlaceholder": "Search bills by name...",
+  "filteringCount": "showing {{filtered}} of {{total}} bills",
+  "noFilterResults": "No matching bills found",
+  "noFilterResultsDescription": "Try adjusting your search terms or clear the filters to see all bills",
+  "clearFilters": "Clear all filters",
+  "search": {
+    "toggle": "Toggle search and filters",
+    "close": "Close search",
+    "placeholder": "Search bills by name...",
+    "filterCount": "showing {{filtered}} of {{total}} bills",
+    "noResults": {
+      "title": "No matching bills found",
+      "description": "Try adjusting your search terms or clear the filters to see all bills",
+      "clearButton": "Clear all filters"
+    }
+  }
 } 
