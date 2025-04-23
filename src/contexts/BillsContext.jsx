@@ -32,8 +32,12 @@ export function BillsProvider({ children }) {
     setBills(bills.filter(bill => bill.id !== id));
   };
 
+  const clearAllBills = () => {
+    setBills([]);
+  };
+
   return (
-    <BillsContext.Provider value={{ bills, addBill, updateBill, deleteBill }}>
+    <BillsContext.Provider value={{ bills, addBill, updateBill, deleteBill, clearAllBills }}>
       {children}
     </BillsContext.Provider>
   );

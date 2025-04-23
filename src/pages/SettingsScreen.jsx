@@ -13,7 +13,7 @@ import { currencies } from '../utils/helpers';
 export default function SettingsScreen() {
   const navigate = useNavigate();
   const { user, updateUser } = useUserContext();
-  const { bills, deleteBill } = useBillsContext();
+  const { bills, deleteBill, clearAllBills } = useBillsContext();
   const { clearCurrentBill } = useCurrentBillContext();
   const { t } = useTranslation();
   const [name, setName] = useState(user.name);
@@ -32,27 +32,29 @@ export default function SettingsScreen() {
   };
 
   const handleConfirmReset = () => {
-    // Clear all local storage data
+    // First, clear the bills state in one operation
+    clearAllBills();
+    
+    // Clear current bill state
+    clearCurrentBill();
+    
+    // Then clear localStorage
     localStorage.clear();
     
     // Reset the application state but preserve the user ID
     updateUser({
-      id: user.id, // Preserve the user ID
+      id: user.id,
       name: '',
       currency: 'USD',
       theme: 'dark',
       isSetup: false
     });
     
-    // Delete all bills one by one
-    bills.forEach(bill => deleteBill(bill.id));
-    clearCurrentBill();
-    
     // Clear any remaining data
     localStorage.removeItem('recentPeople');
     localStorage.removeItem('recentPlaces');
     
-    // Navigate to the splash screen instead of setup
+    // Navigate to the splash screen
     navigate('/');
     setShowResetConfirm(false);
   };
