@@ -1,0 +1,33 @@
+Implement offline functionality for the Bill Split app by:
+
+1. Creating and registering a service worker that:
+   - Caches all static assets (HTML, CSS, JS, images, fonts)
+   - Uses Cache-First strategy for static assets
+   - Handles installation and activation events
+   - Location: /public/service-worker.js
+
+2. Adding PWA features:
+   - Create web app manifest at /public/manifest.json with:
+     - App name: "Bill Split"
+     - Short name: "BillSplit"
+     - Description: "Split bills with friends"
+     - Theme color: #3B82F6 (primary-500)
+     - Background color: #FFFFFF
+     - Icons: 192x192 and 512x512 (use existing app icon)
+     - Start URL: "/"
+     - Display: "standalone"
+   - Add meta tags in index.html for PWA support
+   - Add install prompt handling
+
+3. Modifying the build process:
+   - Generate asset manifest for service worker
+   - Ensure proper caching headers
+   - Add workbox-webpack-plugin configuration
+
+4. Testing requirements:
+   - Verify app loads without network
+   - Check all features work offline
+   - Validate PWA installation
+   - Test on different devices
+
+Note: No backend sync needed as app uses localStorage exclusively.

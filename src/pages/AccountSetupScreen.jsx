@@ -138,6 +138,21 @@ export default function AccountSetupScreen() {
               />
             </div>
           </div>
+          <div className="mb-4">
+            <label className="flex items-center space-x-2 text-gray-700 dark:text-gray-300">
+              <input
+                type="checkbox"
+                disabled
+                className="rounded border-gray-300 dark:border-gray-600 text-primary-600 focus:ring-primary-500 dark:bg-gray-700 opacity-50 cursor-not-allowed"
+              />
+              <span className="text-sm">
+                {t('app:setup.tutorial.label')}
+                <span className="ml-2 text-xs text-gray-500 dark:text-gray-400">
+                  ({t('app:setup.tutorial.comingSoon')})
+                </span>
+              </span>
+            </label>
+          </div>
           <button
             type="submit"
             className="w-full bg-tertiary-600 dark:bg-tertiary-600 text-white dark:drop-shadow-white drop-shadow-dark py-2 px-4 rounded-lg hover:bg-tertiary-700 dark:hover:bg-tertiary-700"

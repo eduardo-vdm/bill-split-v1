@@ -10,6 +10,10 @@
     "namePlaceholder": "Name, nickname, \"person\", etc.",
     "currency": "Currency",
     "icon": "Icon",
-    "start": "Get Started"
+    "start": "Get Started",
+    "tutorial": {
+      "label": "Show me how to use the app with an example",
+      "comingSoon": "Coming soon"
+    }
   }
 } 
