@@ -33,6 +33,7 @@ export default function MainScreen() {
   const [sortBy, setSortBy] = useState(user.preferences?.sortBills || 'dateDesc');
   const { t, i18n } = useTranslation();
   const searchButtonRef = useRef(null);
+  const DATE_FORMAT_OPTIONS_BILL_CARD = { day: 'numeric', month: 'numeric', year: '2-digit' };
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -59,6 +60,53 @@ export default function MainScreen() {
       return sum + item.value;
     }, 0);
     return subtotal + specialItemsTotal;
+  };
+
+  // Get user's bill person by name since the id is not always available and the name is unique;
+  const getUserBillPerson = (bill) => {
+    return bill.people.find((person) => person.name === user.name);
+  };
+
+  const calculateBillUserTotal = (bill) => {
+    if (!bill?.items) return 0;
+
+    const userBillPerson = getUserBillPerson(bill);
+    if (!userBillPerson) return 0;
+
+    // Calculate user's share of regular items
+    const itemsTotal = bill.items.reduce((total, item) => {
+      if (!item.splitBetween?.includes(userBillPerson.id)) return total;
+
+      const price = parseFloat(item.price);
+      if (item.splitMethod === 'full') {
+        return total + price;
+      }
+
+      if (item.splitMethod === 'percentage') {
+        const percentage = parseFloat(item.percentages?.[userBillPerson.id] || 0);
+        return total + (price * percentage) / 100;
+      }
+
+      if (item.splitMethod === 'value') {
+        return total + (parseFloat(item.valueSplits?.[userBillPerson.id] || 0));
+      }
+
+      // Default to equal split
+      const splitCount = item.splitBetween.length;
+      return total + price / splitCount;
+    }, 0);
+
+    // Calculate user's share of special items (tax, tip)
+    const subtotal = bill.items.reduce((sum, item) => sum + item.price, 0);
+    const specialItemsShare = bill.specialItems.reduce((sum, item) => {
+      const itemValue = item.method === 'percentage' 
+        ? (subtotal * item.value) / 100 
+        : item.value;
+      // Special items are always split equally between all people
+      return sum + (itemValue / (bill.people?.length || 1));
+    }, 0);
+
+    return itemsTotal + specialItemsShare;
   };
 
   const handleDeleteBill = (e, bill) => {
@@ -277,14 +325,22 @@ export default function MainScreen() {
                       <div className="flex items-start justify-between">
                         <div>
                           <div className="flex items-center space-x-2 mb-2">
-                            <h3 className="font-medium max-w-[200px] truncate" aria-label={bill.name} title={bill.name}>{bill.name}</h3>
+                            <h3 className="font-medium max-w-[180px] truncate" aria-label={bill.name} title={bill.name}>{bill.name}</h3>
                           </div>
                           <p className="text-sm text-gray-500 dark:text-gray-400 flex flex-wrap gap-2">
-                            <div className="max-w-[100px] truncate" aria-label={bill.place} title={bill.place}>{bill.place}</div> • <div className="max-w-[100px] truncate" aria-label={new Date(bill.date).toLocaleDateString(i18n.language)} title={new Date(bill.date).toLocaleDateString(i18n.language)}>{new Date(bill.date).toLocaleDateString(i18n.language)}</div>
+                            <div className="max-w-[100px] truncate" aria-label={bill.place} title={bill.place}>{bill.place}</div> • <div className="max-w-[100px] truncate" aria-label={new Date(bill.date).toLocaleDateString(i18n.language, DATE_FORMAT_OPTIONS_BILL_CARD)} title={new Date(bill.date).toLocaleDateString(i18n.language, DATE_FORMAT_OPTIONS_BILL_CARD)}>{new Date(bill.date).toLocaleDateString(i18n.language, DATE_FORMAT_OPTIONS_BILL_CARD)}</div>
                           </p>
                         </div>
-                        <div className="text-lg font-semibold text-primary-600 dark:text-primary-400">
-                          <div className="max-w-[80px] truncate" aria-label={formatCurrency(calculateBillTotal(bill), user.currency)} title={formatCurrency(calculateBillTotal(bill), user.currency)}>{formatCurrency(calculateBillTotal(bill), user.currency)}</div>
+                        <div className="flex flex-col gap-1">
+                          <div className="text-lg font-semibold text-primary-600 dark:text-primary-400">
+                            <div className="max-w-[80px] truncate justify-self-end" aria-label={formatCurrency(calculateBillTotal(bill), user.currency)} title={formatCurrency(calculateBillTotal(bill), user.currency)}>{formatCurrency(calculateBillTotal(bill), user.currency)}</div>
+                          </div>
+                          <div className="text-sm font-semibold text-secondary-700 dark:text-secondary-400 flex flex-row gap-1 items-center">
+                            <span className="text-xs text-secondary-500 dark:text-secondary-700 italic">
+                              {t('bills:people.you')}
+                            </span>
+                            <div className="max-w-[80px] truncate justify-self-end" aria-label={formatCurrency(calculateBillUserTotal(bill), user.currency)} title={formatCurrency(calculateBillUserTotal(bill), user.currency)}>{formatCurrency(calculateBillUserTotal(bill), user.currency)}</div>
+                          </div>
                         </div>
                       </div>
                       <div className="flex flex-wrap gap-2 mt-2 mb-8 w-full">
@@ -299,7 +355,7 @@ export default function MainScreen() {
                             <span 
                               className={`
                                 text-2xl cursor-help hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full p-1 transition-colors
-                                ${person.name === user.name ? 'ring-2 ring-primary-500 dark:ring-primary-400 rounded-full' : ''}
+                                ${person.name === user.name ? 'ring-2 ring-secondary-500 dark:ring-secondary-700 rounded-full' : ''}
                               `}
                               onClick={(e) => e.stopPropagation()}
                               onTouchStart={(e) => e.stopPropagation()}

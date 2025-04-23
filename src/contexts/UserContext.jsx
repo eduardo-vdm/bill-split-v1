@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect } from 'react';
+import { generateId } from '../utils/helpers';
 
 const UserContext = createContext();
 
@@ -10,6 +11,7 @@ export function UserProvider({ children }) {
   const [user, setUser] = useState(() => {
     const savedUser = localStorage.getItem('user');
     return savedUser ? JSON.parse(savedUser) : {
+      id: generateId('person-'),
       name: '',
       currency: 'USD',
       theme: 'dark',

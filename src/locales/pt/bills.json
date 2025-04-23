@@ -68,7 +68,8 @@
     "edit": "Editar pessoa",
     "delete": "Eliminar pessoa",
     "name": "Nome da pessoa",
-    "icon": "Ícone"
+    "icon": "Ícone",
+    "you": "Você"
   },
   "summary": {
     "title": "Resumo da Conta",

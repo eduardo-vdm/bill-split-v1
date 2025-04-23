@@ -35,8 +35,9 @@ export default function SettingsScreen() {
     // Clear all local storage data
     localStorage.clear();
     
-    // Reset the application state
+    // Reset the application state but preserve the user ID
     updateUser({
+      id: user.id, // Preserve the user ID
       name: '',
       currency: 'USD',
       theme: 'dark',
