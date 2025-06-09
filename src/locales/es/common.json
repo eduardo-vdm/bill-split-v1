@@ -11,7 +11,16 @@
     "create": "Crear",
     "update": "Actualizar",
     "backToBill": "Volver a la factura",
-    "addItem": "Agregar item"
+    "addItem": "Agregar item",
+    "share": "Compartir",
+    "capturing": "Capturando...",
+    "shareAsText": "Compartir como Texto",
+    "shareAsImage": "Compartir como Imagen",
+    "settings": "Configuración",
+    "home": "Inicio",
+    "language": "Idioma",
+    "copyAsText": "Copiar Texto",
+    "copyAsImage": "Copiar Imagen"
   },
   "errors": {
     "required": "Este campo es requerido",
@@ -41,5 +50,10 @@
     "saved": "Cambios guardados exitosamente",
     "created": "Creado exitosamente",
     "deleted": "Eliminado exitosamente"
+  },
+  "share": {
+    "copyAndShareAnywhere": "Copiar y compartir en cualquier lugar",
+    "title": "Compartir",
+    "description": "Compartir la factura con otros"
   }
 }

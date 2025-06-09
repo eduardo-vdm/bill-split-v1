@@ -11,7 +11,16 @@
     "create": "Criar",
     "update": "Atualizar",
     "backToBill": "Voltar para a conta",
-    "addItem": "Adicionar item"
+    "addItem": "Adicionar item",
+    "share": "Compartilhar",
+    "capturing": "Capturando...",
+    "shareAsText": "Compartilhar como Texto",
+    "shareAsImage": "Compartilhar como Imagem",
+    "settings": "Configurações",
+    "home": "Início",
+    "language": "Idioma",
+    "copyAsText": "Copiar Texto",
+    "copyAsImage": "Copiar Imagem"
   },
   "errors": {
     "required": "Este campo é obrigatório",
@@ -41,5 +50,10 @@
     "saved": "Alterações salvas com sucesso",
     "created": "Criado com sucesso",
     "deleted": "Eliminado com sucesso"
+  },
+  "share": {
+    "copyAndShareAnywhere": "Copiar e compartilhar em qualquer lugar",
+    "title": "Compartilhar",
+    "description": "Compartilhar a conta com outros"
   }
 } 

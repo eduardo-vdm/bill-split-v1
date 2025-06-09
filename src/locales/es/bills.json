@@ -80,7 +80,8 @@
     "breakdown": "Desglose por persona",
     "share": "Compartir",
     "tax": "Impuesto",
-    "tip": "Propina"
+    "tip": "Propina",
+    "description": "Ver y compartir cuánto debe cada persona"
   },
   "errors": {
     "nameRequired": "El nombre de la factura es requerido",

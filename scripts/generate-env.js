@@ -12,6 +12,7 @@ const envContent = `
 VITE_APP_TITLE=${packageJson.title}
 VITE_APP_VERSION=${packageJson.version}
 VITE_APP_AUTHOR=${packageJson.author}
+VITE_APP_REPOSITORY=${packageJson.repository.url}
 `;
 
 // Write to .env file

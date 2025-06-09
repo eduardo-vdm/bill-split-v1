@@ -28,7 +28,7 @@ export default function Layout({ children, title, showBack = false, showSettings
   const showBackgroundCircles = !location.pathname.includes('/summary');
 
   return (
-    <div className="min-h-screen flex flex-col bg-white dark:bg-gray-900">
+    <div className="h-screen overflow-x-hidden flex flex-col bg-white dark:bg-gray-900">
       {showBackgroundCircles && <BackgroundCircles />}
       
       <header className="sticky top-0 z-10 bg-gradient-to-br from-primary-500 to-secondary-500 dark:from-primary-600 dark:to-secondary-600 shadow-lg dark:shadow-primary-900/50 border-b-4 border-primary-50 dark:border-primary-50">
@@ -39,7 +39,7 @@ export default function Layout({ children, title, showBack = false, showSettings
                 <button
                   onClick={handleBack}
                   className="mr-2 p-2 rounded-full hover:bg-white/20 dark:hover:bg-white/20"
-                  aria-label={t('common:back')}
+                  aria-label={t('common:buttons.back')}
                 >
                   <ArrowLeftIcon className="h-6 w-6 text-white" />
                 </button>
@@ -47,7 +47,7 @@ export default function Layout({ children, title, showBack = false, showSettings
               <button
                 onClick={handleHome}
                 className="mr-2 p-2 rounded-full"
-                aria-label={t('navigation:home')}
+                aria-label={t('common:buttons.home')}
               >
                 <img 
                   src="/optimized_bill_icon.svg" 
@@ -68,7 +68,7 @@ export default function Layout({ children, title, showBack = false, showSettings
                 <button
                   onClick={handleSettings}
                   className="p-2 rounded-full hover:bg-white/20 dark:hover:bg-white/20"
-                  aria-label={t('navigation:settings')}
+                  aria-label={t('common:buttons.settings')}
                 >
                   <Cog6ToothIcon className="h-6 w-6 text-white" />
                 </button>
@@ -83,8 +83,8 @@ export default function Layout({ children, title, showBack = false, showSettings
         </div>
       </header>
 
-      <main className="flex-1">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <main className="h-full w-full min-w-[390px]">
+        <div className="h-full px-4 sm:px-6 lg:px-8 py-6">
           {children}
         </div>
       </main>

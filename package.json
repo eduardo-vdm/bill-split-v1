@@ -1,20 +1,21 @@
 {
   "name": "bill-split",
   "title": "Bill Split",
-  "description": "Bill Splitter",
+  "description": "A modern, user-friendly application for splitting bills among friends.",
   "author": "Eduardo Nazareth",
-  "license": "MIT",
-  "homepage": "https://github.com/edunazareth/bill-split",
+  "license": "MIT with Commons Clause",
+  "homepage": "https://github.com/eduardo-vdm/bill-split-v1",
   "repository": {
     "type": "git",
-    "url": "https://github.com/edunazareth/bill-split.git"
+    "url": "https://github.com/eduardo-vdm/bill-split-v1"
   },
   "private": true,
-  "version": "0.1.24",
+  "version": "0.1.25",
   "type": "module",
   "scripts": {
-    "dev": "vite",
     "generate-env": "node scripts/generate-env.js",
+    "predev": "npm run generate-env",
+    "dev": "vite",
     "prebuild": "npm run generate-env",
     "build": "vite build",
     "lint": "eslint .",
@@ -22,7 +23,8 @@
   },
   "dependencies": {
     "@headlessui/react": "^1.7.17",
-    "@heroicons/react": "^2.0.18",
+    "@heroicons/react": "^2.2.0",
+    "@primer/octicons-react": "^19.15.2",
     "autoprefixer": "^10.4.16",
     "date-fns": "^4.1.0",
     "framer-motion": "^10.16.4",

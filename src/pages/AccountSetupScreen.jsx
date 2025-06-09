@@ -77,7 +77,7 @@ export default function AccountSetupScreen() {
         animate={{ scale: 1, opacity: 1 }}
         className="w-full max-w-md bg-white dark:bg-gray-800 rounded-xl shadow-xl p-6 relative"
       >
-        <h1 className="text-2xl font-bold text-center mb-6 text-gray-900 dark:text-white">
+        <h1 className="text-2xl font-bold text-left mb-6 text-gray-900 dark:text-white">
           {t('app:setup.title')}
         </h1>
 

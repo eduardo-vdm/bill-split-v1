@@ -4,7 +4,7 @@ import Button from './Button';
 import { useTranslation } from 'react-i18next';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 
-export default function Dialog({ isOpen, onClose, title, description, icon, actions }) {
+export default function Dialog({ isOpen, onClose, title, description, icon, actions, children }) {
   const { t } = useTranslation();
 
   return (
@@ -60,6 +60,8 @@ export default function Dialog({ isOpen, onClose, title, description, icon, acti
                     {typeof description === 'string' ? t(description) : description}
                   </p>
                 </div>
+
+                {children}
 
                 <div className="mt-4 flex justify-end space-x-2">
                   {actions.map((action, index) => (

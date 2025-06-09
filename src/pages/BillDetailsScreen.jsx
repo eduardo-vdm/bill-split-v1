@@ -9,6 +9,7 @@ import { calculateItemSplit } from '../utils/billCalculations';
 import Layout from '../components/Layout';
 import Dialog from '../components/Dialog';
 import { useTranslation } from 'react-i18next';
+import { ChevronRightIcon, PlusIcon } from '@heroicons/react/24/outline';
 
 export default function BillDetailsScreen() {
   const navigate = useNavigate();
@@ -195,7 +196,7 @@ export default function BillDetailsScreen() {
 
   return (
     <Layout title={t('bills:details')} showBack>
-      <div className="max-w-2xl mx-auto">
+      <div className="max-w-2xl mx-auto pb-16">
         <div className="space-y-6">
           <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow">
             <h2 className="text-lg font-semibold mb-4">{t('bills:details')}</h2>
@@ -220,9 +221,10 @@ export default function BillDetailsScreen() {
               <h2 className="text-lg font-semibold">{t('bills:people.title')} ({currentBill.people?.length || 0})</h2>
               <button
                 onClick={() => navigate(`/bills/${id}/add-person`)}
-                className="text-tertiary-600 hover:text-tertiary-700"
+                className="text-primary-600 hover:text-primary-700 font-bold flex items-center gap-1 border-2 border-primary-600 rounded-lg px-2 py-1"
               >
-                {t('bills:people.add')}
+                <span className="text-lg text-secondary-600">{t('bills:people.add')}</span>
+                <PlusIcon className="h-5 w-5 font-bold text-secondary-600" />
               </button>
             </div>
             <div className="space-y-2">
@@ -271,9 +273,10 @@ export default function BillDetailsScreen() {
               <h2 className="text-lg font-semibold">{t('bills:items.title')} ({currentBill.items?.length || 0})</h2>
               <button
                 onClick={() => navigate(`/bills/${id}/add-item`)}
-                className="text-tertiary-600 hover:text-tertiary-700"
+                className="text-primary-600 hover:text-primary-700 font-bold flex items-center gap-1 border-2 border-primary-600 rounded-lg px-2 py-1"
               >
-                {t('bills:items.add')}
+                <span className="text-lg text-secondary-600">{t('bills:items.add')}</span>
+                <PlusIcon className="h-5 w-5 font-bold text-secondary-600" />
               </button>
             </div>
             <div className="space-y-2">
@@ -310,9 +313,10 @@ export default function BillDetailsScreen() {
               <h2 className="text-lg font-semibold">{t('bills:taxTip.title')} ({currentBill.specialItems?.length || 0})</h2>
               <button
                 onClick={() => navigate(`/bills/${id}/add-special`)}
-                className="text-tertiary-600 hover:text-tertiary-700"
+                className="text-primary-600 hover:text-primary-700 font-bold flex items-center gap-1 border-2 border-primary-600 rounded-lg px-2 py-1"
               >
-                {t('bills:taxTip.add')}
+                <span className="text-lg text-secondary-600">{t('bills:taxTip.add')}</span>
+                <PlusIcon className="h-5 w-5 font-bold text-secondary-600" />
               </button>
             </div>
             <div className="space-y-2">
@@ -345,14 +349,22 @@ export default function BillDetailsScreen() {
             </div>
           </div>
 
-          <button
-            onClick={() => navigate(`/bills/${id}/summary`)}
-            className="w-full bg-tertiary-600 dark:bg-tertiary-600 text-white dark:drop-shadow-white drop-shadow-dark py-2 px-4 rounded-lg hover:bg-tertiary-700 dark:hover:bg-tertiary-700"
-          >
-            {t('bills:summary.title')}
-          </button>
         </div>
       </div>
+      <button
+        onClick={() => navigate(`/bills/${id}/summary`)}
+        className="flex flex-col max-w-2xl mx-auto fixed bottom-0 left-0 right-0 w-full py-2 px-4 font-bold text-lg bg-primary-600 dark:bg-primary-600 text-white hover:bg-secondary-700 dark:hover:bg-secondary-700 border-t-4 border-solid border-t-secondary-500" 
+      >
+        <div className="flex flex-col gap-0 items-center justify-center">
+          <span className="text-lg font-bold">
+            {t('bills:summary.title')}
+          </span>
+          <span className="text-sm text-gray-300">
+            {t('bills:summary.description')}
+          </span>
+        </div>
+        <ChevronRightIcon className="absolute right-0 bottom-0 h-16 w-16 text-white opacity-70 animate-pulse" />
+      </button>
 
       <Dialog
         isOpen={showDeleteDialog}

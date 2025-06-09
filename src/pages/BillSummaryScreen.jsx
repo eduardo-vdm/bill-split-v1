@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { ShareIcon } from '@heroicons/react/24/outline';
+import { motion, AnimatePresence } from 'framer-motion';
 import html2canvas from 'html2canvas';
 import { useBillsContext } from '../contexts/BillsContext';
 import { useCurrentBillContext } from '../contexts/CurrentBillContext';
@@ -10,10 +9,10 @@ import { generateBillSummary } from '../utils/helpers';
 import { formatCurrency } from '../utils/formatters';
 import Layout from '../components/Layout';
 import Card, { CardHeader, CardTitle, CardContent } from '../components/Card';
-import Button from '../components/Button';
 import PersonAvatar from '../components/PersonAvatar';
 import ShareDialog from '../components/ShareDialog';
 import { useTranslation } from 'react-i18next';
+import { DocumentTextIcon, PhotoIcon, ShareIcon } from '@heroicons/react/24/outline';
 
 export default function BillSummaryScreen() {
   const navigate = useNavigate();
@@ -136,12 +135,6 @@ export default function BillSummaryScreen() {
       
       // Apply the background color to the clone
       clone.style.backgroundColor = backgroundColor;
-      
-      // Hide the share button in the clone
-      const shareButton = clone.querySelector('button');
-      if (shareButton) {
-        shareButton.style.display = 'none';
-      }
 
       // Add the clone to the document
       document.body.appendChild(clone);
@@ -203,14 +196,14 @@ export default function BillSummaryScreen() {
                   </p>
                 )}
               </div>
-              <Button
+              {/* <Button
                 variant="outline"
                 size="sm"
                 icon={ShareIcon}
                 onClick={() => setShowShareDialog(true)}
               >
                 {t('bills:summary.share')}
-              </Button>
+              </Button> */}
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
@@ -250,7 +243,7 @@ export default function BillSummaryScreen() {
             </CardContent>
           </Card>
 
-          <div className="space-y-4">
+          <div className="space-y-4 pb-32">
             <h2 className="text-lg font-semibold">{t('bills:summary.breakdown')}</h2>
             {summary.personDetails.map((person, index) => (
               <motion.div
@@ -321,6 +314,43 @@ export default function BillSummaryScreen() {
               </motion.div>
             ))}
           </div>
+
+          {/* Share footer with buttons */}
+          <div className="flex flex-col gap-2 w-full max-w-2xl mx-auto fixed bottom-0 left-0 right-0 py-2 px-4 bg-gray-100 dark:bg-gray-900 border-t-2 border-solid border-t-gray-500">
+            <div className="flex items-center gap-2">
+              <ShareIcon className="h-5 w-5 text-gray-500 dark:text-gray-400" />
+              <span className="text-lg text-gray-800 dark:text-gray-200">{t('common:share:copyAndShareAnywhere')}:</span>
+            </div>
+            <div className="flex items-center justify-around gap-2">
+              <button
+                onClick={() => handleShareAsText()}
+                className="py-2 px-2 font-bold text-lg bg-primary-600 dark:bg-primary-600 text-white hover:bg-secondary-700 dark:hover:bg-secondary-700 border-t-4 border-solid border-t-secondary-500" 
+              >
+                <div className="flex gap-2 px-4 items-center justify-center whitespace-nowrap">
+                  <span className="text-sm text-gray-300">
+                    <DocumentTextIcon className="h-5 w-5 text-gray-300" />
+                  </span>
+                  <span className="text-lg font-bold">
+                  {t('common:buttons.copyAsText')}
+                  </span>
+                </div>
+              </button>
+              <button
+                onClick={() => handleShareAsImage()}
+                className="py-2 px-4 font-bold text-lg bg-primary-600 dark:bg-primary-600 text-white hover:bg-secondary-700 dark:hover:bg-secondary-700 border-t-4 border-solid border-t-secondary-500" 
+              >
+                <div className="flex gap-2 px-4 items-center justify-center whitespace-nowrap">
+                  <span className="text-sm text-gray-300">
+                    <PhotoIcon className="h-5 w-5 text-gray-300" />
+                  </span>
+                  <span className="text-lg font-bold">
+                    {t('common:buttons.copyAsImage')}
+                  </span>
+                </div>
+              </button>
+            </div>
+          </div>
+
         </div>
 
         <ShareDialog
@@ -331,14 +361,18 @@ export default function BillSummaryScreen() {
         />
 
         {showToast && (
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 50 }}
-            className="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white px-4 py-2 rounded-full"
-          >
-            {toastMessage}
-          </motion.div>
+          <AnimatePresence>
+            <motion.div
+              key={toastMessage}
+              transition={{ duration: 0.2 }}            
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, transition: { delay: 3, duration: 0.5 } }}
+              className="fixed bottom-28 left-1/2 transform -translate-x-1/2 bg-green-800 text-white px-4 py-2 rounded"
+            >
+              {toastMessage}
+            </motion.div>
+          </AnimatePresence>
         )}
       </div>
     </Layout>

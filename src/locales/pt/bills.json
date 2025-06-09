@@ -78,7 +78,8 @@
     "breakdown": "Detalhamento por pessoa",
     "share": "Compartilhar",
     "tax": "Taxa",
-    "tip": "Gorjeta"
+    "tip": "Gorjeta",
+    "description": "Veja e compartilhe quanto cada pessoa deve"
   },
   "errors": {
     "nameRequired": "O nome da conta é obrigatório",

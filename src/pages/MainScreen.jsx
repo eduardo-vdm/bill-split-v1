@@ -399,7 +399,7 @@ export default function MainScreen() {
         {/* Footer with search and sort */}
         <div className="fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-900 border-t-2 border-t-gray-400 dark:border-t-gray-700 py-2 px-4 z-20">
           <div className="w-[calc(312px+4rem)] lg:w-[calc(624px+8rem)] mx-auto px-4 sm:px-6 lg:px-8 flex justify-evenly items-center">
-            <div className="relative" ref={searchButtonRef}>
+            <div className="static sm:relative" ref={searchButtonRef}>
               <button
                 onClick={() => setIsSearchOpen(!isSearchOpen)}
                 className={`
@@ -419,7 +419,7 @@ export default function MainScreen() {
               
               {/* Search Popover */}
               {isSearchOpen && (
-                <div className="absolute bottom-full mb-2 left-0 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 p-4 min-w-[280px]">
+                <div className="absolute bottom-full mb-2 left-0 z-50 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 p-4 min-w-[280px]">
                   <div className="flex flex-col gap-3">
                     <div className="flex items-center gap-2">
                       <input
@@ -569,13 +569,13 @@ export default function MainScreen() {
           </div>
           <button
             onClick={() => navigate('/bills/new')}
-            className="absolute left-[calc(50vw+140px)] lg:left-[calc(50vw+(148px*2))] bottom-12 text-white flex content-center justify-center w-24 h-24 text-4xl z-30"
+            className="absolute left-[calc(50vw+90px)] lg:left-[calc(50vw+(148px*2))] bottom-12 text-white flex content-center justify-center w-24 h-24 text-4xl z-30"
             aria-label={t('navigation:newBill')}
           >
             <img 
               src="/ticket_icon_1.svg"
               alt="Create Bill" 
-              className="h-24 drop-shadow-white-sm brightness-100 hover:brightness-125"
+              className="h-24 brightness-100 hover:brightness-125"
               style={{
                 margin: '0 auto'
               }}

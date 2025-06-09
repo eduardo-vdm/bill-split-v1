@@ -11,8 +11,17 @@
     "create": "Create",
     "update": "Update",
     "backToBill": "Back to Bill",
-    "addItem": "Add Item"
-  },
+    "addItem": "Add Item",
+    "share": "Share",
+    "capturing": "Capturing...",
+    "shareAsText": "Share as Text",
+    "shareAsImage": "Share as Image",
+    "settings": "Settings",
+    "home": "Home",
+    "language": "Language",
+    "copyAsText": "Copy Text",
+    "copyAsImage": "Copy Image"
+    },
   "errors": {
     "required": "This field is required",
     "invalid": "Invalid value",
@@ -41,5 +50,10 @@
     "saved": "Changes saved successfully",
     "created": "Created successfully",
     "deleted": "Deleted successfully"
+  },
+  "share": {
+    "title": "Share",
+    "description": "Share the bill with others",
+    "copyAndShareAnywhere": "Copy and share anywhere"
   }
 } 

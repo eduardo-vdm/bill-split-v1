@@ -80,7 +80,8 @@
     "breakdown": "Breakdown per person",
     "share": "Share",
     "tax": "Tax",
-    "tip": "Tip"
+    "tip": "Tip",
+    "description": "See and share how much each person owes"
   },
   "errors": {
     "nameRequired": "Bill name is required",
