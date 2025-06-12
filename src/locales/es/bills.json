@@ -75,6 +75,7 @@
   },
   "summary": {
     "title": "Resumen de Factura",
+    "actionTitle": "Ver resumen de factura",
     "subtotal": "Subtotal",
     "total": "Total",
     "breakdown": "Desglose por persona",

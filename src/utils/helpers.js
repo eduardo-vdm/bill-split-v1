@@ -1,3 +1,5 @@
+import { GB, BR, ES } from 'country-flag-icons/react/3x2';
+
 export function generateId(prefix = '') {
   return `${prefix}${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
 }
@@ -67,9 +69,9 @@ export const currencies = [
 ].sort((a, b) => a.name.localeCompare(b.name));
 
 export const languages = [
-  { code: 'en', name: 'English', defaultCurrencyCode: 'USD' },
-  { code: 'es', name: 'Español', defaultCurrencyCode: 'EUR' },
-  { code: 'pt', name: 'Português', defaultCurrencyCode: 'BRL' }
+  { code: 'en', name: 'English', defaultCurrencyCode: 'USD', flag: GB },
+  { code: 'es', name: 'Español', defaultCurrencyCode: 'EUR', flag: ES },
+  { code: 'pt', name: 'Português', defaultCurrencyCode: 'BRL', flag: BR }
 ];
 
 export const personIcons = [

@@ -75,6 +75,7 @@
   },
   "summary": {
     "title": "Bill Summary",
+    "actionTitle": "View bill summary",
     "subtotal": "Subtotal",
     "total": "Total",
     "breakdown": "Breakdown per person",

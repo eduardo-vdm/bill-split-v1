@@ -31,7 +31,7 @@ export default function Layout({ children, title, showBack = false, showSettings
     <div className="h-screen overflow-x-hidden flex flex-col bg-white dark:bg-gray-900">
       {showBackgroundCircles && <BackgroundCircles />}
       
-      <header className="sticky top-0 z-10 bg-gradient-to-br from-primary-500 to-secondary-500 dark:from-primary-600 dark:to-secondary-600 shadow-lg dark:shadow-primary-900/50 border-b-4 border-primary-50 dark:border-primary-50">
+      <header className="sticky top-0 z-50 bg-gradient-to-br from-primary-500 to-secondary-500 dark:from-primary-600 dark:to-secondary-600 shadow-lg dark:shadow-primary-900/50 border-b-4 border-primary-50 dark:border-primary-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
@@ -58,9 +58,9 @@ export default function Layout({ children, title, showBack = false, showSettings
                   }}
                 />
               </button>
-              <h1 className="text-md md:text-lg lg:text-xl font-semibold text-white truncate">
+              {/* <h1 className="text-md md:text-lg lg:text-xl font-semibold text-white truncate">
                 {typeof title === 'string' ? t(title) : title}
-              </h1>
+              </h1> */}
             </div>
             <div className="flex items-center space-x-4">
               <LanguageSelector />
@@ -82,6 +82,10 @@ export default function Layout({ children, title, showBack = false, showSettings
           </div>
         </div>
       </header>
+      
+      <div className="flex items-center justify-center sticky top-16 w-full min-h-10 z-10 bg-white dark:bg-gray-800 border-b-2 border-primary-200 dark:border-primary-200">
+        <h1 className="text-xl md:text-2xl lg:text-3xl font-semibold text-primary-600 dark:text-primary-400 truncate">{title}</h1>
+      </div>
 
       <main className="h-full w-full min-w-[390px]">
         <div className="h-full px-4 sm:px-6 lg:px-8 py-6">

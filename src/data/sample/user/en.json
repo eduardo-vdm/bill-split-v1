@@ -1,0 +1,7 @@
+{
+  "id": "person-123",
+  "name": "John Doe",
+  "currency": "USD",
+  "theme": "dark",
+  "isSetup": true
+}

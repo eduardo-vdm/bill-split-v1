@@ -73,6 +73,7 @@
   },
   "summary": {
     "title": "Resumo da Conta",
+    "actionTitle": "Ver resumo da conta",
     "subtotal": "Subtotal",
     "total": "Total",
     "breakdown": "Detalhamento por pessoa",

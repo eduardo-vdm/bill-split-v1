@@ -196,10 +196,10 @@ export default function BillDetailsScreen() {
 
   return (
     <Layout title={t('bills:details')} showBack>
-      <div className="max-w-2xl mx-auto pb-16">
+      <div className="max-w-2xl mx-auto pb-24">
         <div className="space-y-6">
           <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow">
-            <h2 className="text-lg font-semibold mb-4">{t('bills:details')}</h2>
+            { currentBill.name && <h2 className="text-lg font-semibold mb-4">{currentBill.name}</h2> }
             <div className="space-y-2">
               <div className="flex justify-between">
                 <span>{t('bills:date')}</span>
@@ -353,11 +353,11 @@ export default function BillDetailsScreen() {
       </div>
       <button
         onClick={() => navigate(`/bills/${id}/summary`)}
-        className="flex flex-col max-w-2xl mx-auto fixed bottom-0 left-0 right-0 w-full py-2 px-4 font-bold text-lg bg-primary-600 dark:bg-primary-600 text-white hover:bg-secondary-700 dark:hover:bg-secondary-700 border-t-4 border-solid border-t-secondary-500" 
+        className="flex flex-col max-w-2xl mx-auto fixed bottom-0 left-0 right-0 w-full py-2 px-4 text-lg bg-primary-600 dark:bg-primary-600 text-white hover:bg-secondary-700 dark:hover:bg-secondary-700 border-t-4 border-solid border-t-secondary-500" 
       >
         <div className="flex flex-col gap-0 items-center justify-center">
           <span className="text-lg font-bold">
-            {t('bills:summary.title')}
+            {t('bills:summary.actionTitle')}
           </span>
           <span className="text-sm text-gray-300">
             {t('bills:summary.description')}

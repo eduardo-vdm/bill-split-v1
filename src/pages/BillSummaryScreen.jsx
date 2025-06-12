@@ -319,12 +319,12 @@ export default function BillSummaryScreen() {
           <div className="flex flex-col gap-2 w-full max-w-2xl mx-auto fixed bottom-0 left-0 right-0 py-2 px-4 bg-gray-100 dark:bg-gray-900 border-t-2 border-solid border-t-gray-500">
             <div className="flex items-center gap-2">
               <ShareIcon className="h-5 w-5 text-gray-500 dark:text-gray-400" />
-              <span className="text-lg text-gray-800 dark:text-gray-200">{t('common:share:copyAndShareAnywhere')}:</span>
+              <span className="text-md text-gray-800 dark:text-gray-200">{t('common:share:copyAndShareAnywhere')}:</span>
             </div>
             <div className="flex items-center justify-around gap-2">
               <button
                 onClick={() => handleShareAsText()}
-                className="py-2 px-2 font-bold text-lg bg-primary-600 dark:bg-primary-600 text-white hover:bg-secondary-700 dark:hover:bg-secondary-700 border-t-4 border-solid border-t-secondary-500" 
+                className="py-2 px-0 font-bold text-lg bg-primary-600 dark:bg-primary-600 text-white hover:bg-secondary-700 dark:hover:bg-secondary-700 border-t-4 border-solid border-t-secondary-500" 
               >
                 <div className="flex gap-2 px-4 items-center justify-center whitespace-nowrap">
                   <span className="text-sm text-gray-300">
@@ -339,7 +339,7 @@ export default function BillSummaryScreen() {
                 onClick={() => handleShareAsImage()}
                 className="py-2 px-4 font-bold text-lg bg-primary-600 dark:bg-primary-600 text-white hover:bg-secondary-700 dark:hover:bg-secondary-700 border-t-4 border-solid border-t-secondary-500" 
               >
-                <div className="flex gap-2 px-4 items-center justify-center whitespace-nowrap">
+                <div className="flex gap-2 px-0 items-center justify-center whitespace-nowrap">
                   <span className="text-sm text-gray-300">
                     <PhotoIcon className="h-5 w-5 text-gray-300" />
                   </span>

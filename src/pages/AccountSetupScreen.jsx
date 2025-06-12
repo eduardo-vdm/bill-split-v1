@@ -2,16 +2,20 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useUserContext } from '../contexts/UserContext';
+import { useBillsContext } from '../contexts/BillsContext';
 import { useTranslation } from 'react-i18next';
 import { currencies, languages } from '../utils/helpers';
+import useSampleData from '../hooks/useSampleData';
 import IconSelector from '../components/IconSelector';
 import { SunIcon, MoonIcon } from '@heroicons/react/24/outline';
 import Footer from '../components/Footer';
 import LanguageSelector from '../components/LanguageSelector';
+import { Switch } from '@headlessui/react';
 
 export default function AccountSetupScreen() {
   const navigate = useNavigate();
   const { updateUser, user } = useUserContext();
+  const { setAllFromData } = useBillsContext();
   const { t, i18n } = useTranslation();
   const [name, setName] = useState('');
   const [icon, setIcon] = useState('');
@@ -21,8 +25,15 @@ export default function AccountSetupScreen() {
     const currentLanguage = languages.find(lang => lang.code === i18n.language);
     return currentLanguage?.defaultCurrencyCode || 'USD';
   });
+  const [enableSampleData, setEnableSampleData] = useState(true);
+  const { sampleData, isLoading, error } = useSampleData('bills');
 
-  // Update currency when language changes
+  // debug
+  useEffect(() => {
+    console.log('>>>>>> sampleData', sampleData);
+  }, [sampleData]);
+
+  // Update currency and sample data when language changes
   useEffect(() => {
     const handleLanguageChange = (lng) => {
       const currentLanguage = languages.find(lang => lang.code === lng);
@@ -50,6 +61,9 @@ export default function AccountSetupScreen() {
       theme,
       isSetup: true
     });
+    if (enableSampleData && sampleData?.length) {
+      setAllFromData(sampleData);
+    };
     navigate('/bills');
   };
 
@@ -140,22 +154,27 @@ export default function AccountSetupScreen() {
           </div>
           <div className="mb-4">
             <label className="flex items-center space-x-2 text-gray-700 dark:text-gray-300">
-              <input
-                type="checkbox"
-                disabled
-                className="rounded border-gray-300 dark:border-gray-600 text-primary-600 focus:ring-primary-500 dark:bg-gray-700 opacity-50 cursor-not-allowed"
-              />
-              <span className="text-sm">
+              <span className="text-md mr-4 text-right">
                 {t('app:setup.tutorial.label')}
-                <span className="ml-2 text-xs text-gray-500 dark:text-gray-400">
-                  ({t('app:setup.tutorial.comingSoon')})
-                </span>
               </span>
+              <Switch
+                checked={enableSampleData}
+                onChange={setEnableSampleData}
+                className={`${
+                  enableSampleData ? 'bg-primary-600 border-2 border-secondary-600' : 'bg-primary-600 bg-opacity-40'
+                } relative inline-flex h-6 w-12 items-center rounded-full cursor-pointer transition-colors`}
+              >
+                <span
+                  className={`${
+                    enableSampleData ? 'translate-x-4' : 'translate-x-0'
+                  } inline-block h-5 w-5 transform rounded-full bg-secondary-500 transition`}
+                />
+              </Switch>
             </label>
           </div>
           <button
             type="submit"
-            className="w-full bg-tertiary-600 dark:bg-tertiary-600 text-white dark:drop-shadow-white drop-shadow-dark py-2 px-4 rounded-lg hover:bg-tertiary-700 dark:hover:bg-tertiary-700"
+            className="w-full bg-primary-600 dark:bg-primary-600 text-white dark:drop-shadow-white drop-shadow-dark py-2 px-4 rounded-lg hover:bg-primary-700 dark:hover:bg-primary-700"
           >
             {t('app:setup.start')}
           </button>

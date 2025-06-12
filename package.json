@@ -10,7 +10,7 @@
     "url": "https://github.com/eduardo-vdm/bill-split-v1"
   },
   "private": true,
-  "version": "0.1.25",
+  "version": "0.1.26",
   "type": "module",
   "scripts": {
     "generate-env": "node scripts/generate-env.js",
@@ -26,6 +26,8 @@
     "@heroicons/react": "^2.2.0",
     "@primer/octicons-react": "^19.15.2",
     "autoprefixer": "^10.4.16",
+    "clsx": "^2.1.1",
+    "country-flag-icons": "^1.5.19",
     "date-fns": "^4.1.0",
     "framer-motion": "^10.16.4",
     "html2canvas": "^1.4.1",

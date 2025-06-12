@@ -10,9 +10,9 @@
     "namePlaceholder": "Nome, apelido, \"pessoa\", etc.",
     "currency": "Moeda",
     "icon": "Ícone",
-    "start": "Começar",
+    "start": "Começar!",
     "tutorial": {
-      "label": "Me mostre como usar com um exemplo",
+      "label": "Adicione exemplos de contas para ver como funciona",
       "comingSoon": "Em breve"
     }
   }

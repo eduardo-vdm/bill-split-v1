@@ -215,9 +215,6 @@ export default function MainScreen() {
       <div className="max-w-[48rem] min-w-[20rem] mx-auto lg:max-w-unset lg:w-min">
         <div className="flex flex-row gap-2 mb-6 justify-between items-center">
           <div className="flex flex-col gap-2">
-            <h1 className="text-2xl font-bold">
-              {t('bills:title')}
-            </h1>
             {bills.length > 0 && (
               <div className="flex flex-col gap-1">
                 {searchText && (
@@ -286,7 +283,7 @@ export default function MainScreen() {
             </button>
           </div>
         ) : (
-          <div className="flex justify-center relative">
+          <div className="flex justify-center relative pb-14">
             <div className="flex flex-wrap gap-4 justify-start w-min lg:w-auto lg:min-w-[648px] pb-14">
               {sortedAndFilteredBills.map((bill) => {
                 const billType = billTypes.find((t) => t.id === bill.type);
@@ -569,7 +566,7 @@ export default function MainScreen() {
           </div>
           <button
             onClick={() => navigate('/bills/new')}
-            className="absolute left-[calc(50vw+90px)] lg:left-[calc(50vw+(148px*2))] bottom-12 text-white flex content-center justify-center w-24 h-24 text-4xl z-30"
+            className="absolute left-[calc(50vw+110px)] lg:left-[calc(50vw+(148px*2))] bottom-2 text-white flex content-center justify-center w-24 h-24 text-4xl z-30"
             aria-label={t('navigation:newBill')}
           >
             <img 

@@ -357,9 +357,9 @@ export default function AddItemScreen() {
   const isPriceValid = formData.price !== '' && !isNaN(parseFloat(formData.price)) && parseFloat(formData.price) > 0;
   const hasMultiplePeople = formData.splitBetween.length > 1;
 
-  // Debug logging
-  console.log('Price:', formData.price);
-  console.log('isPriceValid:', isPriceValid);
+  // // Debug logging
+  // console.log('Price:', formData.price);
+  // console.log('isPriceValid:', isPriceValid);
 
   return (
     <Layout title={t('bills:items.add')} showBack>
@@ -590,7 +590,7 @@ export default function AddItemScreen() {
                 {t('common:buttons.cancel')}
               </Button>
               <Button type="submit" className="flex-1">
-                {t('common:buttons.add')}
+                { isEditing ? t('common:buttons.save') : t('common:buttons.add') }
               </Button>
             </div>
           </form>

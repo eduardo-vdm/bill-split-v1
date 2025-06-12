@@ -36,8 +36,12 @@ export function BillsProvider({ children }) {
     setBills([]);
   };
 
+  const setAllFromData = (data) => {
+    setBills(data);
+  };
+
   return (
-    <BillsContext.Provider value={{ bills, addBill, updateBill, deleteBill, clearAllBills }}>
+    <BillsContext.Provider value={{ bills, addBill, updateBill, deleteBill, clearAllBills, setAllFromData }}>
       {children}
     </BillsContext.Provider>
   );
