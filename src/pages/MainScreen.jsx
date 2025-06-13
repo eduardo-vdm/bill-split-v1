@@ -22,6 +22,7 @@ import ConfirmDialog from '../components/ConfirmDialog';
 import Tooltip from '../components/Tooltip';
 import { useState, useEffect, useRef, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import clsx from 'clsx';
 
 export default function MainScreen() {
   const navigate = useNavigate();
@@ -295,10 +296,13 @@ export default function MainScreen() {
                   >
                     <div
                       onClick={() => navigate(`/bills/${bill.id}`)}
-                      className="w-[312px] bg-gradient-to-r from-tertiary-500 from-5% to-gray-100 dark:to-gray-900 to-5% hover:to-gray-50 to-5% dark:hover:to-gray-800 to-5% hover:from-secondary-600 dark:hover:from-secondary-600 rounded-lg rounded-r-none p-4 border-t-2 border-tertiary-500 dark:border-tertiary-500 hover:border-secondary-500 dark:hover:border-secondary-500 dark:drop-shadow-white drop-shadow-dark transition-all relative hover:bg-white dark:hover:bg-gray-700 pl-6"
+                      className={clsx("w-[312px] bg-tertiary-500 dark:bg-tertiary-500 bg-opacity-10 dark:bg-opacity-10",
+                        "hover:to-gray-50 to-5% dark:hover:to-gray-800 to-5% hover:from-secondary-600 dark:hover:from-secondary-600",
+                        "rounded-lg rounded-r-none p-4 border-t-4 border-tertiary-500 border-l-8 border-r-2 border-b-2 dark:border-tertiary-500 hover:border-secondary-500 dark:hover:border-secondary-500",
+                        "transition-all relative pl-6")}
                     >
-                      <div className="absolute bottom-0 left-0">
-                        <div className="card-accent-bottom-left"></div>
+                      <div className="absolute bottom-0 left-0 dark:drop-shadow-white drop-shadow-dark">
+                        <div className="card-accent-bottom-left opacity-20"></div>
                         <div className="absolute bottom-0.5 left-0.5">
                           <Tooltip 
                             content={t(billType?.translationKey)} 
@@ -308,7 +312,7 @@ export default function MainScreen() {
                             <span 
                               role="img" 
                               aria-label={bill.type} 
-                              className="text-2xl cursor-help"
+                              className="text-3xl cursor-help drop-shadow-none"
                               onClick={(e) => e.stopPropagation()}
                               onTouchStart={(e) => e.stopPropagation()}
                             >
@@ -324,9 +328,9 @@ export default function MainScreen() {
                           <div className="flex items-center space-x-2 mb-2">
                             <h3 className="font-medium max-w-[180px] truncate" aria-label={bill.name} title={bill.name}>{bill.name}</h3>
                           </div>
-                          <p className="text-sm text-gray-500 dark:text-gray-400 flex flex-wrap gap-2">
+                          <div className="text-sm text-gray-500 dark:text-gray-400 flex flex-wrap gap-2">
                             <div className="max-w-[100px] truncate" aria-label={bill.place} title={bill.place}>{bill.place}</div> • <div className="max-w-[100px] truncate" aria-label={new Date(bill.date).toLocaleDateString(i18n.language, DATE_FORMAT_OPTIONS_BILL_CARD)} title={new Date(bill.date).toLocaleDateString(i18n.language, DATE_FORMAT_OPTIONS_BILL_CARD)}>{new Date(bill.date).toLocaleDateString(i18n.language, DATE_FORMAT_OPTIONS_BILL_CARD)}</div>
-                          </p>
+                          </div>
                         </div>
                         <div className="flex flex-col gap-1">
                           <div className="text-lg font-semibold text-primary-600 dark:text-primary-400">
@@ -346,7 +350,7 @@ export default function MainScreen() {
                             key={person.id}
                             content={person.name}
                             position="top"
-                            className="z-50"
+                            className="z-0"
                             showOnTouch={true}
                           >
                             <span 
@@ -394,7 +398,7 @@ export default function MainScreen() {
         )}
 
         {/* Footer with search and sort */}
-        <div className="fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-900 border-t-2 border-t-gray-400 dark:border-t-gray-700 py-2 px-4 z-20">
+        <div className="fixed -bottom-1 left-0 right-0 bg-white dark:bg-gray-900 border-t-2 border-t-gray-400 dark:border-t-gray-700 py-2 px-4 z-20">
           <div className="w-[calc(312px+4rem)] lg:w-[calc(624px+8rem)] mx-auto px-4 sm:px-6 lg:px-8 flex justify-evenly items-center">
             <div className="static sm:relative" ref={searchButtonRef}>
               <button

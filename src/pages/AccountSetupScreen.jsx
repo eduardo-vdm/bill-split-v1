@@ -26,12 +26,7 @@ export default function AccountSetupScreen() {
     return currentLanguage?.defaultCurrencyCode || 'USD';
   });
   const [enableSampleData, setEnableSampleData] = useState(true);
-  const { sampleData, isLoading, error } = useSampleData('bills');
-
-  // debug
-  useEffect(() => {
-    console.log('>>>>>> sampleData', sampleData);
-  }, [sampleData]);
+  const { sampleData, isLoading, error, replaceDataUserPlaceholder } = useSampleData('bills');
 
   // Update currency and sample data when language changes
   useEffect(() => {
@@ -45,6 +40,19 @@ export default function AccountSetupScreen() {
       i18n.off('languageChanged', handleLanguageChange);
     };
   }, [i18n]);
+
+  // whenever user changes, check if setup was done, and if sample data modify it to use the new user data, then navigate to bills
+  useEffect(() => {
+    const shouldNavigate = user?.isSetup;
+    if (!shouldNavigate) return;
+
+    if (enableSampleData && sampleData?.length) {
+      const updatedSampleData = replaceDataUserPlaceholder(user);
+      setAllFromData(updatedSampleData);
+    }
+
+    navigate('/bills');
+  }, [user, enableSampleData, sampleData]);
 
   const toggleTheme = () => {
     const newTheme = theme === 'light' ? 'dark' : 'light';
@@ -61,10 +69,6 @@ export default function AccountSetupScreen() {
       theme,
       isSetup: true
     });
-    if (enableSampleData && sampleData?.length) {
-      setAllFromData(sampleData);
-    };
-    navigate('/bills');
   };
 
   return (

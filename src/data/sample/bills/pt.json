@@ -1,24 +1,24 @@
 [
   {
     "id": "1",
-    "name": "Dinner at Italian Restaurant",
+    "name": "Jantar em Restaurante Italiano",
     "type": "dining",
     "place": "La Cucina",
     "date": "2025-05-13",
     "people": [
       {
         "id": "p2",
-        "name": "Alice",
+        "name": "Aline",
         "icon": "👩"
       },
       {
         "id": "p3",
-        "name": "Bob",
+        "name": "Roberto",
         "icon": "👨"
       },
       {
         "id": "person-1749734755994-m432r0uza",
-        "name": "Paul",
+        "name": "Paulo",
         "icon": "👨‍🦱"
       },
       {
@@ -33,19 +33,19 @@
       },
       {
         "id": "person-1749734831937-nfrm8xejo",
-        "name": "Nick",
+        "name": "Nicolas",
         "icon": "👨‍🦰"
       },
       {
-        "id": "person-1749734856045-geyvajd6v",
-        "name": "TheUser",
-        "icon": "👨"
+        "id": "__TheUserId",
+        "name": "__TheUserName",
+        "icon": "__TheUserIcon"
       }
     ],
     "items": [
       {
         "id": "i1",
-        "name": "2 Margherita Pizzas",
+        "name": "2 Pizzas Margherita",
         "price": 44.99,
         "splitMethod": "equal",
         "splitBetween": [
@@ -55,35 +55,35 @@
           "person-1749734779592-upjlzwc4e",
           "person-1749734794339-b9pfr5i0j",
           "person-1749734831937-nfrm8xejo",
-          "person-1749734856045-geyvajd6v"
+          "__TheUserId"
         ],
         "valueSplits": {},
         "percentages": {}
       },
       {
         "id": "i2",
-        "name": "Spaghetti Carbonara",
+        "name": "Espaguete à Carbonara",
         "price": 16.99,
         "splitMethod": "percentage",
         "splitBetween": [
           "person-1749734794339-b9pfr5i0j",
           "person-1749734831937-nfrm8xejo",
-          "person-1749734856045-geyvajd6v"
+          "__TheUserId"
         ],
         "valueSplits": {},
         "percentages": {
           "person-1749734794339-b9pfr5i0j": "34.00",
           "person-1749734831937-nfrm8xejo": "33.00",
-          "person-1749734856045-geyvajd6v": "33.00"
+          "__TheUserId": "33.00"
         }
       },
       {
         "id": "i3",
-        "name": "3 Wine Bottles",
+        "name": "3 Garrafas de Vinho",
         "price": 69.9,
         "splitMethod": "equal",
         "splitBetween": [
-          "person-1749734856045-geyvajd6v",
+          "__TheUserId",
           "person-1749734755994-m432r0uza",
           "person-1749734831937-nfrm8xejo",
           "p3"
@@ -110,26 +110,26 @@
   },
   {
     "id": "2",
-    "name": "Grocery Shopping",
+    "name": "Compras no Mercado",
     "type": "shopping",
     "place": "Whole Foods",
     "date": "2024-04-08T14:20:00.000Z",
     "people": [
       {
         "id": "p4",
-        "name": "Emma",
+        "name": "Ema",
         "icon": "👩"
       },
       {
-        "id": "person-1749735239464-7ur2v97jt",
-        "name": "TheUser",
-        "icon": "👨"
+        "id": "__TheUserId",
+        "name": "__TheUserName",
+        "icon": "__TheUserIcon"
       }
     ],
     "items": [
       {
         "id": "i1",
-        "name": "Vegetables",
+        "name": "Legumes",
         "price": 23.45,
         "splitMethod": "equal",
         "splitBetween": [
@@ -140,23 +140,23 @@
       },
       {
         "id": "i2",
-        "name": "Snacks",
+        "name": "Petiscos",
         "price": 12.99,
         "splitMethod": "equal",
         "splitBetween": [
           "p4",
-          "person-1749735239464-7ur2v97jt"
+          "__TheUserId"
         ],
         "valueSplits": {},
         "percentages": {}
       },
       {
         "id": "i3",
-        "name": "Beverages",
+        "name": "Bebidas",
         "price": 15.99,
         "splitMethod": "equal",
         "splitBetween": [
-          "person-1749735239464-7ur2v97jt"
+          "__TheUserId"
         ],
         "valueSplits": {},
         "percentages": {}
@@ -174,40 +174,40 @@
   },
   {
     "id": "984a0050-b46f-4ef9-801e-ccf9c1fcbda4",
-    "name": "Uber Ride",
+    "name": "Corrida de Uber",
     "type": "transportation",
-    "place": "Downtown",
+    "place": "Centro",
     "date": "2025-06-12",
     "people": [
       {
-        "id": "person-1749729257624-lhka9wmj0",
-        "name": "TheUser",
-        "icon": "👨"
+        "id": "__TheUserId",
+        "name": "__TheUserName",
+        "icon": "__TheUserIcon"
       },
       {
         "id": "person-1749729277974-eo9vsln89",
-        "name": "Alice",
+        "name": "Aline",
         "icon": "👧"
       },
       {
         "id": "person-1749729298018-6y8r49zva",
-        "name": "Patrick",
+        "name": "Patrício",
         "icon": "👦"
       }
     ],
     "items": [
       {
         "id": "item-1749729358496-bpsvsk2xk",
-        "name": "Ride",
+        "name": "Corrida",
         "price": 34.25,
         "splitMethod": "value",
         "splitBetween": [
-          "person-1749729257624-lhka9wmj0",
+          "__TheUserId",
           "person-1749729277974-eo9vsln89",
           "person-1749729298018-6y8r49zva"
         ],
         "valueSplits": {
-          "person-1749729257624-lhka9wmj0": 7.217812499999965,
+          "__TheUserId": 7.217812499999965,
           "person-1749729277974-eo9vsln89": 11.322187499999988,
           "person-1749729298018-6y8r49zva": 15.72
         },
@@ -226,30 +226,30 @@
   },
   {
     "id": "01f388b9-0847-4d77-a185-238fafd8f3ae",
-    "name": "Rent",
+    "name": "Aluguel",
     "type": "rent",
     "place": "Air BnB",
     "date": "2025-06-01",
     "people": [
       {
-        "id": "person-1749729873016-u2bggqdm6",
-        "name": "TheUser",
-        "icon": "👨"
+        "id": "__TheUserId",
+        "name": "__TheUserName",
+        "icon": "__TheUserIcon"
       },
       {
         "id": "person-1749729890823-myk0uv56q",
-        "name": "Lisa",
+        "name": "Lígia",
         "icon": "👩‍🦳"
       }
     ],
     "items": [
       {
         "id": "item-1749729904635-tc4v3kqev",
-        "name": "Rent",
+        "name": "Aluguel",
         "price": 110,
         "splitMethod": "equal",
         "splitBetween": [
-          "person-1749729873016-u2bggqdm6",
+          "__TheUserId",
           "person-1749729890823-myk0uv56q"
         ],
         "valueSplits": {},

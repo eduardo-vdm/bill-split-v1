@@ -10,7 +10,7 @@
     "url": "https://github.com/eduardo-vdm/bill-split-v1"
   },
   "private": true,
-  "version": "0.1.26",
+  "version": "0.2.0",
   "type": "module",
   "scripts": {
     "generate-env": "node scripts/generate-env.js",

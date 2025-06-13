@@ -10,10 +10,8 @@ export function CurrentBillProvider({ children }) {
   const [currentBill, setCurrentBill] = useState(null);
 
   const updateCurrentBill = (updates) => {
-    console.log('Updating current bill:', updates);
     setCurrentBill(prev => {
       const newBill = prev ? { ...prev, ...updates } : updates;
-      console.log('New current bill state:', newBill);
       return newBill;
     });
   };
